@@ -7,37 +7,58 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; background: #05060a; overflow: hidden; }
-    .board { position: fixed; inset: 0; }
-    .board img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; }
-    .board img.show { display: block; }
-    #codex { position: fixed; inset: 0; display: none; z-index: 2; background: #1a140c; }
-    #codex.show { display: block; }
-    #codex img { width: 100%; height: 100%; object-fit: contain; background: #1a140c; }
-    button.hit { position: absolute; opacity: 0; cursor: pointer; border: 0; background: transparent; }
+    .layer { position: fixed; inset: 0; }
+    .layer img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; }
+    .layer img.show { display: block; }
+    #davinci, #codex { display: none; z-index: 2; }
+    #davinci.show, #codex.show { display: block; }
+    #codex { background: #1a140c; z-index: 3; }
+    #codex img { object-fit: contain; background: #1a140c; display: block; }
+    .sample { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 4;
+      text-align: center; padding: 0.4rem 1rem; font: 600 0.68rem/1.3 ui-sans-serif, system-ui, sans-serif;
+      letter-spacing: 0.14em; text-transform: uppercase; color: #c4a36a; background: #121214cc;
+      border-bottom: 1px solid #2c2c30; pointer-events: none; }
+    body.is-sample .sample { display: block; }
   </style>
 </head>
 <body>
-  <div class="board" id="hero">
-    <img id="wide" src="./solari-davinci-pad-16x9.png" alt="SKIIWA next launch" />
-    <img id="phone" src="./solari-davinci-pad-9x16.png" alt="SKIIWA next launch" />
+  <div class="sample" id="sample-banner">SAMPLE / example data — not live</div>
+  <div class="layer" id="hero">
+    <img id="hero-wide" src="./solari-f9-4e-16x9.png" alt="SKIIWA next launch" />
+    <img id="hero-phone" src="./solari-f9-4e-9x16.png" alt="SKIIWA next launch" />
   </div>
-  <div id="codex"><img src="./solari-davinci-codex-16x9.png" alt="Codex" /></div>
+  <div class="layer" id="davinci">
+    <img id="dv-wide" src="./solari-davinci-pad-16x9.png" alt="Da Vinci layer" />
+    <img id="dv-phone" src="./solari-davinci-pad-9x16.png" alt="Da Vinci layer" />
+  </div>
+  <div class="layer" id="codex">
+    <img src="./solari-davinci-codex-16x9.png" alt="Codex" />
+  </div>
   <script>
-    const wide = document.getElementById("wide");
-    const phone = document.getElementById("phone");
-    const codex = document.getElementById("codex");
-    function layout() {
-      const portrait = window.innerHeight > window.innerWidth * 1.05;
-      wide.classList.toggle("show", !portrait);
-      phone.classList.toggle("show", portrait);
+    const SAMPLE = "./next-launch.sample.json?v=ll2";
+    const wide = window.matchMedia("(min-aspect-ratio: 3/4)");
+    function paint() {
+      const w = wide.matches;
+      document.getElementById("hero-wide").classList.toggle("show", w);
+      document.getElementById("hero-phone").classList.toggle("show", !w);
+      document.getElementById("dv-wide").classList.toggle("show", w);
+      document.getElementById("dv-phone").classList.toggle("show", !w);
     }
-    layout();
-    window.addEventListener("resize", layout);
-    document.getElementById("hero").addEventListener("click", () => {
-      if (codex.classList.contains("show")) return;
+    paint();
+    wide.addEventListener("change", paint);
+    const davinci = document.getElementById("davinci");
+    const codex = document.getElementById("codex");
+    document.getElementById("hero").addEventListener("click", () => davinci.classList.add("show"));
+    davinci.addEventListener("click", () => {
+      davinci.classList.remove("show");
       codex.classList.add("show");
     });
     codex.addEventListener("click", () => codex.classList.remove("show"));
+    fetch(SAMPLE, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(data => {
+      if (data && (data.sample === true || data.dataKind === "SAMPLE")) {
+        document.body.classList.add("is-sample");
+      }
+    }).catch(() => {});
   </script>
 </body>
 </html>
