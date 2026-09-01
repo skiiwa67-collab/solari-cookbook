@@ -55,6 +55,19 @@
       body.gpu-live .flame-lick {
         opacity: 0.14;
       }
+      /* Photo trench-light on the white tank reads as a fireball. Pull it back. */
+      .stack-calm {
+        position: absolute;
+        left: 46.2%;
+        top: 18%;
+        width: 8.4%;
+        height: 44%;
+        border-radius: 46%;
+        background: radial-gradient(ellipse at 50% 42%, rgba(16, 24, 36, 0.46), transparent 74%);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        z-index: 2;
+      }
       .vapor {
         position: absolute;
         border-radius: 50%;
@@ -62,40 +75,40 @@
         filter: blur(22px);
       }
       .vapor-a {
-        left: 26%;
-        top: 56%;
-        width: 52%;
-        height: 34%;
-        background: radial-gradient(ellipse, rgba(255, 228, 186, 0.22), transparent 72%);
+        left: 30%;
+        top: 74%;
+        width: 42%;
+        height: 16%;
+        background: radial-gradient(ellipse, rgba(236, 230, 214, 0.16), transparent 72%);
         animation: vapor-a 26s ease-in-out infinite;
       }
       .vapor-b {
-        left: 38%;
-        top: 48%;
-        width: 36%;
-        height: 28%;
-        background: radial-gradient(ellipse, rgba(255, 210, 150, 0.16), transparent 70%);
+        left: 22%;
+        top: 76%;
+        width: 28%;
+        height: 12%;
+        background: radial-gradient(ellipse, rgba(228, 224, 212, 0.12), transparent 70%);
         animation: vapor-b 32s ease-in-out infinite;
       }
       .vapor-c {
-        left: 18%;
-        top: 62%;
-        width: 44%;
-        height: 26%;
-        background: radial-gradient(ellipse, rgba(240, 236, 220, 0.14), transparent 68%);
+        left: 52%;
+        top: 75%;
+        width: 26%;
+        height: 13%;
+        background: radial-gradient(ellipse, rgba(240, 236, 220, 0.12), transparent 68%);
         animation: vapor-c 38s ease-in-out infinite;
       }
       @keyframes vapor-a {
-        0%, 100% { transform: translate3d(0, 6%, 0) scale(1); opacity: 0.35; }
-        50% { transform: translate3d(7%, -8%, 0) scale(1.14); opacity: 0.72; }
+        0%, 100% { transform: translate3d(0, 4%, 0) scale(1); opacity: 0.28; }
+        50% { transform: translate3d(6%, 2%, 0) scale(1.08); opacity: 0.55; }
       }
       @keyframes vapor-b {
-        0%, 100% { transform: translate3d(4%, 0, 0) scale(1.05); opacity: 0.28; }
-        50% { transform: translate3d(-6%, -10%, 0) scale(1.2); opacity: 0.6; }
+        0%, 100% { transform: translate3d(3%, 2%, 0) scale(1.02); opacity: 0.22; }
+        50% { transform: translate3d(-5%, 4%, 0) scale(1.1); opacity: 0.48; }
       }
       @keyframes vapor-c {
-        0%, 100% { transform: translate3d(-3%, 4%, 0) scale(0.96); opacity: 0.22; }
-        50% { transform: translate3d(8%, -5%, 0) scale(1.12); opacity: 0.5; }
+        0%, 100% { transform: translate3d(-3%, 3%, 0) scale(0.96); opacity: 0.18; }
+        50% { transform: translate3d(5%, 1%, 0) scale(1.06); opacity: 0.42; }
       }
       .glim {
         position: absolute;
@@ -157,12 +170,12 @@
       }
       .trench-glow {
         position: absolute;
-        left: 42%;
-        top: 62%;
-        width: 22%;
-        height: 22%;
+        left: 39%;
+        top: 78%;
+        width: 24%;
+        height: 11%;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 200, 90, 0.55), rgba(255, 120, 30, 0.15) 46%, transparent 70%);
+        background: radial-gradient(ellipse at 50% 70%, rgba(255, 190, 80, 0.48), rgba(255, 110, 20, 0.12) 52%, transparent 74%);
         mix-blend-mode: screen;
         pointer-events: none;
         animation: flame-breathe 3.6s ease-in-out infinite;
@@ -170,41 +183,53 @@
       .trench-glow.hot { animation-duration: 0.9s; }
       .flame-lick {
         position: absolute;
-        left: 44%;
-        top: 64%;
+        left: 43%;
+        top: 80%;
         width: 16%;
-        height: 18%;
+        height: 8%;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 160, 60, 0.35), transparent 68%);
+        background: radial-gradient(ellipse at 50% 80%, rgba(255, 160, 60, 0.28), transparent 70%);
         mix-blend-mode: screen;
         pointer-events: none;
         animation: flame-lick 2.8s ease-in-out infinite;
       }
       @keyframes flame-breathe {
-        0%, 100% { opacity: 0.48; transform: scale(0.92) translateY(3%); }
-        40% { opacity: 0.95; transform: scale(1.1) translateY(-2%); }
-        72% { opacity: 0.62; transform: scale(1.02); }
+        0%, 100% { opacity: 0.4; transform: scaleX(0.94) scaleY(0.9) translateY(4%); }
+        40% { opacity: 0.82; transform: scaleX(1.08) scaleY(1.02) translateY(1%); }
+        72% { opacity: 0.55; transform: scaleX(1) scaleY(0.96); }
       }
       @keyframes flame-lick {
-        0%, 100% { opacity: 0.25; transform: translate3d(-2%, 4%, 0) scale(0.9); }
-        50% { opacity: 0.7; transform: translate3d(3%, -6%, 0) scale(1.18); }
+        0%, 100% { opacity: 0.2; transform: translate3d(-2%, 3%, 0) scaleX(0.92); }
+        50% { opacity: 0.52; transform: translate3d(3%, 1%, 0) scaleX(1.08); }
       }
-      .arms-glow {
+      svg.te-ink {
         position: absolute;
-        left: 46%;
-        top: 22%;
-        width: 14%;
-        height: 48%;
-        border-radius: 40%;
+        inset: 0;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
-        animation: arms-breathe 5.8s ease-in-out infinite;
+        z-index: 3;
       }
-      .arms-glow.live { animation: arms 1.6s ease-in-out 2; }
-      @keyframes arms {
-        40% {
-          box-shadow: inset 0 0 40px 8px rgba(232, 177, 90, 0.35);
-          transform: rotate(-0.6deg);
-        }
+      .te-phone { display: none; }
+      .te-line {
+        fill: none;
+        stroke: rgba(196, 163, 106, 0.32);
+        stroke-width: 0.22;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .te-joint {
+        fill: none;
+        stroke: rgba(196, 163, 106, 0.4);
+        stroke-width: 0.2;
+      }
+      svg.te-ink.live .te-line {
+        stroke: #e8c57a;
+        stroke-width: 0.34;
+        filter: drop-shadow(0 0 1.2px rgba(196, 163, 106, 0.55));
+      }
+      svg.te-ink.live .te-joint {
+        stroke: #f0d48a;
       }
       .hit {
         position: absolute;
@@ -218,7 +243,7 @@
       .hit-moon { left: 11%; top: 6%; width: 14%; height: 20%; }
       .hit-path { left: 52%; top: 8%; width: 40%; height: 28%; border-radius: 40%; }
       .hit-arms { left: 44%; top: 24%; width: 16%; height: 42%; border-radius: 40%; }
-      .hit-trench { left: 38%; top: 68%; width: 26%; height: 18%; border-radius: 40%; }
+      .hit-trench { left: 38%; top: 76%; width: 26%; height: 16%; border-radius: 40%; }
       .wordmark {
         position: absolute;
         z-index: 5;
@@ -241,41 +266,105 @@
         text-shadow: 0 1px 8px #000;
       }
 
-      /* Closed book at the bottom. Rises, then opens. No triangle. */
+      /* Shelf volume: French spine LEFT of Falcon 9. Never under the engines. */
       .folio {
         --rise: cubic-bezier(0.22, 1, 0.36, 1);
         --turn: cubic-bezier(0.22, 0.75, 0.18, 1);
         position: absolute;
         z-index: 6;
-        left: 50%;
-        bottom: max(1.6%, var(--safe-b));
-        width: 13.6rem;
-        height: 17.8rem;
-        transform: translate3d(-50%, 0, 0);
-        transform-origin: center bottom;
-        transition: transform 1.25s var(--rise), width 0.95s var(--rise), height 0.95s var(--rise), bottom 1.25s var(--rise);
+        left: max(2.1%, var(--safe-l));
+        top: 20%;
+        width: 2.7rem;
+        height: min(46vh, 21.5rem);
+        transform: translate3d(0, 0, 0);
+        transform-origin: left center;
+        transition: transform 1.1s var(--rise), width 1.1s var(--rise), height 1.1s var(--rise);
         perspective: 1800px;
-        filter: drop-shadow(0.45rem 0.8rem 1.2rem rgba(0, 0, 0, 0.55));
+        filter: drop-shadow(0.35rem 0.55rem 0.9rem rgba(0, 0, 0, 0.55));
         cursor: pointer;
       }
-      .folio.rise {
-        bottom: 12%;
-        transform: translate3d(-50%, 0, 0);
+      .folio.pull,
+      .folio.open {
+        width: min(26vw, 21rem);
+        height: min(52vh, 27rem);
+        transform: translate3d(1.1rem, 0, 0);
+        max-width: 36%;
       }
       .folio.open {
-        left: max(2.6%, var(--safe-l));
-        bottom: 9%;
-        width: min(32rem, 42vw);
-        height: min(32rem, 58vh);
-        transform: translate3d(0, 0, 0);
         cursor: default;
       }
+      .spine {
+        position: absolute;
+        inset: 0;
+        z-index: 8;
+        overflow: hidden;
+        border-radius: 3px 2px 2px 3px;
+        background:
+          linear-gradient(90deg, rgba(18, 10, 6, 0.55) 0%, transparent 14%, transparent 82%, rgba(18, 10, 6, 0.45) 100%),
+          linear-gradient(180deg, #4a2e18 0%, #7a5330 18%, #9a7040 42%, #6a4526 68%, #3a2414 100%);
+        box-shadow: inset 0 0 0 1px rgba(196, 163, 106, 0.28), inset -6px 0 10px rgba(0, 0, 0, 0.35);
+      }
+      .folio.pull .spine,
+      .folio.open .spine {
+        right: auto;
+        width: 0.82rem;
+        pointer-events: none;
+      }
+      .spine-bands {
+        position: absolute;
+        left: 6%;
+        right: 8%;
+        top: 10%;
+        bottom: 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+      .spine-bands i {
+        display: block;
+        height: 0.42rem;
+        border-radius: 2px;
+        background: linear-gradient(#e8c57a, #8a6a32 46%, #c4a36a);
+        box-shadow: 0 2px 0 #1a1008, 0 -1px 0 rgba(255, 230, 170, 0.35);
+      }
+      .spine-title {
+        position: absolute;
+        inset: 18% 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: Cinzel, serif;
+        letter-spacing: 0.28em;
+        color: #e8c57a;
+        font-size: 0.72rem;
+        text-shadow: 0 1px 0 #2a1810;
+        pointer-events: none;
+      }
+      .spine-gold {
+        position: absolute;
+        left: 18%;
+        right: 22%;
+        bottom: 7%;
+        height: 0.2rem;
+        background: linear-gradient(90deg, transparent, #e8c57a, transparent);
+        pointer-events: none;
+      }
       .book {
-        position: relative;
-        width: 100%;
-        height: 100%;
+        position: absolute;
+        inset: 0 0 0 0;
         transform-style: preserve-3d;
+        opacity: 0;
+        pointer-events: none;
         animation: book-live 8s ease-in-out infinite;
+      }
+      .folio.pull .book,
+      .folio.open .book {
+        left: 0.72rem;
+        opacity: 1;
+        pointer-events: auto;
       }
       @keyframes book-live {
         0%, 100% { transform: rotateZ(-0.35deg) translate3d(0, 0, 0); }
@@ -291,31 +380,22 @@
         -webkit-backface-visibility: hidden;
       }
       .cover {
-        z-index: 5;
-        transition: transform 1.15s var(--turn);
+        z-index: 30;
+        transition: transform 1.1s var(--turn);
       }
       .folio.open .cover {
-        transform: rotateY(-168deg);
+        transform: rotateY(-178deg);
         pointer-events: none;
+        z-index: 9;
       }
       .cover-face,
       .page-face {
         position: absolute;
         inset: 0;
         overflow: hidden;
-      }
-      .cover-face img,
-      .page-face img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        animation: vellum-live 16s ease-in-out infinite;
-      }
-      @keyframes vellum-live {
-        0%, 100% { transform: scale(1.02) translate3d(0, 0, 0); filter: brightness(1); }
-        50% { transform: scale(1.05) translate3d(-1.1%, 0.7%, 0); filter: brightness(1.06); }
+        background:
+          radial-gradient(ellipse at 30% 20%, rgba(255, 236, 196, 0.28), transparent 46%),
+          linear-gradient(160deg, #efe0bc 0%, #d8bc86 42%, #c4a36a 100%);
       }
       .cover-face::after {
         content: "";
@@ -362,11 +442,21 @@
       .leaf {
         transition: transform 1.1s var(--turn);
       }
-      .leaf[data-page="data"] { z-index: 3; }
-      .leaf[data-page="specs"] { z-index: 2; }
-      .leaf[data-page="design"] { z-index: 1; }
       .leaf.turned {
         transform: rotateY(-178deg);
+      }
+      .vinci {
+        position: absolute;
+        right: 6%;
+        left: auto;
+        top: 30%;
+        width: 26%;
+        height: 56%;
+        stroke: #3a2414;
+        fill: none;
+        stroke-width: 1.1;
+        opacity: 0.5;
+        pointer-events: none;
       }
       .page-ink {
         position: absolute;
@@ -423,7 +513,7 @@
         top: 14%;
         display: flex;
         flex-direction: column;
-        gap: 0.35rem;
+        gap: 0.18rem;
         opacity: 0;
         pointer-events: none;
         transform: translate3d(-0.4rem, 0, 0);
@@ -435,28 +525,21 @@
         transform: translate3d(0, 0, 0);
       }
       .tabs button {
-        width: 2.45rem;
-        min-height: 5.4rem;
-        padding: 0.45rem 0.2rem;
+        width: 2.2rem;
+        min-height: 2.45rem;
+        padding: 0.28rem 0.12rem;
         border: 0;
-        background: transparent;
+        background:
+          linear-gradient(180deg, #efe0bc, #c4a36a);
         color: #4a3220;
         font-family: Cinzel, serif;
-        font-size: 0.62rem;
-        letter-spacing: 0.14em;
+        font-size: 0.5rem;
+        letter-spacing: 0.12em;
         writing-mode: vertical-rl;
         text-orientation: mixed;
         cursor: pointer;
         position: relative;
-      }
-      .tabs button img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.28);
       }
       .tabs button[aria-current="true"] {
         color: #6a2c1c;
@@ -464,53 +547,62 @@
       }
 
       .chips { display: none; }
-      .chip {
+
+      .vid-ink { pointer-events: auto; }
+      .vid-slot {
         position: relative;
-        height: 4.6rem;
-        cursor: pointer;
-        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
-          translate(var(--tx, 0px), var(--ty, 0px));
-        transition: transform 0.16s ease-out;
-        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+        margin-top: 0.4rem;
+        height: 42%;
+        min-height: 7.5rem;
       }
-      .chip img {
-        position: absolute;
-        inset: 0;
+      .vid-player {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: #111;
+      }
+      .vid-player img,
+      .vid-player video {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
-      .chip strong {
+      .vid-player video[hidden],
+      .vid-player img[hidden] { display: none; }
+      .vid-acts {
         position: absolute;
-        left: 6%;
-        right: 8%;
-        top: 52%;
-        font-size: 0.88rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        right: 0.35rem;
+        bottom: 0.35rem;
+        display: flex;
+        gap: 0.3rem;
       }
-
-      .session {
+      .vid-acts button {
+        border: 0;
+        background: rgba(28, 20, 12, 0.72);
+        color: #e8d7a4;
+        font-family: Cinzel, serif;
+        letter-spacing: 0.08em;
+        font-size: 0.58rem;
+        padding: 0.28rem 0.45rem;
+        cursor: pointer;
+      }
+      .vid-dock {
+        display: none;
         position: absolute;
         z-index: 5;
-        right: 3.2%;
-        top: 12%;
-        width: min(22vw, 16rem);
+        right: 3%;
+        top: 18%;
+        width: min(28vw, 22rem);
+        max-width: 24%;
         color: #e8d7a4;
-        text-align: right;
         text-shadow: 0 1px 8px #000;
-        font-family: "IM Fell English", Georgia, serif;
+        pointer-events: auto;
       }
-      .session figcaption { font-family: Caveat, cursive; font-size: 1.05rem; margin-bottom: 0.25rem; }
-      .session a { color: inherit; }
-      .session img, .session video {
-        display: block;
-        width: 100%;
-        max-height: 22vh;
-        object-fit: cover;
-        background: #111;
-      }
+      .vid-dock.show { display: block; }
+      .vid-dock .vid-player { height: auto; min-height: 10rem; max-height: 36vh; }
+      .vid-dock .vid-player video,
+      .vid-dock .vid-player img { max-height: 36vh; }
       .hint {
         position: absolute;
         z-index: 5;
@@ -559,40 +651,51 @@
 
       @media (max-aspect-ratio: 3/4) {
         .folio {
-          width: 11.2rem;
-          height: 14.6rem;
+          width: 2.35rem;
+          height: min(40vh, 18rem);
+          top: 18%;
         }
+        .folio.pull,
         .folio.open {
-          width: min(92vw, 22rem);
-          height: min(56vh, 28rem);
-          bottom: 18%;
+          width: min(58vw, 18rem);
+          height: min(48vh, 24rem);
+          max-width: 58%;
+          transform: translate3d(0.4rem, 0, 0);
         }
         .tabs {
           right: 0.15rem;
+          top: 8%;
+        }
+        .vid-dock.show {
+          right: 3%;
           top: 10%;
+          width: min(34vw, 11rem);
+          max-width: 34%;
         }
         .chips { display: none; }
         .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
-        .hit-trench { left: 22%; top: 72%; width: 56%; height: 14%; }
-        .trench-glow { left: 28%; top: 70%; width: 44%; height: 16%; }
-        .flame-lick { left: 32%; top: 72%; width: 34%; height: 14%; }
-        .vapor-a { left: 16%; top: 64%; width: 70%; height: 24%; }
-        .vapor-b { left: 22%; top: 58%; width: 56%; height: 22%; }
-        .arms-glow { left: 30%; top: 20%; width: 40%; height: 50%; }
-        .session { top: 10%; width: min(44vw, 14rem); }
+        .hit-trench { left: 22%; top: 78%; width: 56%; height: 14%; }
+        .trench-glow { left: 28%; top: 82%; width: 44%; height: 10%; }
+        .flame-lick { left: 34%; top: 84%; width: 32%; height: 8%; }
+        .vapor-a { left: 18%; top: 80%; width: 64%; height: 12%; }
+        .vapor-b { left: 14%; top: 82%; width: 40%; height: 10%; }
+        .vapor-c { left: 48%; top: 81%; width: 36%; height: 10%; }
+        .stack-calm { left: 48%; top: 16%; width: 14%; height: 48%; }
+        .te-wide { display: none; }
+        .te-phone { display: block; }
         .sample { top: 7.2%; right: auto; left: 4%; }
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .orbit, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
-        .flame-lick, .book, .cover-face img, .page-face img, .cover-face::after, .page-ink dd {
+        .orbit, .trench-glow, .moon-ring, .vapor, .glim,
+        .flame-lick, .te-line, .book, .cover-face img, .page-face img, .cover-face::after, .page-ink dd {
           animation: none;
         }
         .pad-gpu { display: none; }
         .orbit { stroke-dashoffset: 0; opacity: 0.7; }
-        .folio, .cover, .leaf, .tabs {
+        .folio, .cover, .leaf, .tabs, .spine {
           transition: none;
         }
       }
@@ -607,23 +710,43 @@
         </picture>
       </div>
       <canvas class="pad-gpu" id="padgpu" aria-hidden="true"></canvas>
+      <div class="stack-calm" aria-hidden="true"></div>
       <div class="live" aria-hidden="true">
         <div class="vapor vapor-a"></div>
         <div class="vapor vapor-b"></div>
         <div class="vapor vapor-c"></div>
-        <i class="glim" style="left:46%;top:26%;--d:2.7s"></i>
-        <i class="glim" style="left:48%;top:38%;--d:3.4s"></i>
-        <i class="glim" style="left:45%;top:48%;--d:2.2s"></i>
-        <i class="glim" style="left:51%;top:32%;--d:4.1s"></i>
-        <i class="glim" style="left:42%;top:34%;--d:3.1s"></i>
-        <i class="glim" style="left:50%;top:58%;--d:2.5s"></i>
-        <i class="glim" style="left:18%;top:72%;--d:3.8s"></i>
-        <i class="glim" style="left:62%;top:70%;--d:4.6s"></i>
+        <i class="glim" style="left:54%;top:28%;--d:2.7s"></i>
+        <i class="glim" style="left:55.5%;top:38%;--d:3.4s"></i>
+        <i class="glim" style="left:54%;top:48%;--d:2.2s"></i>
+        <i class="glim" style="left:18%;top:74%;--d:3.8s"></i>
+        <i class="glim" style="left:32%;top:80%;--d:3.1s"></i>
+        <i class="glim" style="left:62%;top:76%;--d:4.6s"></i>
+        <i class="glim" style="left:70%;top:72%;--d:4.1s"></i>
+        <i class="glim" style="left:8%;top:68%;--d:2.5s"></i>
       </div>
       <canvas class="stars" id="stars"></canvas>
       <div class="trench-glow" id="trenchGlow"></div>
       <div class="flame-lick"></div>
-      <div class="arms-glow" id="armsGlow"></div>
+      <svg class="te-ink" id="teInk" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g class="te-wide">
+          <path class="te-line" d="M 53.4 17.5 L 55 72" />
+          <path class="te-line" d="M 53.8 23 L 59.2 27.5 L 54.4 33.5 L 59.6 39 L 54.8 45.5 L 59.4 52 L 55.2 59 L 58.8 66" />
+          <path class="te-line" d="M 53.4 26 L 47.8 28.2" />
+          <path class="te-line" d="M 53.8 42.5 L 47.6 45" />
+          <path class="te-line" d="M 50.4 70.2 L 58.6 70.2 L 57.8 73.4 L 51 73.4 Z" />
+          <circle class="te-joint" cx="53.4" cy="26" r="0.7" />
+          <circle class="te-joint" cx="53.8" cy="42.5" r="0.7" />
+        </g>
+        <g class="te-phone">
+          <path class="te-line" d="M 38.2 19 L 36.4 74" />
+          <path class="te-line" d="M 37.6 25 L 31.8 30 L 37 36 L 31.2 42 L 36.6 50 L 31.6 57 L 36.2 65" />
+          <path class="te-line" d="M 38 28 L 46.2 30.2" />
+          <path class="te-line" d="M 37.4 44 L 46 46.4" />
+          <path class="te-line" d="M 33.6 72.5 L 42.4 72.5 L 41.6 75.6 L 34.2 75.6 Z" />
+          <circle class="te-joint" cx="38" cy="28" r="0.8" />
+          <circle class="te-joint" cx="37.4" cy="44" r="0.8" />
+        </g>
+      </svg>
       <svg class="ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         <circle class="moon-ring" id="ring1" cx="288" cy="144" r="70" />
         <circle class="moon-ring" id="ring2" cx="288" cy="144" r="108" />
@@ -638,94 +761,142 @@
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
-      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Open the DATA SPECS DESIGN book">
+      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Pull the SKIIWA volume from the shelf">
+        <div class="spine" id="spine" aria-hidden="true">
+          <div class="spine-bands">
+            <i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <b class="spine-title">SKIIWA</b>
+          <span class="spine-gold"></span>
+        </div>
         <div class="book" id="book">
-          <article class="leaf" data-page="design">
+          <article class="leaf" data-page="auto">
             <div class="page-face">
-              <img src="solari-vellum-folio-blank.png" alt="" />
               <div class="page-ink">
-                <p class="brand">DESIGN</p>
-                <p class="tag">Touch the arms · the trench · the moon · the path</p>
-                <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
-              </div>
-            </div>
-          </article>
-          <article class="leaf" data-page="specs">
-            <div class="page-face">
-              <img src="solari-vellum-folio-blank.png" alt="" />
-              <div class="page-ink">
-                <p class="brand">SPECS</p>
+                <p class="brand">AUTO</p>
+                <p class="tag">Rocket configuration as published</p>
                 <dl>
+                  <div><dt>config</dt><dd data-field="config">—</dd></div>
                   <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
-                  <div><dt>pad</dt><dd data-field="pad">—</dd></div>
-                  <div><dt>source</dt><dd>Launch Library 2</dd></div>
                 </dl>
-                <p class="quiet">SLC-4E transporter-erector / strongback</p>
+                <p class="quiet">Launch Library 2 · not invented</p>
               </div>
             </div>
           </article>
-          <article class="leaf" data-page="data">
+          <article class="leaf" data-page="msk">
             <div class="page-face">
-              <img src="solari-vellum-folio-blank.png" alt="" />
               <div class="page-ink">
-                <p class="brand">DATA</p>
-                <h2 data-field="mission">—</h2>
+                <p class="brand">MSK</p>
+                <p class="tag">Orbit only if Launch Library 2 names it</p>
+                <dl>
+                  <div><dt>orbit</dt><dd data-field="orbit">—</dd></div>
+                  <div><dt>mission</dt><dd data-field="mission">—</dd></div>
+                </dl>
+                <p class="quiet">Missing LL2 orbit stays —</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="vid">
+            <div class="page-face">
+              <div class="page-ink vid-ink">
+                <p class="brand">VID</p>
+                <p class="tag">SIMULATION · not Solari</p>
+                <div class="vid-slot" id="vidSlot">
+                  <div class="vid-player" id="vidPlayer">
+                    <img id="session-img" src="simulation/session.png" alt="Local Chrome simulation still" />
+                    <video id="session-vid" playsinline hidden></video>
+                    <div class="vid-acts">
+                      <button type="button" id="vidPlay">Play</button>
+                      <button type="button" id="vidMax">Maximize</button>
+                    </div>
+                  </div>
+                </div>
+                <p class="quiet" id="session-cap">Playwright + local Chrome · official page</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="pad">
+            <div class="page-face">
+              <div class="page-ink">
+                <p class="brand">PAD</p>
+                <p class="tag">SLC-4E transporter-erector / strongback</p>
+                <dl>
+                  <div><dt>pad</dt><dd data-field="pad">—</dd></div>
+                </dl>
+                <p class="quiet">Chopsticks stay at Starbase. Never drawn on 4E.</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="sts">
+            <div class="page-face">
+              <div class="page-ink">
+                <p class="brand">STS</p>
+                <p class="tag">Status as published</p>
                 <dl>
                   <div><dt>status</dt><dd data-field="status">—</dd></div>
+                </dl>
+                <p class="quiet">Launch Library 2 · not Solari</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="tel">
+            <div class="page-face">
+              <div class="page-ink">
+                <p class="brand">TEL</p>
+                <p class="tag">No live telemetry in Launch Library 2</p>
+                <dl>
+                  <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
+                  <div><dt>telem</dt><dd data-field="telemetry">Not in Launch Library 2</dd></div>
+                </dl>
+                <p class="quiet">As published. Not a clock we invented.</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="cdt">
+            <div class="page-face">
+              <div class="page-ink">
+                <p class="brand">CDT</p>
+                <p class="tag">NET as published</p>
+                <dl>
                   <div><dt>NET</dt><dd data-field="net">—</dd></div>
                 </dl>
+                <p class="quiet">No invented T-clock</p>
+              </div>
+            </div>
+          </article>
+          <article class="leaf" data-page="cmd">
+            <div class="page-face">
+              <div class="page-ink">
+                <p class="brand">CMD</p>
+                <p class="tag">Mission command</p>
+                <h2 data-field="mission">—</h2>
                 <p class="quiet">Launch Library 2 · not Solari</p>
               </div>
             </div>
           </article>
           <div class="cover" id="cover">
             <div class="cover-face">
-              <img src="solari-vellum-folio-blank.png" alt="" />
               <div class="cover-ink">
-                <b>DATA</b>
-                <b>SPECS</b>
-                <b>DESIGN</b>
-                <span>SKIIWA · next fire</span>
+                <b>SKIIWA</b>
+                <span>next fire · eight plates</span>
               </div>
             </div>
           </div>
         </div>
-        <nav class="tabs" id="tabs" aria-label="Book pages">
-          <button type="button" data-tab="data" aria-current="true">
-            <img src="solari-vellum-folio-blank.png" alt="" />DATA
-          </button>
-          <button type="button" data-tab="specs">
-            <img src="solari-vellum-folio-blank.png" alt="" />SPECS
-          </button>
-          <button type="button" data-tab="design">
-            <img src="solari-vellum-folio-blank.png" alt="" />DESIGN
-          </button>
+        <nav class="tabs" id="tabs" aria-label="Book plates">
+          <button type="button" data-tab="cmd" aria-current="true">CMD</button>
+          <button type="button" data-tab="cdt">CDT</button>
+          <button type="button" data-tab="tel">TEL</button>
+          <button type="button" data-tab="sts">STS</button>
+          <button type="button" data-tab="pad">PAD</button>
+          <button type="button" data-tab="vid">VID</button>
+          <button type="button" data-tab="msk">MSK</button>
+          <button type="button" data-tab="auto">AUTO</button>
         </nav>
       </div>
 
-      <section class="chips" id="chips" aria-label="Next launch">
-        <article class="chip" data-chip="status">
-          <img src="solari-vellum-status.png" alt="" />
-          <strong data-field="status">—</strong>
-        </article>
-        <article class="chip" data-chip="net">
-          <img src="solari-vellum-net.png" alt="" />
-          <strong data-field="net">—</strong>
-        </article>
-        <article class="chip" data-chip="mission">
-          <img src="solari-vellum-mission.png" alt="" />
-          <strong data-field="mission">—</strong>
-        </article>
-      </section>
-
-      <figure class="session" id="session">
-        <figcaption id="session-cap">SIMULATION · not Solari</figcaption>
-        <a id="session-link" href="simulation/session.png" target="_blank" rel="noreferrer">
-          <img id="session-img" src="simulation/session.png" alt="Local Chrome simulation" />
-        </a>
-        <video id="session-vid" muted playsinline loop hidden></video>
-      </figure>
-      <p class="hint">Touch the arms · the trench · the moon · the path</p>
+      <aside class="vid-dock" id="vidDock" aria-label="Maximized simulation"></aside>
+      <p class="hint">Pull the spine · then the folio. Touch the arms · the trench · the moon · the path</p>
       <aside class="note" id="note">
         <img src="solari-vellum-folio-blank.png" alt="" />
         <div class="note-ink">
@@ -743,6 +914,9 @@
         vehicle: "Falcon 9 Block 5",
         pad: "SLC-4E Vandenberg 4E",
         sources: "Launch Library 2",
+        orbit: "",
+        config: "Falcon 9 Block 5",
+        telemetry: "Not in Launch Library 2",
       };
       const NOTES = {
         arms: {
@@ -784,6 +958,7 @@
           String(miss.name || "").trim() ||
           String(row.name || "").split("|").slice(1).join("|").trim();
         const abbrev = String(st.abbrev || st.name || "").trim();
+        const orbit = miss.orbit || {};
         return {
           status: abbrev ? abbrev.toUpperCase() : "",
           net: formatNet(row.net),
@@ -791,6 +966,9 @@
           vehicle: String(cfg.full_name || cfg.name || "").trim(),
           pad: [padName, site].filter(Boolean).join(" · "),
           sources: "Launch Library 2",
+          orbit: String(orbit.name || orbit.abbrev || "").trim(),
+          config: String(cfg.full_name || cfg.name || "").trim(),
+          telemetry: "Not in Launch Library 2",
         };
       }
       function isOrbital(row) {
@@ -847,20 +1025,15 @@
       }
       loadLive();
 
+      const vidEl = document.getElementById("session-vid");
+      const vidImg = document.getElementById("session-img");
       fetch("simulation/session.json", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : null))
         .then((s) => {
           if (!s) return;
           document.getElementById("session-cap").textContent =
             "SIMULATION · " + (s.engine || "local Chrome") + " · not Solari";
-          const vid = document.getElementById("session-vid");
-          if (s.recording) {
-            vid.src = "simulation/" + s.recording;
-            vid.hidden = false;
-            vid.play().catch(() => {});
-            document.getElementById("session-img").hidden = true;
-            document.getElementById("session-link").href = "simulation/" + s.recording;
-          }
+          if (s.recording) vidEl.src = "simulation/" + s.recording;
         })
         .catch(() => {});
 
@@ -890,7 +1063,7 @@
         document.getElementById("note-k").textContent = n.k;
         document.getElementById("note-p").textContent = n.p;
         document.getElementById("note").classList.add("open");
-        document.getElementById("armsGlow").classList.toggle("live", key === "arms");
+        document.getElementById("teInk").classList.toggle("live", key === "arms");
         document.getElementById("trenchGlow").classList.toggle("hot", key === "trench");
         document.getElementById("ring1").classList.toggle("lit", key === "moon");
         document.getElementById("ring2").classList.toggle("lit", key === "moon");
@@ -901,69 +1074,151 @@
       });
 
       const folio = document.getElementById("folio");
-      const pages = ["data", "specs", "design"];
+      const pages = ["cmd", "cdt", "tel", "sts", "pad", "vid", "msk", "auto"];
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       let opening = false;
+      let flipping = false;
+      let currentIndex = 0;
+      const TURN_MS = 1100;
 
-      function goTo(name) {
-        const idx = pages.indexOf(name);
-        if (idx < 0) return;
+      document.querySelectorAll(".page-face").forEach((face) => {
+        face.insertAdjacentHTML(
+          "afterbegin",
+          '<svg class="vinci" viewBox="0 0 80 200" aria-hidden="true"><path d="M40 8 C28 28 26 48 27 70 L27 150 C27 162 32 170 40 178 C48 170 53 162 53 150 L53 70 C54 48 52 28 40 8 Z"/><line x1="27" y1="88" x2="53" y2="88"/><path d="M58 20 L62 168"/><path d="M58 40 L72 48 L59 62 L73 74 L60 90 L72 108 L61 128"/><path d="M58 52 L46 56"/><path d="M58 86 L46 90"/><ellipse cx="40" cy="182" rx="11" ry="3"/></svg>'
+        );
+      });
+
+      function stackLeaves() {
         document.querySelectorAll(".leaf").forEach((leaf) => {
-          leaf.classList.toggle("turned", pages.indexOf(leaf.dataset.page) < idx);
+          const idx = pages.indexOf(leaf.dataset.page);
+          const turned = idx < currentIndex;
+          leaf.classList.toggle("turned", turned);
+          leaf.style.zIndex = turned ? String(10 + idx) : String(20 + (pages.length - idx));
         });
         document.querySelectorAll("#tabs button").forEach((btn) => {
-          btn.setAttribute("aria-current", btn.dataset.tab === name ? "true" : "false");
+          btn.setAttribute("aria-current", pages.indexOf(btn.dataset.tab) === currentIndex ? "true" : "false");
         });
       }
 
-      function openBook() {
-        if (folio.classList.contains("open") || opening) return;
-        opening = true;
-        folio.classList.add("rise");
+      function waitTurn() {
+        return new Promise((resolve) => {
+          if (reduceMotion) {
+            resolve();
+            return;
+          }
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            resolve();
+          };
+          const onEnd = (e) => {
+            if (!e.target.classList.contains("leaf")) return;
+            if (e.propertyName !== "transform") return;
+            folio.removeEventListener("transitionend", onEnd);
+            finish();
+          };
+          folio.addEventListener("transitionend", onEnd);
+          setTimeout(finish, TURN_MS + 80);
+        });
+      }
+
+      async function goTo(name) {
+        const target = pages.indexOf(name);
+        if (target < 0 || flipping || target === currentIndex) return;
+        flipping = true;
+        const step = target > currentIndex ? 1 : -1;
+        while (currentIndex !== target) {
+          currentIndex += step;
+          stackLeaves();
+          await waitTurn();
+        }
+        flipping = false;
+      }
+
+      function afterPull() {
+        folio.classList.add("open");
         folio.setAttribute("aria-expanded", "true");
-        const finish = () => {
-          folio.classList.add("open");
-          opening = false;
-        };
+        opening = false;
+        stackLeaves();
+      }
+
+      function pullBook() {
+        if (folio.classList.contains("open") || folio.classList.contains("pull") || opening) return;
+        opening = true;
+        folio.classList.add("pull");
         if (reduceMotion) {
-          finish();
+          afterPull();
           return;
         }
         let done = false;
         const once = (e) => {
           if (e.target !== folio) return;
-          if (e.propertyName !== "bottom" && e.propertyName !== "transform") return;
+          if (e.propertyName !== "width" && e.propertyName !== "transform") return;
           if (done) return;
           done = true;
           folio.removeEventListener("transitionend", once);
-          finish();
+          afterPull();
         };
         folio.addEventListener("transitionend", once);
         setTimeout(() => {
           if (done) return;
           done = true;
           folio.removeEventListener("transitionend", once);
-          finish();
-        }, 1400);
+          afterPull();
+        }, 1200);
       }
 
       folio.addEventListener("click", (e) => {
-        if (e.target.closest("#tabs")) return;
-        if (folio.classList.contains("open")) return;
-        openBook();
+        if (e.target.closest("#tabs") || e.target.closest(".vid-ink")) return;
+        if (folio.classList.contains("open") || folio.classList.contains("pull")) return;
+        pullBook();
       });
       folio.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          openBook();
+          pullBook();
         }
       });
       document.querySelectorAll("#tabs button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          if (!folio.classList.contains("open")) return;
+          if (!folio.classList.contains("open") || flipping) return;
           goTo(btn.dataset.tab);
         });
+      });
+
+      const vidPlayer = document.getElementById("vidPlayer");
+      const vidSlot = document.getElementById("vidSlot");
+      const vidDock = document.getElementById("vidDock");
+      const vidPlay = document.getElementById("vidPlay");
+      const vidMax = document.getElementById("vidMax");
+      let vidOut = false;
+
+      vidPlay.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!vidEl.src) vidEl.src = "simulation/session.webm";
+        vidImg.hidden = true;
+        vidEl.hidden = false;
+        if (vidEl.paused) {
+          vidEl.play().then(() => { vidPlay.textContent = "Pause"; }).catch(() => {});
+        } else {
+          vidEl.pause();
+          vidPlay.textContent = "Play";
+        }
+      });
+      vidMax.addEventListener("click", (e) => {
+        e.stopPropagation();
+        vidOut = !vidOut;
+        if (vidOut) {
+          vidDock.appendChild(vidPlayer);
+          vidDock.classList.add("show");
+          vidMax.textContent = "Restore";
+        } else {
+          vidSlot.appendChild(vidPlayer);
+          vidDock.classList.remove("show");
+          vidMax.textContent = "Maximize";
+        }
       });
 
       const cvs = document.getElementById("stars");
