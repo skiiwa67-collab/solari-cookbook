@@ -39,9 +39,8 @@ past. Copy one into your project and change the parts you care about.
 The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
-- Frames — full-bleed Da Vinci pad stills in `docs/solari-davinci-pad-16x9.png` / `docs/solari-davinci-pad-9x16.png` (SAMPLE Starlink 15-23 / F9 · 4E stays on the art)
-- Motion — living starfield, trench fire, drawing trajectories, sparkle, click-to-find. Chopsticks move on the Codex plate only (`docs/solari-davinci-codex-16x9.png`)
-- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) is SAMPLE / Launch Library 2, not live Solari. Empty fields stay empty. No six-field settings grid.
+- Look lock — night F9 on SLC-4E (`docs/solari-f9-4e-16x9.png` / `9x16`). Animations and clicks live on that frame: arms, trench, moon, path.
+- Parchment ink — live next orbital from public Launch Library 2. If that fetch fails, SAMPLE last-known Starlink Group 15-23. Not Solari. No Mechazilla on 4E.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 
