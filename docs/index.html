@@ -163,21 +163,6 @@
         0%, 100% { transform: translate3d(-3%, 4%, 0) scale(0.96); opacity: 0.22; }
         50% { transform: translate3d(8%, -5%, 0) scale(1.12); opacity: 0.5; }
       }
-      .glim {
-        position: absolute;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: radial-gradient(circle, #ffe7a8 0 32%, transparent 70%);
-        box-shadow: none;
-        animation: glim var(--d, 2.8s) ease-in-out infinite;
-        opacity: 0.35;
-      }
-      @keyframes glim {
-        0%, 100% { opacity: 0.2; transform: scale(0.8); }
-        45% { opacity: 0.95; transform: scale(1.25); }
-        70% { opacity: 0.4; transform: scale(0.95); }
-      }
       canvas.stars {
         position: absolute;
         inset: 0;
@@ -263,45 +248,6 @@
           filter: none;
         }
       }
-      .hit {
-        position: absolute;
-        z-index: 4;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: none;
-        background-color: transparent;
-        color: transparent;
-        font-size: 0;
-        line-height: 0;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        box-shadow: none;
-        outline: none;
-        opacity: 0;
-        cursor: pointer;
-        overflow: hidden;
-        -webkit-tap-highlight-color: transparent;
-        -webkit-user-select: none;
-        user-select: none;
-      }
-      .hit:hover, .hit:active, .hit:focus, .hit:focus-visible,
-      .hit::-moz-focus-inner {
-        appearance: none;
-        -webkit-appearance: none;
-        background: none;
-        background-color: transparent;
-        border: 0;
-        outline: none;
-        box-shadow: none;
-        opacity: 0;
-        padding: 0;
-      }
-      .hit-moon { left: 11%; top: 6%; width: 14%; height: 20%; }
-      .hit-path { left: 52%; top: 8%; width: 40%; height: 28%; border-radius: 40%; }
-      .hit-arms { left: 44%; top: 24%; width: 16%; height: 42%; border-radius: 40%; }
-      .hit-trench { left: 38%; top: 68%; width: 26%; height: 18%; border-radius: 40%; }
       .wordmark {
         position: absolute;
         z-index: 5;
@@ -390,40 +336,49 @@
       }
       .binder-title {
         position: absolute;
-        top: 18%;
+        top: 7%;
         bottom: 18%;
         left: 50%;
-        width: 1.2em;
-        margin-left: -0.6em;
+        width: 1.4em;
+        margin-left: -0.7em;
         writing-mode: vertical-rl;
         text-orientation: upright;
         font-family: Cinzel, serif;
-        font-size: clamp(0.4rem, 15cqw, 0.62rem);
-        letter-spacing: 0.04em;
+        font-size: clamp(0.85rem, 3.05cqh, 1.1rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
         line-height: 1;
-        color: #e8d2a0;
+        color: #ffe7a8;
         text-transform: uppercase;
-        text-shadow: 0 1px 0 #2a160c, 0 0 6px rgba(196, 163, 106, 0.45);
+        text-shadow:
+          0 0 2px #000,
+          0 1px 2px #000,
+          0 2px 4px #000,
+          0 0 10px rgba(0, 0, 0, 0.95),
+          0 0 16px rgba(0, 0, 0, 0.85);
         text-align: center;
         white-space: nowrap;
-        overflow: hidden;
       }
       .binder-mark {
         position: absolute;
         left: 50%;
-        width: 1.2em;
-        margin-left: -0.6em;
-        bottom: 2.5%;
-        height: 13%;
+        width: 1.4em;
+        margin-left: -0.7em;
+        bottom: 1.4%;
+        height: 16%;
         writing-mode: vertical-rl;
         text-orientation: upright;
         font-family: Cinzel, serif;
-        font-size: clamp(0.36rem, 14cqw, 0.52rem);
-        letter-spacing: 0.1em;
+        font-size: clamp(0.72rem, 2.4cqh, 0.95rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
         line-height: 1;
-        color: #c4a36a;
+        color: #f3d58a;
         text-align: center;
-        text-shadow: 0 1px 0 #2a160c;
+        text-shadow:
+          0 0 2px #000,
+          0 1px 2px #000,
+          0 0 10px rgba(0, 0, 0, 0.95);
         white-space: nowrap;
       }
       .shelf-mark {
@@ -725,10 +680,6 @@
           right: 4%;
           bottom: max(8%, var(--safe-b));
         }
-        .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
-        .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
-        .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
-        .hit-trench { left: 22%; top: 72%; width: 56%; height: 14%; }
         .trench-glow { left: 28%; top: 84%; width: 44%; height: 8%; }
         .flame-lick { left: 32%; top: 86%; width: 34%; height: 6%; }
         .vapor-a { left: 16%; top: 64%; width: 70%; height: 24%; }
@@ -738,7 +689,7 @@
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .orbit, .orbit-far, .orbit-wide, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
+        .orbit, .orbit-far, .orbit-wide, .trench-glow, .arms-glow, .moon-ring, .vapor,
         .flame-lick, .page .vellum, .page .traces, .page dd, .page h2 {
           animation: none;
         }
@@ -768,14 +719,6 @@
         <div class="vapor vapor-a"></div>
         <div class="vapor vapor-b"></div>
         <div class="vapor vapor-c"></div>
-        <i class="glim" style="left:12%;top:74%;--d:2.7s"></i>
-        <i class="glim" style="left:18%;top:72%;--d:3.4s"></i>
-        <i class="glim" style="left:8%;top:68%;--d:3.8s"></i>
-        <i class="glim" style="left:36%;top:82%;--d:2.5s"></i>
-        <i class="glim" style="left:58%;top:83%;--d:3.1s"></i>
-        <i class="glim" style="left:64%;top:76%;--d:4.1s"></i>
-        <i class="glim" style="left:72%;top:78%;--d:4.6s"></i>
-        <i class="glim" style="left:22%;top:80%;--d:2.2s"></i>
         <div class="trench-glow" id="trenchGlow"></div>
         <div class="flame-lick"></div>
       </div>
@@ -785,11 +728,6 @@
         <circle class="moon-ring" id="ring2" cx="288" cy="144" r="108" />
         <path class="orbit" id="orbit" d="M 1480 620 C 1100 80, 620 40, 220 260" />
       </svg>
-
-      <button class="hit hit-moon" data-hit="moon" aria-label="Touch the moon"></button>
-      <button class="hit hit-path" data-hit="path" aria-label="Touch the path"></button>
-      <button class="hit hit-arms" data-hit="arms" aria-label="Touch the transporter-erector"></button>
-      <button class="hit hit-trench" data-hit="trench" aria-label="Touch the trench"></button>
       </div>
       <canvas class="sky-stars" id="stars" aria-hidden="true"></canvas>
 
@@ -1095,9 +1033,6 @@
         document.getElementById("ring2").classList.toggle("lit", key === "moon");
         if (key === "path") replayOrbit();
       }
-      document.querySelectorAll("[data-hit]").forEach((btn) => {
-        btn.addEventListener("click", (e) => show(btn.dataset.hit, e.clientX, e.clientY));
-      });
 
       function phone() {
         return matchMedia("(max-aspect-ratio: 3/4)").matches;
