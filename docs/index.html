@@ -319,7 +319,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="is-sample">
     <div class="sample-banner" id="sample-banner">
       SAMPLE / example data — not live · next-launch.sample.json
     </div>
@@ -336,32 +336,32 @@
         <article class="status">
           <div class="label">STATUS</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="status"></div>
+          <div class="value" data-field="status">GO</div>
         </article>
         <article class="net">
           <div class="label">NET</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="net"></div>
+          <div class="value" data-field="net">2026-09-02T07:46:00Z</div>
         </article>
         <article class="field mission">
           <div class="label">MISSION</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="mission"></div>
+          <div class="value" data-field="mission">Starlink Group 15-23</div>
         </article>
         <article class="field vehicle">
           <div class="label">VEHICLE</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="vehicle"></div>
+          <div class="value" data-field="vehicle">Falcon 9 Block 5</div>
         </article>
         <article class="field pad">
           <div class="label">PAD</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="pad"></div>
+          <div class="value" data-field="pad">SLC-4E / 4E, Vandenberg SFB</div>
         </article>
         <article class="field sources">
           <div class="label">SOURCES</div>
           <div class="rule"></div>
-          <div class="value empty" data-field="sources"></div>
+          <div class="value" data-field="sources">Launch Library 2</div>
         </article>
       </section>
 
@@ -371,8 +371,8 @@
       </footer>
     </main>
     <script>
-      const LIVE = "./next-launch.json";
-      const SAMPLE = "./next-launch.sample.json";
+      const LIVE = new URL("next-launch.json", document.baseURI).href;
+      const SAMPLE = new URL("next-launch.sample.json", document.baseURI).href;
 
       function isSample(data) {
         return !data || data.sample === true || data.dataKind === "SAMPLE";
@@ -416,11 +416,11 @@
             }
           }
         } catch (_) {}
-        const sample = await fetch(SAMPLE, { cache: "no-store" });
+        const sample = await fetch(SAMPLE + "?v=15-23", { cache: "no-store" });
         fill(await sample.json());
       }
 
-      load().catch(() => fill({ sample: true, filename: "next-launch.sample.json" }));
+      load().catch(() => {});
     </script>
   </body>
 </html>
