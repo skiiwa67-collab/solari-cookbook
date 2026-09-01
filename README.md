@@ -39,9 +39,9 @@ past. Copy one into your project and change the parts you care about.
 The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
-- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) (SAMPLE Starlink Group 15-23; facts paint in the folio before any fetch)
-- Later — `cd examples/launch-watch-ts && export SOLARI_API_KEY=slr_live_... && npm start` writes `docs/next-launch.json`
-- Art — night pad + Da Vinci folio in [`docs/art/`](docs/art/)
+- Frames — full-bleed Da Vinci pad stills in `docs/solari-davinci-pad-16x9.png` / `docs/solari-davinci-pad-9x16.png` (SAMPLE Starlink 15-23 / F9 · 4E stays on the art)
+- Motion — living starfield, trench fire, drawing trajectories, sparkle, click-to-find. Chopsticks move on the Codex plate only (`docs/solari-davinci-codex-16x9.png`)
+- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) is SAMPLE / Launch Library 2, not live Solari. Empty fields stay empty. No six-field settings grid.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 
