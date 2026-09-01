@@ -40,9 +40,9 @@ past. Copy one into your project and change the parts you care about.
 The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
-- Look lock — night F9 on SLC-4E (`docs/solari-f9-4e-16x9.png` / `9x16`). Animations and clicks live on that frame: arms, trench, moon, path.
-- Closed vellum book at the bottom (DATA / SPECS / DESIGN) rises, then opens. Right tabs turn pages. Slight always-on paper motion. Live next orbital from public Launch Library 2. If LL2 fails, SAMPLE last-known Starlink Group 15-23. Not Solari. No Mechazilla on 4E. The locked F9-on-4E still is sparked by [vgpu](https://vgpu.sh/docs) shaders (lights, vapor, flame). If WebGPU is missing (Android / some Pages clients), the CSS layers stay. Not a video.
-- Simulation — we refused their card. The same agent-browser job (open the real next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM product. The board labels it SIMULATION.
+- Look lock — signed night F9 on SLC-4E. Layered T-minus motion on that still (vgpu WebGPU when the browser has it; CSS/canvas 2D on RAZR / no-WebGPU). Not a video file. Arms / trench / moon / path stay clickable. 4E is the transporter-erector. No Mechazilla on Vandenberg.
+- Book — French-binder spine home on the LEFT of the rocket (never on the engines or trench). Pull it off the shelf, then the curling folio opens. Eight LRT tabs: CMD CDT TEL STS PAD VID MSK AUTO. Skip-tab flips through pages. VID plays in the leaf; maximize parks to the right of the rocket. No persistent SIMULATION sidebar. Live public Launch Library 2. SAMPLE only if that fetch fails.
+- Simulation — we refused the Solari card. The same agent-browser job (open the official next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM stack copy. The board labels it SIMULATION. Intern package is this public repo, not a Solari clone.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 
