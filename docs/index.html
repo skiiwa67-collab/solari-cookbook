@@ -10,9 +10,8 @@
     .layer { position: fixed; inset: 0; }
     .layer img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; }
     .layer img.show { display: block; }
-    #davinci, #codex { display: none; z-index: 2; }
-    #davinci.show, #codex.show { display: block; }
-    #codex { background: #1a140c; z-index: 3; }
+    #codex { display: none; z-index: 2; background: #1a140c; }
+    #codex.show { display: block; }
     #codex img { object-fit: contain; background: #1a140c; display: block; }
     .sample { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 4;
       text-align: center; padding: 0.4rem 1rem; font: 600 0.68rem/1.3 ui-sans-serif, system-ui, sans-serif;
@@ -24,12 +23,8 @@
 <body>
   <div class="sample" id="sample-banner">SAMPLE / example data — not live</div>
   <div class="layer" id="hero">
-    <img id="hero-wide" src="./solari-f9-4e-16x9.png" alt="SKIIWA next launch" />
-    <img id="hero-phone" src="./solari-f9-4e-9x16.png" alt="SKIIWA next launch" />
-  </div>
-  <div class="layer" id="davinci">
-    <img id="dv-wide" src="./solari-davinci-pad-16x9.png" alt="Da Vinci layer" />
-    <img id="dv-phone" src="./solari-davinci-pad-9x16.png" alt="Da Vinci layer" />
+    <img id="hero-wide" src="./solari-davinci-pad-16x9.png" alt="SKIIWA next launch" />
+    <img id="hero-phone" src="./solari-davinci-pad-9x16.png" alt="SKIIWA next launch" />
   </div>
   <div class="layer" id="codex">
     <img src="./solari-davinci-codex-16x9.png" alt="Codex" />
@@ -41,18 +36,11 @@
       const w = wide.matches;
       document.getElementById("hero-wide").classList.toggle("show", w);
       document.getElementById("hero-phone").classList.toggle("show", !w);
-      document.getElementById("dv-wide").classList.toggle("show", w);
-      document.getElementById("dv-phone").classList.toggle("show", !w);
     }
     paint();
     wide.addEventListener("change", paint);
-    const davinci = document.getElementById("davinci");
     const codex = document.getElementById("codex");
-    document.getElementById("hero").addEventListener("click", () => davinci.classList.add("show"));
-    davinci.addEventListener("click", () => {
-      davinci.classList.remove("show");
-      codex.classList.add("show");
-    });
+    document.getElementById("hero").addEventListener("click", () => codex.classList.add("show"));
     codex.addEventListener("click", () => codex.classList.remove("show"));
     fetch(SAMPLE, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(data => {
       if (data && (data.sample === true || data.dataKind === "SAMPLE")) {
