@@ -159,10 +159,11 @@
       }
       .glim {
         position: absolute;
-        width: 5px; height: 5px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
-        background: #ffe7a8;
-        box-shadow: 0 0 10px 3px rgba(255, 214, 120, 0.55);
+        background: radial-gradient(circle, #ffe7a8 0 32%, transparent 70%);
+        box-shadow: none;
         animation: glim var(--d, 2.8s) ease-in-out infinite;
         opacity: 0.35;
       }
@@ -257,33 +258,25 @@
         }
       }
       .hit {
+        all: unset;
         position: absolute;
         z-index: 4;
         appearance: none;
         -webkit-appearance: none;
-        background: none;
-        background-color: transparent;
+        background: transparent;
         border: 0;
+        outline: 0;
         box-shadow: none;
-        outline: none !important;
         opacity: 0;
-        color: transparent;
-        font-size: 0;
-        line-height: 0;
-        padding: 0;
-        margin: 0;
-        min-width: 0;
-        min-height: 0;
         cursor: pointer;
-        border-radius: 0;
         -webkit-tap-highlight-color: transparent;
       }
       .hit:hover, .hit:active, .hit:focus, .hit:focus-visible {
         appearance: none;
-        background: none;
+        background: transparent;
         border: 0;
+        outline: 0;
         box-shadow: none;
-        outline: none !important;
         opacity: 0;
       }
       .hit-moon { left: 11%; top: 6%; width: 14%; height: 20%; }
@@ -1325,24 +1318,37 @@
         if (!cvs) return;
         const ctx = cvs.getContext("2d");
         let field = [];
+        let cssW = 0;
+        let cssH = 0;
         function size() {
           const stage = document.querySelector(".stage");
-          cvs.width = stage ? stage.clientWidth : innerWidth;
-          cvs.height = stage ? stage.clientHeight : innerHeight;
-          field = Array.from({ length: 220 }, () => ({
-            x: Math.random() * cvs.width,
-            y: Math.random() * cvs.height,
-            s: Math.random() * 1.5 + 0.25,
-            p: Math.random() * 6,
+          cssW = stage ? stage.clientWidth : innerWidth;
+          cssH = stage ? stage.clientHeight : innerHeight;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          cvs.width = Math.max(1, Math.round(cssW * dpr));
+          cvs.height = Math.max(1, Math.round(cssH * dpr));
+          cvs.style.width = cssW + "px";
+          cvs.style.height = cssH + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          field = Array.from({ length: 160 }, () => ({
+            x: Math.random() * cssW,
+            y: Math.random() * cssH,
+            r: 0.85 + Math.random() * 1.45,
+            p: Math.random() * Math.PI * 2,
+            tw: 0.55 + Math.random() * 1.2,
           }));
         }
         function twinkle(t) {
-          ctx.clearRect(0, 0, cvs.width, cvs.height);
+          ctx.clearRect(0, 0, cssW, cssH);
           for (const st of field) {
-            const a = 0.2 + 0.8 * Math.abs(Math.sin(t / 900 + st.p));
-            ctx.fillStyle = "rgba(255,236,180," + a + ")";
+            const a = 0.28 + 0.72 * Math.abs(Math.sin(t / 1100 * st.tw + st.p));
             ctx.beginPath();
-            ctx.arc(st.x, st.y, Math.max(0.4, st.s * 0.5), 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255, 236, 180," + (a * 0.28) + ")";
+            ctx.arc(st.x, st.y, st.r * 2.15, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.fillStyle = "rgba(255, 244, 214," + a + ")";
+            ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
             ctx.fill();
           }
           requestAnimationFrame(twinkle);
