@@ -225,10 +225,10 @@
       .folio {
         position: absolute;
         z-index: 6;
-        left: max(0.4%, var(--safe-l));
-        top: 14%;
-        width: 2.35rem;
-        height: min(48vh, 26rem);
+        left: max(0.55%, var(--safe-l));
+        top: 12%;
+        height: min(58vh, 32rem);
+        width: calc(min(58vh, 32rem) * 0.2);
         transform-origin: left center;
         transition:
           width 1.45s var(--rise),
@@ -256,8 +256,8 @@
         transition: opacity 0.7s ease;
       }
       .still-spine {
-        object-fit: cover;
-        object-position: left center;
+        object-fit: fill;
+        object-position: center;
       }
       .folio:not(.pulled):not(.open) .still-spine { opacity: 1; }
       .folio.pulled:not(.open) .still-cover { opacity: 1; }
