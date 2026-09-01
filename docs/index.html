@@ -358,23 +358,10 @@
         align-items: stretch;
       }
       .folio:not(.pulled):not(.open) .binder { opacity: 1; }
-      .binder-pages {
-        order: 2;
-        width: 28%;
-        margin: 1.2% 0;
-        background:
-          repeating-linear-gradient(
-            180deg,
-            #f0e2c2 0 2px,
-            #d7c49a 2px 3px
-          );
-        box-shadow: inset -2px 0 3px rgba(40, 24, 8, 0.35);
-        border-radius: 0 2px 2px 0;
-      }
       .binder-spine {
         order: 1;
         position: relative;
-        width: 72%;
+        width: 100%;
         border-radius: 3px 1px 1px 3px;
         overflow: hidden;
         background:
@@ -792,7 +779,6 @@
             <span class="binder-title" data-field="mission">Starlink Group 15-23</span>
             <span class="binder-mark">SKIIWA</span>
           </div>
-          <div class="binder-pages"></div>
         </div>
         <img class="still still-cover" src="solari-notebook-cover.png" alt="" />
         <img class="still still-open" src="solari-notebook-open.png" alt="" />
