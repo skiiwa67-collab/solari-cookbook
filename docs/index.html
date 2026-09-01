@@ -452,11 +452,17 @@
         height: 36%;
       }
 
-      .chips { display: none; }
+      /* Signed still lock: 1920x1080 — STATUS 48,820 281x88 / NET 346,820 / MISSION 644,820 */
+      .chips {
+        position: absolute;
+        inset: 0;
+        z-index: 6;
+        pointer-events: none;
+      }
       .chip {
-        position: relative;
-        height: 4.6rem;
-        cursor: pointer;
+        position: absolute;
+        pointer-events: auto;
+        height: auto;
         transform-style: preserve-3d;
         transform: perspective(720px)
           rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
@@ -479,6 +485,16 @@
         width: 100%; height: 100%;
         object-fit: cover;
       }
+      .chip .flop {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
+      }
+      .chip .face { backface-visibility: hidden; }
       .chip strong {
         position: absolute;
         left: 6%; right: 8%; top: 52%;
@@ -526,10 +542,20 @@
           grid-template-columns: 1fr 1fr 1fr;
           gap: 0.4rem;
           position: absolute;
-          z-index: 6;
+          inset: auto;
           left: 4%;
           right: 4%;
           bottom: max(8%, var(--safe-b));
+          top: auto;
+          height: auto;
+          pointer-events: auto;
+        }
+        .chip {
+          position: relative;
+          left: auto !important;
+          top: auto !important;
+          width: auto !important;
+          height: 4.6rem !important;
         }
         .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
@@ -703,15 +729,18 @@
 
       <section class="chips" id="chips" aria-label="Next launch">
         <article class="chip" data-chip="status">
-          <img src="solari-vellum-status.png" alt="" />
+          <img class="face" src="solari-vellum-status.png" alt="" />
+          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
           <strong data-field="status">—</strong>
         </article>
         <article class="chip" data-chip="net">
-          <img src="solari-vellum-net.png" alt="" />
+          <img class="face" src="solari-vellum-net.png" alt="" />
+          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
           <strong data-field="net">—</strong>
         </article>
         <article class="chip" data-chip="mission">
-          <img src="solari-vellum-mission.png" alt="" />
+          <img class="face" src="solari-vellum-mission.png" alt="" />
+          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
           <strong data-field="mission">—</strong>
         </article>
       </section>
@@ -892,32 +921,56 @@
 
       const chips = [...document.querySelectorAll(".chip")];
       const breezeOk = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const PLATE = {
+        status: [48, 820, 281, 88],
+        net: [346, 820, 281, 88],
+        mission: [644, 820, 281, 88],
+      };
+      const PLATE_TAB = { status: "sts", net: "cdt", mission: "msk" };
+      function placePlates() {
+        if (phone()) return;
+        const stage = document.querySelector(".stage");
+        const r = stage.getBoundingClientRect();
+        const s = Math.max(r.width / 1920, r.height / 1080);
+        const ox = (r.width - 1920 * s) / 2;
+        const oy = (r.height - 1080 * s) / 2;
+        chips.forEach((chip) => {
+          const box = PLATE[chip.dataset.chip];
+          if (!box) return;
+          chip.style.left = ox + box[0] * s + "px";
+          chip.style.top = oy + box[1] * s + "px";
+          chip.style.width = box[2] * s + "px";
+          chip.style.height = box[3] * s + "px";
+        });
+      }
       addEventListener("pointermove", (e) => {
         if (!breezeOk) return;
-        if (matchMedia("(max-aspect-ratio: 3/4)").matches) {
-          for (const chip of chips) {
-            const r = chip.getBoundingClientRect();
-            const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
-            const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
-            const dist = Math.hypot(dx, dy);
-            const f = dist < 2.4 ? Math.max(0, 1 - dist / 2.4) : 0;
-            const toward = f * f;
-            chip.style.setProperty("--rx", (-dy * 16 * toward).toFixed(2) + "deg");
-            chip.style.setProperty("--ry", (dx * 20 * toward).toFixed(2) + "deg");
-            chip.style.setProperty("--tz", (-dx * 3.2 * toward).toFixed(2) + "deg");
-            chip.style.setProperty("--tx", (dx * 10 * toward).toFixed(1) + "px");
-            chip.style.setProperty("--ty", (dy * 6 * toward).toFixed(1) + "px");
-            chip.style.setProperty("--lift", (18 * toward).toFixed(1) + "px");
-          }
+        for (const chip of chips) {
+          const r = chip.getBoundingClientRect();
+          if (r.width < 2) continue;
+          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
+          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
+          const dist = Math.hypot(dx, dy);
+          const f = dist < 2.4 ? Math.max(0, 1 - dist / 2.4) : 0;
+          const toward = f * f;
+          chip.style.setProperty("--rx", (-dy * 16 * toward).toFixed(2) + "deg");
+          chip.style.setProperty("--ry", (dx * 20 * toward).toFixed(2) + "deg");
+          chip.style.setProperty("--tz", (-dx * 3.2 * toward).toFixed(2) + "deg");
+          chip.style.setProperty("--tx", (dx * 10 * toward).toFixed(1) + "px");
+          chip.style.setProperty("--ty", (dy * 6 * toward).toFixed(1) + "px");
+          chip.style.setProperty("--lift", (18 * toward).toFixed(1) + "px");
         }
       });
       chips.forEach((chip) => {
         chip.addEventListener("click", (e) => {
+          e.stopPropagation();
           spark(e.clientX, e.clientY);
           chip.classList.remove("turn");
           void chip.offsetWidth;
           chip.classList.add("turn");
           setTimeout(() => chip.classList.remove("turn"), 960);
+          const tab = PLATE_TAB[chip.dataset.chip];
+          if (tab && folio.classList.contains("open")) flipThrough(PAGE[tab]);
         });
       });
 
@@ -1087,7 +1140,9 @@
           try { flipBook.update(); } catch (_) {}
         }
         placeVid();
+        placePlates();
       });
+      placePlates();
 
       function startFallbackStars() {
         const cvs = document.getElementById("stars");
