@@ -27,14 +27,30 @@
         overflow: hidden;
         font-family: "Cormorant Garamond", Georgia, serif;
       }
-      .stage { position: relative; min-height: 100dvh; overflow: hidden; }
+      .stage {
+        position: relative;
+        min-height: 100dvh;
+        overflow: hidden;
+        background: #05060a;
+      }
+      /* Contain the signed still. Leftover is night — never cover-crop the pad. */
+      .pack {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: #05060a;
+      }
       .hero, .hero img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center;
+        background: #05060a;
       }
       canvas.pad {
         position: absolute;
@@ -133,8 +149,8 @@
         72% { stroke-dashoffset: 0; }
         100% { opacity: 0.25; }
       }
-      .moon-ring { fill: none; stroke: rgba(232, 216, 164, 0.35); stroke-width: 1.1; }
-      .moon-ring.lit { animation: moon-pulse 1.2s ease-out 2; }
+      .moon-ring { fill: none; stroke: transparent; stroke-width: 1.1; }
+      .moon-ring.lit { stroke: rgba(232, 216, 164, 0.55); animation: moon-pulse 1.2s ease-out 2; }
       @keyframes moon-pulse { 50% { stroke: #ffe7a8; stroke-width: 2.2; } }
       .trench-glow {
         position: absolute;
@@ -189,12 +205,19 @@
       .hit {
         position: absolute;
         z-index: 4;
+        appearance: none;
+        -webkit-appearance: none;
         background: transparent;
         border: 0;
+        box-shadow: none;
+        outline: none;
+        opacity: 0;
         cursor: pointer;
         border-radius: 50%;
+        -webkit-tap-highlight-color: transparent;
       }
-      .hit:focus-visible { outline: 1px dashed var(--brass); }
+      .hit:focus { outline: none; }
+      .hit:focus-visible { outline: 1px dashed var(--brass); opacity: 1; }
       .hit-moon { left: 11%; top: 6%; width: 14%; height: 20%; }
       .hit-path { left: 52%; top: 8%; width: 40%; height: 28%; border-radius: 40%; }
       .hit-arms { left: 44%; top: 24%; width: 16%; height: 42%; border-radius: 40%; }
@@ -228,7 +251,7 @@
         left: max(0.55%, var(--safe-l));
         top: 12%;
         height: min(58vh, 32rem);
-        width: calc(min(58vh, 32rem) * 0.2);
+        width: 3.35rem;
         transform-origin: left center;
         transition:
           width 1.45s var(--rise),
@@ -255,11 +278,119 @@
         pointer-events: none;
         transition: opacity 0.7s ease;
       }
-      .still-spine {
-        object-fit: fill;
-        object-position: center;
+      /* Do not stretch solari-french-spine.png — that tiled into a scrap. */
+      .still-spine { display: none; }
+      .binder {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
       }
-      .folio:not(.pulled):not(.open) .still-spine { opacity: 1; }
+      .folio:not(.pulled):not(.open) .binder { opacity: 1; }
+      .binder-pages {
+        order: 2;
+        width: 28%;
+        margin: 1.2% 0;
+        background:
+          repeating-linear-gradient(
+            180deg,
+            #f0e2c2 0 2px,
+            #d7c49a 2px 3px
+          );
+        box-shadow: inset -2px 0 3px rgba(40, 24, 8, 0.35);
+        border-radius: 0 2px 2px 0;
+      }
+      .binder-spine {
+        order: 1;
+        position: relative;
+        width: 72%;
+        border-radius: 3px 1px 1px 3px;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent 16%, transparent 78%, rgba(0, 0, 0, 0.28)),
+          linear-gradient(#3a2212, #6a4124 18%, #8a5a30 46%, #5a3418 78%, #2e1a0e);
+        box-shadow:
+          inset 0 8px 10px rgba(0, 0, 0, 0.25),
+          inset 0 -8px 10px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+      }
+      .binder-spine .rib {
+        position: absolute;
+        left: 6%;
+        right: 6%;
+        height: 0.38rem;
+        border-radius: 1px;
+        background: linear-gradient(#f0d7a0, #a67c32 45%, #e8d2a0);
+        box-shadow: 0 2px 0 #2a160c, 0 -1px 0 rgba(232, 210, 160, 0.55);
+      }
+      .binder-spine .rib.r1 { top: 7%; }
+      .binder-spine .rib.r2 { top: 24%; }
+      .binder-spine .rib.r3 { top: 41%; }
+      .binder-spine .rib.r4 { top: 58%; }
+      .binder-spine .rib.r5 { top: 75%; }
+      .binder-spine .headband {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 0.32rem;
+        background: repeating-linear-gradient(90deg, #c4a36a 0 3px, #6a2c1c 3px 6px);
+      }
+      .binder-spine .headband.top { top: 0; }
+      .binder-spine .headband.bot { bottom: 0; }
+      .binder-title {
+        position: absolute;
+        top: 16%;
+        bottom: 20%;
+        left: 0;
+        right: 0;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-orientation: mixed;
+        font-family: Cinzel, serif;
+        font-size: clamp(0.58rem, 1.35vh, 0.82rem);
+        letter-spacing: 0.16em;
+        color: #e8d2a0;
+        text-shadow: 0 1px 0 #2a160c;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .binder-mark {
+        position: absolute;
+        bottom: 6%;
+        left: 0;
+        right: 0;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: Cinzel, serif;
+        font-size: 0.52rem;
+        letter-spacing: 0.22em;
+        color: #c4a36a;
+        text-align: center;
+      }
+      .shelf-mark {
+        display: none;
+        position: absolute;
+        left: -1.1rem;
+        top: 20%;
+        height: 60%;
+        width: 1rem;
+        border: 0;
+        padding: 0.2rem 0;
+        background: linear-gradient(90deg, #4a3214, #c4a36a 42%, #8a6a32);
+        color: #2a160c;
+        font-family: Cinzel, serif;
+        font-size: 0.52rem;
+        letter-spacing: 0.2em;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
+      }
+      .folio.open .shelf-mark { display: block; }
       .folio.pulled:not(.open) .still-cover { opacity: 1; }
       .folio.open .still-open { opacity: 1; }
       .book-wrap {
@@ -452,58 +583,6 @@
         height: 36%;
       }
 
-      /* Signed still lock: 1920x1080 — STATUS 48,820 281x88 / NET 346,820 / MISSION 644,820 */
-      .chips {
-        display: none;
-        position: absolute;
-        inset: 0;
-        z-index: 6;
-        pointer-events: none;
-      }
-      .chip {
-        position: absolute;
-        pointer-events: auto;
-        height: auto;
-        transform-style: preserve-3d;
-        transform: perspective(720px)
-          rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
-          translate3d(var(--tx, 0px), var(--ty, 0px), var(--lift, 0px));
-        transition: transform 0.12s ease-out;
-        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
-      }
-      .chip.turn {
-        transform-origin: left center;
-        animation: plate-turn 0.92s var(--rise);
-      }
-      @keyframes plate-turn {
-        0% { transform: perspective(720px) rotateY(0deg); }
-        42% { transform: perspective(720px) rotateY(-168deg); }
-        100% { transform: perspective(720px) rotateY(0deg); }
-      }
-      .chip img {
-        position: absolute;
-        inset: 0;
-        width: 100%; height: 100%;
-        object-fit: cover;
-      }
-      .chip .flop {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: rotateY(180deg);
-        backface-visibility: hidden;
-      }
-      .chip .face { backface-visibility: hidden; }
-      .chip strong {
-        position: absolute;
-        left: 6%; right: 8%; top: 52%;
-        font-size: 0.88rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
       .note {
         display: none;
         position: absolute;
@@ -537,27 +616,6 @@
       }
 
       @media (max-aspect-ratio: 3/4) {
-        .folio { display: none; }
-        .chips {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 0.4rem;
-          position: absolute;
-          inset: auto;
-          left: 4%;
-          right: 4%;
-          bottom: max(8%, var(--safe-b));
-          top: auto;
-          height: auto;
-          pointer-events: auto;
-        }
-        .chip {
-          position: relative;
-          left: auto !important;
-          top: auto !important;
-          width: auto !important;
-          height: 4.6rem !important;
-        }
         .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
@@ -568,7 +626,6 @@
         .vapor-b { left: 22%; top: 58%; width: 56%; height: 22%; }
         .arms-glow { left: 30%; top: 20%; width: 40%; height: 50%; }
         .sample { top: 7.2%; right: auto; left: 4%; }
-        .vid-fly { display: none !important; }
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -583,6 +640,7 @@
   </head>
   <body>
     <main class="stage">
+      <div class="pack" id="pack">
       <div class="hero" aria-hidden="true">
         <picture>
           <source media="(max-aspect-ratio: 3/4)" srcset="solari-look-canon-9x16.png" />
@@ -607,7 +665,7 @@
         <div class="flame-lick"></div>
       </div>
       <div class="arms-glow" id="armsGlow"></div>
-      <svg class="ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <svg class="ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet">
         <circle class="moon-ring" id="ring1" cx="288" cy="144" r="70" />
         <circle class="moon-ring" id="ring2" cx="288" cy="144" r="108" />
         <path class="orbit" id="orbit" d="M 1480 620 C 1100 80, 620 40, 220 260" />
@@ -617,12 +675,27 @@
       <button class="hit hit-path" data-hit="path" aria-label="Touch the path"></button>
       <button class="hit hit-arms" data-hit="arms" aria-label="Touch the transporter-erector"></button>
       <button class="hit hit-trench" data-hit="trench" aria-label="Touch the trench"></button>
+      </div>
 
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
       <div class="folio" id="folio" role="button" tabindex="0" aria-label="Pull the notebook off the shelf" aria-expanded="false">
         <img class="still still-spine" src="solari-french-spine.png" alt="" />
+        <div class="binder" aria-hidden="true">
+          <div class="binder-spine">
+            <i class="headband top"></i>
+            <i class="rib r1"></i>
+            <i class="rib r2"></i>
+            <i class="rib r3"></i>
+            <i class="rib r4"></i>
+            <i class="rib r5"></i>
+            <span class="binder-title" data-field="mission">Starlink Group 15-23</span>
+            <span class="binder-mark">SKIIWA</span>
+            <i class="headband bot"></i>
+          </div>
+          <div class="binder-pages"></div>
+        </div>
         <img class="still still-cover" src="solari-notebook-cover.png" alt="" />
         <img class="still still-open" src="solari-notebook-open.png" alt="" />
         <div class="book-wrap" id="book-wrap">
@@ -719,6 +792,7 @@
           <button type="button" data-go="msk">MSK</button>
           <button type="button" data-go="auto">AUTO</button>
         </nav>
+        <button type="button" class="shelf-mark" id="shelf-back" aria-label="Put the book back on the shelf">shelf</button>
       </div>
       <div class="vid-fly" id="vid-fly" aria-hidden="true">
         <video id="vid" playsinline></video>
@@ -727,24 +801,6 @@
           <button type="button" id="vid-max">Maximize</button>
         </div>
       </div>
-
-      <section class="chips" id="chips" aria-label="Next launch">
-        <article class="chip" data-chip="status">
-          <img class="face" src="solari-vellum-status.png" alt="" />
-          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
-          <strong data-field="status">—</strong>
-        </article>
-        <article class="chip" data-chip="net">
-          <img class="face" src="solari-vellum-net.png" alt="" />
-          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
-          <strong data-field="net">—</strong>
-        </article>
-        <article class="chip" data-chip="mission">
-          <img class="face" src="solari-vellum-mission.png" alt="" />
-          <img class="flop" src="solari-vellum-folio-blank.png" alt="" />
-          <strong data-field="mission">—</strong>
-        </article>
-      </section>
 
       <aside class="note" id="note">
         <img src="solari-vellum-folio-blank.png" alt="" />
@@ -920,63 +976,24 @@
         btn.addEventListener("click", (e) => show(btn.dataset.hit, e.clientX, e.clientY));
       });
 
-      const chips = [...document.querySelectorAll(".chip")];
-      const breezeOk = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const PLATE = {
-        status: [48, 820, 281, 88],
-        net: [346, 820, 281, 88],
-        mission: [644, 820, 281, 88],
-      };
-      const PLATE_TAB = { status: "sts", net: "cdt", mission: "msk" };
-      function placePlates() {
-        if (phone()) return;
-        const stage = document.querySelector(".stage");
-        const r = stage.getBoundingClientRect();
-        const s = Math.max(r.width / 1920, r.height / 1080);
-        const ox = (r.width - 1920 * s) / 2;
-        const oy = (r.height - 1080 * s) / 2;
-        chips.forEach((chip) => {
-          const box = PLATE[chip.dataset.chip];
-          if (!box) return;
-          chip.style.left = ox + box[0] * s + "px";
-          chip.style.top = oy + box[1] * s + "px";
-          chip.style.width = box[2] * s + "px";
-          chip.style.height = box[3] * s + "px";
-        });
-      }
-      addEventListener("pointermove", (e) => {
-        if (!breezeOk) return;
-        for (const chip of chips) {
-          const r = chip.getBoundingClientRect();
-          if (r.width < 2) continue;
-          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
-          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
-          const dist = Math.hypot(dx, dy);
-          const f = dist < 2.4 ? Math.max(0, 1 - dist / 2.4) : 0;
-          const toward = f * f;
-          chip.style.setProperty("--rx", (-dy * 16 * toward).toFixed(2) + "deg");
-          chip.style.setProperty("--ry", (dx * 20 * toward).toFixed(2) + "deg");
-          chip.style.setProperty("--tz", (-dx * 3.2 * toward).toFixed(2) + "deg");
-          chip.style.setProperty("--tx", (dx * 10 * toward).toFixed(1) + "px");
-          chip.style.setProperty("--ty", (dy * 6 * toward).toFixed(1) + "px");
-          chip.style.setProperty("--lift", (18 * toward).toFixed(1) + "px");
-        }
-      });
-      chips.forEach((chip) => {
-        chip.addEventListener("click", (e) => {
-          e.stopPropagation();
-          spark(e.clientX, e.clientY);
-          chip.classList.remove("turn");
-          void chip.offsetWidth;
-          chip.classList.add("turn");
-          setTimeout(() => chip.classList.remove("turn"), 960);
-          const tab = PLATE_TAB[chip.dataset.chip];
-          if (tab && folio.classList.contains("open")) flipThrough(PAGE[tab]);
-        });
-      });
-
       function phone() {
         return matchMedia("(max-aspect-ratio: 3/4)").matches;
+      }
+      function packFrame() {
+        const stage = document.querySelector(".stage");
+        const pack = document.getElementById("pack");
+        if (!stage || !pack) return;
+        const vw = stage.clientWidth;
+        const vh = stage.clientHeight;
+        const aw = phone() ? 9 : 16;
+        const ah = phone() ? 16 : 9;
+        const s = Math.min(vw / aw, vh / ah);
+        const w = aw * s;
+        const h = ah * s;
+        pack.style.left = (vw - w) / 2 + "px";
+        pack.style.top = (vh - h) / 2 + "px";
+        pack.style.width = w + "px";
+        pack.style.height = h + "px";
       }
       const folio = document.getElementById("folio");
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -993,18 +1010,24 @@
           btn.setAttribute("aria-current", PAGE[btn.dataset.go] === page ? "true" : "false");
         });
       }
+      function syncVidBtn() {
+        const btn = document.getElementById("vid-max");
+        if (btn) btn.textContent = vidFly && vidFly.classList.contains("out") ? "Tuck" : "Maximize";
+      }
       function placeVid() {
-        if (phone() || !vidFly) return;
+        if (!vidFly) return;
         const onVid = flipBook && flipBook.getCurrentPageIndex() === PAGE.vid;
         if (vidFly.classList.contains("out")) {
           vidFly.classList.add("show");
           vidFly.setAttribute("aria-hidden", "false");
+          syncVidBtn();
           return;
         }
         if (!onVid) {
           vidFly.classList.remove("show");
           vidFly.setAttribute("aria-hidden", "true");
           if (vidEl) vidEl.pause();
+          syncVidBtn();
           return;
         }
         const slot = document.getElementById("vid-slot");
@@ -1016,6 +1039,7 @@
         vidFly.style.height = r.height + "px";
         vidFly.classList.add("show");
         vidFly.setAttribute("aria-hidden", "false");
+        syncVidBtn();
       }
       function oneCurl(forward) {
         return new Promise((resolve) => {
@@ -1048,7 +1072,7 @@
       function mountBook() {
         const wrap = document.getElementById("book-wrap");
         const root = document.getElementById("book");
-        if (phone() || !window.St || !St.PageFlip || flipBook) return;
+        if (!window.St || !St.PageFlip || flipBook) return;
         const w = Math.max(220, wrap.clientWidth);
         const h = Math.max(300, wrap.clientHeight);
         flipBook = new St.PageFlip(root, {
@@ -1083,7 +1107,7 @@
         });
       }
       function pullOffShelf() {
-        if (phone() || folio.classList.contains("pulled") || folio.classList.contains("open") || pulling) return;
+        if (folio.classList.contains("pulled") || folio.classList.contains("open") || pulling) return;
         pulling = true;
         folio.classList.add("pulled");
         folio.setAttribute("aria-expanded", "true");
@@ -1099,16 +1123,57 @@
         }
         setTimeout(openSpread, 1480);
       }
+      function putBack() {
+        if ((!folio.classList.contains("open") && !folio.classList.contains("pulled")) || pulling) return;
+        pulling = true;
+        if (vidFly) {
+          vidFly.classList.remove("out", "show");
+          vidFly.setAttribute("aria-hidden", "true");
+          syncVidBtn();
+        }
+        if (vidEl) vidEl.pause();
+        const finish = () => {
+          folio.classList.remove("open", "pulled");
+          folio.setAttribute("aria-expanded", "false");
+          pulling = false;
+        };
+        if (reduceMotion || !folio.classList.contains("open")) {
+          finish();
+          return;
+        }
+        folio.classList.remove("open");
+        folio.classList.add("pulled");
+        setTimeout(finish, 1480);
+      }
       folio.addEventListener("click", (e) => {
+        if (e.target.closest("#shelf-back")) {
+          e.stopPropagation();
+          putBack();
+          return;
+        }
         if (e.target.closest("#tabs, #book-wrap")) return;
         if (folio.classList.contains("pulled") || folio.classList.contains("open")) return;
         pullOffShelf();
       });
       folio.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          putBack();
+          return;
+        }
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          pullOffShelf();
+          if (folio.classList.contains("open") || folio.classList.contains("pulled")) putBack();
+          else pullOffShelf();
         }
+      });
+      addEventListener("keydown", (e) => {
+        if (e.key === "Escape") putBack();
+      });
+      document.querySelector(".stage").addEventListener("click", (e) => {
+        if (!folio.classList.contains("open") && !folio.classList.contains("pulled")) return;
+        if (e.target.closest("#folio, #vid-fly, #note")) return;
+        putBack();
       });
       document.querySelectorAll("#tabs button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
@@ -1128,22 +1193,29 @@
         });
         document.getElementById("vid-max").addEventListener("click", (e) => {
           e.stopPropagation();
-          vidFly.classList.add("out", "show");
-          vidFly.style.left = "";
-          vidFly.style.top = "";
-          vidFly.style.width = "";
-          vidFly.style.height = "";
+          if (vidFly.classList.contains("out")) {
+            vidFly.classList.remove("out");
+            syncVidBtn();
+            placeVid();
+          } else {
+            vidFly.classList.add("out", "show");
+            vidFly.style.left = "";
+            vidFly.style.top = "";
+            vidFly.style.width = "";
+            vidFly.style.height = "";
+            syncVidBtn();
+          }
           vidEl.play().catch(() => {});
         });
       }
       addEventListener("resize", () => {
+        packFrame();
         if (flipBook) {
           try { flipBook.update(); } catch (_) {}
         }
         placeVid();
-        placePlates();
       });
-      placePlates();
+      packFrame();
 
       function startFallbackStars() {
         const cvs = document.getElementById("stars");
@@ -1151,8 +1223,9 @@
         const ctx = cvs.getContext("2d");
         let field = [];
         function size() {
-          cvs.width = innerWidth;
-          cvs.height = innerHeight;
+          const pack = document.getElementById("pack");
+          cvs.width = pack ? pack.clientWidth : innerWidth;
+          cvs.height = pack ? pack.clientHeight : innerHeight;
           field = Array.from({ length: 120 }, () => ({
             x: Math.random() * cvs.width,
             y: Math.random() * cvs.height * 0.62,
@@ -1165,7 +1238,9 @@
           ctx.clearRect(0, 0, cvs.width, cvs.height);
           for (const st of field) {
             ctx.fillStyle = "rgba(255,236,180," + (0.15 + 0.85 * Math.abs(Math.sin(t / 700 + st.p))) + ")";
-            ctx.fillRect(st.x, st.y, st.s, st.s);
+            ctx.beginPath();
+            ctx.arc(st.x, st.y, Math.max(0.35, st.s * 0.55), 0, Math.PI * 2);
+            ctx.fill();
           }
           requestAnimationFrame(twinkle);
         }

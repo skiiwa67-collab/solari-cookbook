@@ -1,15 +1,40 @@
-# Solari Cookbook
+# SKIIWA Launch Watch — 1-day intern experiment (closeout)
 
-Short, runnable examples for [Solari](https://getsolari.com) — cloud browsers,
-sandboxes, and desktops behind one API key.
+Public board: **https://skiiwa67-collab.github.io/solari-cookbook/**
 
-Every example in this repo is a complete program you can run in under a minute.
-They are deliberately small: one idea each, no framework, no scaffolding to read
-past. Copy one into your project and change the parts you care about.
+This repo is a one-day intern experiment, not a product, and not a clone of [Solari](https://getsolari.com). We refused a credit card. We did not buy a Solari plan, we did not run their cloud browser or desktop, and we do not have (and do not invent) a Solari API key.
 
-## Examples
+What actually shipped:
 
-### Cloud browser
+- The live glance is a static GitHub Pages site from `docs/`.
+- Next-orbital facts come from public **Launch Library 2** (`ll.thespacedevs.com`). If that fetch fails, the board falls back to SAMPLE last-known Starlink Group 15-23. It is labeled. No invented NET.
+- The SpaceX Starlink Group 15-23 browser job ran on **our own Chrome**, not Solari desktop. Playwright + local Google Chrome in [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome) opened the official page (`https://www.spacex.com/launches/sl-15-23`) and wrote `docs/simulation/`. The board labels that SIMULATION · not Solari.
+- [`examples/launch-watch-ts`](examples/launch-watch-ts) is leftover cookbook code for a stealth Solari browser. **It was not used for the public board.** There is no `slr_live_` key in this closeout.
+
+Look lock (what the board is allowed to be):
+
+- Signed night Falcon 9 on SLC-4E. The packer contains the still (never `object-fit: cover` the pad off). Leftover is night `#05060a`. Phone uses the 9×16 still.
+- Rest is one French-binder spine on the left (CSS book: thickness, raised bands, gold). Live Launch Library 2 title down the spine; SKIIWA at the tail. Pull opens the signed notebook; shelf mark or Escape puts it back. Facts live in the book — no STATUS/NET/MISSION cards stapled on the pad.
+- Spine rests off the engines. No DATA / SPECS / DESIGN overlay. AUTO is not a crane sketch.
+- 4E is Vandenberg TE / strongback. Chopsticks stay at Starbase.
+- No Solari clone. No LRT IAP mix.
+
+This is a 1-day experiment closeout, not a forever product. First-time Pages: repo Settings → Pages → Source: GitHub Actions (`.github/workflows/pages.yml`).
+
+## What we refused
+
+- A Solari credit card / paid plan
+- A Solari API key (`slr_live_…`)
+- Running the Starlink 15-23 job on Solari cloud browser or Solari desktop
+- Inventing payment, keys, or a Solari-shaped API in this README
+
+The same *job* (open the real next-launch page in real Chrome, capture the session) ran locally. That is the whole point of the intern package: this public repo, not their stack.
+
+## Leftover cookbook examples
+
+This fork still contains the original short Solari Cookbook samples. They are not the live board. They are not how Starlink 15-23 was captured. Copy one only if you already have your own Solari account; this experiment does not provide a key.
+
+### Cloud browser (upstream samples)
 
 | Example | Language | What it shows |
 | --- | --- | --- |
@@ -18,87 +43,35 @@ past. Copy one into your project and change the parts you care about.
 | [browser-stealth-proxy-ts](examples/browser-stealth-proxy-ts) | TypeScript | Stealth mode + residential proxy egress |
 | [browser-profiles-ts](examples/browser-profiles-ts) | TypeScript | Log in once, reuse the session forever |
 | [browser-session-recording-py](examples/browser-session-recording-py) | Python | Record a session, download the replay |
-| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth Solari browser later (`slr_live_...`). Not used for the public board. |
-| [launch-session-local-chrome](examples/launch-session-local-chrome) | JavaScript | Same job on our computer: Playwright + local Chrome. Refused their card. |
+| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth Solari browser later. **Not used for the public board.** |
+| [launch-session-local-chrome](examples/launch-session-local-chrome) | JavaScript | **What we actually ran:** Playwright + local Chrome. Refused their card. |
 
-### Sandbox
+### Sandbox / desktop (upstream samples)
 
 | Example | Language | What it shows |
 | --- | --- | --- |
 | [sandbox-quickstart-ts](examples/sandbox-quickstart-ts) | TypeScript | Run a command, write and read files |
 | [sandbox-code-interpreter-py](examples/sandbox-code-interpreter-py) | Python | Stateful Python kernel for agent loops |
 | [sandbox-port-preview-ts](examples/sandbox-port-preview-ts) | TypeScript | Expose a server in the VM on a public URL |
-
-### Desktop
-
-| Example | Language | What it shows |
-| --- | --- | --- |
 | [desktop-computer-use-py](examples/desktop-computer-use-py) | Python | Screenshot, click, and type on a Linux GUI |
 
-## Public glance
-
-The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
-
-- URL — https://skiiwa67-collab.github.io/solari-cookbook/
-- Look lock — signed night F9 on SLC-4E. Layered T-minus motion on that still (vgpu WebGPU when the browser has it; CSS/canvas 2D on RAZR / no-WebGPU). Not a video file. Arms / trench / moon / path stay clickable. 4E is the transporter-erector. No Mechazilla on Vandenberg.
-- Book — Darren sequence on the signed pad: `solari-french-spine.png` (rest, left shelf, not on the engines) → pull off → `solari-notebook-cover.png` (curling folio) → `solari-notebook-open.png` (Vinci F9/TE + eight LRT tabs CMD CDT TEL STS PAD VID MSK AUTO). Skip-tab flips through pages. VID plays in the leaf; maximize parks to the right of the rocket. No persistent SIMULATION sidebar. Phone STATUS/NET/MISSION plates are signed vellum with pointer-tracking breeze and a folio turn on click. Live public Launch Library 2. SAMPLE only if that fetch fails.
-- Simulation — we refused the Solari card. The same agent-browser job (open the official next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM stack copy. The board labels it SIMULATION. Intern package is this public repo, not a Solari clone.
-
-First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
-
-## Running an example
-
-Each directory is self-contained.
+## Running the job we actually ran
 
 ```bash
-git clone https://github.com/solari-sdk/solari-cookbook.git
-cd solari-cookbook/examples/browser-quickstart-ts
-
-npm install                          # or: pip install -r requirements.txt
-export SOLARI_API_KEY=slr_live_...   # grab one at console.getsolari.com
-npm start                            # or: python main.py
+git clone https://github.com/skiiwa67-collab/solari-cookbook.git
+cd solari-cookbook/examples/launch-session-local-chrome
+npm install
+npx playwright install chrome
+npm start
 ```
 
-One `slr_live_` key works across browsers, sandboxes, and desktops, and every
-product bills to the same balance.
-
-## Which product do I want?
-
-- **Cloud browser** — you need a *web page*: scraping, testing, filling forms,
-  anything Playwright or Puppeteer would do locally. Adds stealth, managed
-  proxies, captcha solving, profiles, and session recording.
-- **Sandbox** — you need to *run code*: an LLM's Python, an untrusted build, a
-  data job. A headless microVM that boots from a snapshot in about a second.
-- **Desktop** — you need a *screen*: computer-use agents, GUI apps, anything
-  that has to be clicked. A sandbox plus X11 and a live VNC stream.
-
-## Gotchas the examples encode
-
-Things that cost you an afternoon if you meet them cold:
-
-- **TypeScript: call `await solari.close()`.** The browser client keeps a
-  loopback proxy open for connection retries. Skip the close and your script
-  prints its output and then hangs forever instead of exiting.
-- **Recording is per session, not per account.** Pass `recording: true` when you
-  create the session; without it the replay endpoint 404s forever. The upload is
-  async after release, so poll for ~30s before giving up.
-- **Sandbox commands are not shell-interpreted.** `run("ls -la")` looks for a
-  binary named `ls -la`. Put argv in `args`, or run `sh -c` explicitly.
-- **`kill()`, not `close()`, ends a VM.** `close()` drops your local control
-  channel; the VM keeps running until its idle timeout.
-- **`timeoutMs` is a rolling idle window**, not a hard deadline — it resets on
-  every use.
+No Solari key. Writes `docs/simulation/session.png`, optional `session.webm`, and `session.json`.
 
 ## Links
 
-- Docs — [docs.getsolari.com](https://docs.getsolari.com)
-- Console — [console.getsolari.com](https://console.getsolari.com)
-- Changelog — [changelog.getsolari.com](https://changelog.getsolari.com)
-- Questions — [hello@getsolari.com](mailto:hello@getsolari.com)
-
-## Contributing
-
-New examples are welcome. Keep them small, make them run end-to-end against the
-real API, and put anything surprising in a comment right where it bites.
+- Live board — https://skiiwa67-collab.github.io/solari-cookbook/
+- Launch Library 2 — https://ll.thespacedevs.com/
+- Official Starlink 15-23 page we opened — https://www.spacex.com/launches/sl-15-23
+- Upstream cookbook (not this experiment) — https://github.com/solari-sdk/solari-cookbook
 
 MIT licensed.
