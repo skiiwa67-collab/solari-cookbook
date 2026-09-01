@@ -35,6 +35,69 @@
         object-fit: cover;
         object-position: center;
       }
+      .live {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+      }
+      .vapor {
+        position: absolute;
+        border-radius: 50%;
+        mix-blend-mode: screen;
+        filter: blur(22px);
+      }
+      .vapor-a {
+        left: 26%;
+        top: 56%;
+        width: 52%;
+        height: 34%;
+        background: radial-gradient(ellipse, rgba(255, 228, 186, 0.22), transparent 72%);
+        animation: vapor-a 26s ease-in-out infinite;
+      }
+      .vapor-b {
+        left: 38%;
+        top: 48%;
+        width: 36%;
+        height: 28%;
+        background: radial-gradient(ellipse, rgba(255, 210, 150, 0.16), transparent 70%);
+        animation: vapor-b 32s ease-in-out infinite;
+      }
+      .vapor-c {
+        left: 18%;
+        top: 62%;
+        width: 44%;
+        height: 26%;
+        background: radial-gradient(ellipse, rgba(240, 236, 220, 0.14), transparent 68%);
+        animation: vapor-c 38s ease-in-out infinite;
+      }
+      @keyframes vapor-a {
+        0%, 100% { transform: translate3d(0, 6%, 0) scale(1); opacity: 0.35; }
+        50% { transform: translate3d(7%, -8%, 0) scale(1.14); opacity: 0.72; }
+      }
+      @keyframes vapor-b {
+        0%, 100% { transform: translate3d(4%, 0, 0) scale(1.05); opacity: 0.28; }
+        50% { transform: translate3d(-6%, -10%, 0) scale(1.2); opacity: 0.6; }
+      }
+      @keyframes vapor-c {
+        0%, 100% { transform: translate3d(-3%, 4%, 0) scale(0.96); opacity: 0.22; }
+        50% { transform: translate3d(8%, -5%, 0) scale(1.12); opacity: 0.5; }
+      }
+      .glim {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ffe7a8;
+        box-shadow: 0 0 10px 3px rgba(255, 214, 120, 0.55);
+        animation: glim var(--d, 2.8s) ease-in-out infinite;
+        opacity: 0.35;
+      }
+      @keyframes glim {
+        0%, 100% { opacity: 0.2; transform: scale(0.8); }
+        45% { opacity: 0.95; transform: scale(1.25); }
+        70% { opacity: 0.4; transform: scale(0.95); }
+      }
       canvas.stars {
         position: absolute;
         inset: 0;
@@ -87,12 +150,29 @@
         background: radial-gradient(circle, rgba(255, 200, 90, 0.55), rgba(255, 120, 30, 0.15) 46%, transparent 70%);
         mix-blend-mode: screen;
         pointer-events: none;
-        animation: trench 0.55s ease-in-out infinite alternate;
+        animation: flame-breathe 3.6s ease-in-out infinite;
       }
-      .trench-glow.hot { animation-duration: 0.16s; transform: scale(1.25); }
-      @keyframes trench {
-        from { opacity: 0.45; transform: scale(0.92); }
-        to { opacity: 0.95; transform: scale(1.08); }
+      .trench-glow.hot { animation-duration: 0.9s; }
+      .flame-lick {
+        position: absolute;
+        left: 44%;
+        top: 64%;
+        width: 16%;
+        height: 18%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 160, 60, 0.35), transparent 68%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        animation: flame-lick 2.8s ease-in-out infinite;
+      }
+      @keyframes flame-breathe {
+        0%, 100% { opacity: 0.48; transform: scale(0.92) translateY(3%); }
+        40% { opacity: 0.95; transform: scale(1.1) translateY(-2%); }
+        72% { opacity: 0.62; transform: scale(1.02); }
+      }
+      @keyframes flame-lick {
+        0%, 100% { opacity: 0.25; transform: translate3d(-2%, 4%, 0) scale(0.9); }
+        50% { opacity: 0.7; transform: translate3d(3%, -6%, 0) scale(1.18); }
       }
       .arms-glow {
         position: absolute;
@@ -102,8 +182,9 @@
         height: 48%;
         border-radius: 40%;
         pointer-events: none;
+        animation: arms-breathe 5.8s ease-in-out infinite;
       }
-      .arms-glow.live { animation: arms 1.4s ease-in-out 2; }
+      .arms-glow.live { animation: arms 1.6s ease-in-out 2; }
       @keyframes arms {
         40% {
           box-shadow: inset 0 0 40px 8px rgba(232, 177, 90, 0.35);
@@ -145,76 +226,223 @@
         text-shadow: 0 1px 8px #000;
       }
 
-      /* 16:9 book — left stack, never a chip row */
-      .book-wrap {
+      /* Closed book at the bottom. Rises, then opens. No triangle. */
+      .folio {
+        --rise: cubic-bezier(0.22, 1, 0.36, 1);
+        --turn: cubic-bezier(0.22, 0.75, 0.18, 1);
         position: absolute;
         z-index: 6;
-        left: max(1.6%, var(--safe-l));
-        top: 11%;
-        width: min(34vw, 27rem);
-        height: min(76vh, 44rem);
-        filter: drop-shadow(0.6rem 0.9rem 1.3rem rgba(0, 0, 0, 0.55));
+        left: 50%;
+        bottom: max(1.6%, var(--safe-b));
+        width: 13.6rem;
+        height: 17.8rem;
+        transform: translate3d(-50%, 0, 0);
+        transform-origin: center bottom;
+        transition: transform 1.25s var(--rise), width 0.95s var(--rise), height 0.95s var(--rise), bottom 1.25s var(--rise);
+        perspective: 1800px;
+        filter: drop-shadow(0.45rem 0.8rem 1.2rem rgba(0, 0, 0, 0.55));
+        cursor: pointer;
       }
-      .book { width: 100%; height: 100%; }
-      .page {
-        background: transparent;
+      .folio.rise {
+        bottom: 12%;
+        transform: translate3d(-50%, 0, 0);
+      }
+      .folio.open {
+        width: min(38rem, 54vw);
+        height: min(34rem, 64vh);
+        cursor: default;
+      }
+      .book {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        animation: book-live 8s ease-in-out infinite;
+      }
+      @keyframes book-live {
+        0%, 100% { transform: rotateZ(-0.35deg) translate3d(0, 0, 0); }
+        50% { transform: rotateZ(0.4deg) translate3d(0, -5px, 0); }
+      }
+      .cover,
+      .leaf {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transform-origin: left center;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+      .cover {
+        z-index: 5;
+        transition: transform 1.15s var(--turn);
+      }
+      .folio.open .cover {
+        transform: rotateY(-168deg);
+        pointer-events: none;
+      }
+      .cover-face,
+      .page-face {
+        position: absolute;
+        inset: 0;
         overflow: hidden;
       }
-      .page .vellum {
+      .cover-face img,
+      .page-face img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
+        animation: vellum-live 16s ease-in-out infinite;
       }
-      .page .ink-block {
+      @keyframes vellum-live {
+        0%, 100% { transform: scale(1.02) translate3d(0, 0, 0); filter: brightness(1); }
+        50% { transform: scale(1.05) translate3d(-1.1%, 0.7%, 0); filter: brightness(1.06); }
+      }
+      .cover-face::after {
+        content: "";
         position: absolute;
-        inset: 10% 9% 9% 10%;
-        overflow: hidden;
-        color: var(--ink);
+        inset: 0;
+        background: linear-gradient(115deg, transparent 28%, rgba(255, 246, 214, 0.2) 48%, transparent 64%);
+        background-size: 240% 100%;
+        animation: sheen 11s ease-in-out infinite;
+        mix-blend-mode: soft-light;
+        pointer-events: none;
       }
-      .page .brand {
+      @keyframes sheen {
+        0%, 100% { background-position: 100% 0; opacity: 0.25; }
+        50% { background-position: 0 0; opacity: 0.7; }
+      }
+      .page-ink dd {
+        animation: ink-live 6s ease-in-out infinite;
+      }
+      @keyframes ink-live {
+        0%, 100% { opacity: 0.86; }
+        50% { opacity: 1; }
+      }
+      .cover-ink {
+        position: absolute;
+        inset: 14% 12%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.55rem;
+        color: #6a4318;
+        pointer-events: none;
+      }
+      .cover-ink b {
+        font-family: Cinzel, serif;
+        letter-spacing: 0.22em;
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+      }
+      .cover-ink span {
+        font-family: "IM Fell English", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+        color: #4a3220;
+      }
+      .leaf {
+        transition: transform 1.1s var(--turn);
+      }
+      .leaf[data-page="data"] { z-index: 3; }
+      .leaf[data-page="specs"] { z-index: 2; }
+      .leaf[data-page="design"] { z-index: 1; }
+      .leaf.turned {
+        transform: rotateY(-178deg);
+      }
+      .page-ink {
+        position: absolute;
+        inset: 10% 10% 10% 12%;
+        color: var(--ink);
+        overflow: hidden;
+      }
+      .page-ink .brand {
         font-family: Cinzel, serif;
         letter-spacing: 0.18em;
-        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        font-size: clamp(1.2rem, 2vw, 1.7rem);
         color: #7a5724;
       }
-      .page .tag {
+      .page-ink .tag {
         font-style: italic;
-        margin: 0.45rem 0 1.1rem;
-        font-size: clamp(1rem, 1.6vw, 1.25rem);
+        margin: 0.4rem 0 0.85rem;
+        font-size: clamp(0.95rem, 1.5vw, 1.2rem);
       }
-      .page h2 {
+      .page-ink h2 {
         font-family: Cinzel, serif;
-        font-size: clamp(1.15rem, 2vw, 1.65rem);
+        font-size: clamp(1.1rem, 1.9vw, 1.55rem);
         line-height: 1.2;
-        margin-bottom: 0.7rem;
+        margin-bottom: 0.65rem;
       }
-      .page dl div {
+      .page-ink dl div {
         display: grid;
         grid-template-columns: 6.2rem 1fr;
         gap: 0.4rem;
-        margin: 0.45rem 0;
+        margin: 0.4rem 0;
         align-items: baseline;
       }
-      .page dt {
+      .page-ink dt {
         font-style: italic;
         color: #7a5724;
         font-size: clamp(0.95rem, 1.4vw, 1.1rem);
       }
-      .page dd {
-        font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+      .page-ink dd {
+        font-size: clamp(1.05rem, 1.7vw, 1.3rem);
         font-weight: 600;
         overflow-wrap: anywhere;
       }
-      .page .quiet {
+      .page-ink .quiet {
         position: absolute;
-        left: 10%;
-        right: 9%;
-        bottom: 9%;
+        left: 12%;
+        right: 10%;
+        bottom: 10%;
         font-style: italic;
         font-size: clamp(0.85rem, 1.2vw, 1rem);
         color: #5a3d1c;
+      }
+      .tabs {
+        position: absolute;
+        right: -2.55rem;
+        top: 14%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(-0.4rem, 0, 0);
+        transition: opacity 0.7s var(--rise) 0.35s, transform 0.7s var(--rise) 0.35s;
+      }
+      .folio.open .tabs {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate3d(0, 0, 0);
+      }
+      .tabs button {
+        width: 2.45rem;
+        min-height: 5.4rem;
+        padding: 0.45rem 0.2rem;
+        border: 0;
+        background: transparent;
+        color: #4a3220;
+        font-family: Cinzel, serif;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        cursor: pointer;
+        position: relative;
+      }
+      .tabs button img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+      }
+      .tabs button[aria-current="true"] {
+        color: #6a2c1c;
+        transform: translateX(0.18rem);
       }
 
       .chips { display: none; }
@@ -312,30 +540,42 @@
       }
 
       @media (max-aspect-ratio: 3/4) {
-        .book-wrap { display: none; }
-        .chips {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 0.4rem;
-          position: absolute;
-          z-index: 6;
-          left: 4%;
-          right: 4%;
-          bottom: max(8%, var(--safe-b));
+        .folio {
+          width: 11.2rem;
+          height: 14.6rem;
         }
+        .folio.open {
+          width: min(92vw, 22rem);
+          height: min(56vh, 28rem);
+          bottom: 18%;
+        }
+        .tabs {
+          right: 0.15rem;
+          top: 10%;
+        }
+        .chips { display: none; }
         .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
         .hit-trench { left: 22%; top: 72%; width: 56%; height: 14%; }
         .trench-glow { left: 28%; top: 70%; width: 44%; height: 16%; }
+        .flame-lick { left: 32%; top: 72%; width: 34%; height: 14%; }
+        .vapor-a { left: 16%; top: 64%; width: 70%; height: 24%; }
+        .vapor-b { left: 22%; top: 58%; width: 56%; height: 22%; }
         .arms-glow { left: 30%; top: 20%; width: 40%; height: 50%; }
         .session { top: 10%; width: min(44vw, 14rem); }
         .sample { top: 7.2%; right: auto; left: 4%; }
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .orbit, .trench-glow, .arms-glow, .moon-ring { animation: none; }
+        .orbit, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
+        .flame-lick, .book, .cover-face img, .page-face img, .cover-face::after, .page-ink dd {
+          animation: none;
+        }
         .orbit { stroke-dashoffset: 0; opacity: 0.7; }
+        .folio, .cover, .leaf, .tabs {
+          transition: none;
+        }
       }
     </style>
   </head>
@@ -347,8 +587,22 @@
           <img src="solari-look-canon-16x9.png" alt="Falcon 9 on SLC-4E at night" />
         </picture>
       </div>
+      <div class="live" aria-hidden="true">
+        <div class="vapor vapor-a"></div>
+        <div class="vapor vapor-b"></div>
+        <div class="vapor vapor-c"></div>
+        <i class="glim" style="left:46%;top:26%;--d:2.7s"></i>
+        <i class="glim" style="left:48%;top:38%;--d:3.4s"></i>
+        <i class="glim" style="left:45%;top:48%;--d:2.2s"></i>
+        <i class="glim" style="left:51%;top:32%;--d:4.1s"></i>
+        <i class="glim" style="left:42%;top:34%;--d:3.1s"></i>
+        <i class="glim" style="left:50%;top:58%;--d:2.5s"></i>
+        <i class="glim" style="left:18%;top:72%;--d:3.8s"></i>
+        <i class="glim" style="left:62%;top:70%;--d:4.6s"></i>
+      </div>
       <canvas class="stars" id="stars"></canvas>
       <div class="trench-glow" id="trenchGlow"></div>
+      <div class="flame-lick"></div>
       <div class="arms-glow" id="armsGlow"></div>
       <svg class="ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         <circle class="moon-ring" id="ring1" cx="288" cy="144" r="70" />
@@ -364,46 +618,69 @@
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
-      <div class="book-wrap" id="book-wrap">
+      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Open the DATA SPECS DESIGN book">
         <div class="book" id="book">
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <p class="brand">SKIIWA</p>
-              <p class="tag">A night study of the next fire.</p>
-              <p class="tag">Grab the right corner. The sheet peels.</p>
+          <article class="leaf" data-page="design">
+            <div class="page-face">
+              <img src="solari-vellum-folio-blank.png" alt="" />
+              <div class="page-ink">
+                <p class="brand">DESIGN</p>
+                <p class="tag">Touch the arms · the trench · the moon · the path</p>
+                <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
+              </div>
             </div>
-            <p class="quiet">Launch Library 2 · not Solari</p>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <h2 data-field="mission">—</h2>
-              <dl>
-                <div><dt>status</dt><dd data-field="status">—</dd></div>
-                <div><dt>NET</dt><dd data-field="net">—</dd></div>
-              </dl>
+          </article>
+          <article class="leaf" data-page="specs">
+            <div class="page-face">
+              <img src="solari-vellum-folio-blank.png" alt="" />
+              <div class="page-ink">
+                <p class="brand">SPECS</p>
+                <dl>
+                  <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
+                  <div><dt>pad</dt><dd data-field="pad">—</dd></div>
+                  <div><dt>source</dt><dd>Launch Library 2</dd></div>
+                </dl>
+                <p class="quiet">SLC-4E transporter-erector / strongback</p>
+              </div>
             </div>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <dl>
-                <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
-                <div><dt>pad</dt><dd data-field="pad">—</dd></div>
-                <div><dt>source</dt><dd>Launch Library 2</dd></div>
-              </dl>
+          </article>
+          <article class="leaf" data-page="data">
+            <div class="page-face">
+              <img src="solari-vellum-folio-blank.png" alt="" />
+              <div class="page-ink">
+                <p class="brand">DATA</p>
+                <h2 data-field="mission">—</h2>
+                <dl>
+                  <div><dt>status</dt><dd data-field="status">—</dd></div>
+                  <div><dt>NET</dt><dd data-field="net">—</dd></div>
+                </dl>
+                <p class="quiet">Launch Library 2 · not Solari</p>
+              </div>
             </div>
-            <p class="quiet">SLC-4E transporter-erector / strongback</p>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <p class="tag">Touch the arms · the trench · the moon · the path</p>
-              <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
+          </article>
+          <div class="cover" id="cover">
+            <div class="cover-face">
+              <img src="solari-vellum-folio-blank.png" alt="" />
+              <div class="cover-ink">
+                <b>DATA</b>
+                <b>SPECS</b>
+                <b>DESIGN</b>
+                <span>SKIIWA · next fire</span>
+              </div>
             </div>
           </div>
         </div>
+        <nav class="tabs" id="tabs" aria-label="Book pages">
+          <button type="button" data-tab="data" aria-current="true">
+            <img src="solari-vellum-folio-blank.png" alt="" />DATA
+          </button>
+          <button type="button" data-tab="specs">
+            <img src="solari-vellum-folio-blank.png" alt="" />SPECS
+          </button>
+          <button type="button" data-tab="design">
+            <img src="solari-vellum-folio-blank.png" alt="" />DESIGN
+          </button>
+        </nav>
       </div>
 
       <section class="chips" id="chips" aria-label="Next launch">
@@ -437,7 +714,6 @@
         </div>
       </aside>
     </main>
-    <script src="vendor/page-flip.browser.js"></script>
     <script>
       const FACTS = {
         status: "GO",
@@ -603,66 +879,71 @@
         btn.addEventListener("click", (e) => show(btn.dataset.hit, e.clientX, e.clientY));
       });
 
-      const chips = [...document.querySelectorAll(".chip")];
-      const breezeOk = !matchMedia("(prefers-reduced-motion: reduce)").matches;
-      addEventListener("pointermove", (e) => {
-        if (!breezeOk || !matchMedia("(max-aspect-ratio: 3/4)").matches) return;
-        for (const chip of chips) {
-          const r = chip.getBoundingClientRect();
-          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
-          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
-          const dist = Math.hypot(dx, dy);
-          const f = dist < 2.1 ? Math.max(0, 1 - dist / 2.1) : 0;
-          chip.style.setProperty("--rx", (-dy * 8 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--ry", (dx * 11 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--tz", (-dx * 2.4 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--tx", (dx * 7 * f).toFixed(1) + "px");
-          chip.style.setProperty("--ty", (dy * 4 * f).toFixed(1) + "px");
-        }
-      });
-      chips.forEach((chip) => {
-        chip.addEventListener("click", (e) => spark(e.clientX, e.clientY));
-      });
+      const folio = document.getElementById("folio");
+      const pages = ["data", "specs", "design"];
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let opening = false;
 
-      function phone() {
-        return matchMedia("(max-aspect-ratio: 3/4)").matches;
+      function goTo(name) {
+        const idx = pages.indexOf(name);
+        if (idx < 0) return;
+        document.querySelectorAll(".leaf").forEach((leaf) => {
+          leaf.classList.toggle("turned", pages.indexOf(leaf.dataset.page) < idx);
+        });
+        document.querySelectorAll("#tabs button").forEach((btn) => {
+          btn.setAttribute("aria-current", btn.dataset.tab === name ? "true" : "false");
+        });
       }
-      let flipBook = null;
-      function mountBook() {
-        const wrap = document.getElementById("book-wrap");
-        const root = document.getElementById("book");
-        if (phone() || !window.St || !St.PageFlip) return;
-        if (flipBook) {
-          try { flipBook.destroy(); } catch (_) {}
-          flipBook = null;
+
+      function openBook() {
+        if (folio.classList.contains("open") || opening) return;
+        opening = true;
+        folio.classList.add("rise");
+        folio.setAttribute("aria-expanded", "true");
+        const finish = () => {
+          folio.classList.add("open");
+          opening = false;
+        };
+        if (reduceMotion) {
+          finish();
+          return;
         }
-        const w = Math.max(280, wrap.clientWidth);
-        const h = Math.max(400, wrap.clientHeight);
-        flipBook = new St.PageFlip(root, {
-          width: w,
-          height: h,
-          size: "stretch",
-          minWidth: 240,
-          maxWidth: 560,
-          minHeight: 360,
-          maxHeight: 760,
-          usePortrait: true,
-          showCover: true,
-          drawShadow: true,
-          flippingTime: 980,
-          maxShadowOpacity: 0.55,
-          mobileScrollSupport: false,
-          startZIndex: 6,
-          useMouseEvents: true,
-        });
-        flipBook.loadFromHTML(root.querySelectorAll(".page"));
-        flipBook.on("flip", () => {
-          const r = wrap.getBoundingClientRect();
-          spark(r.right - 24, r.bottom - 24);
-        });
-        wrap.addEventListener("click", (e) => spark(e.clientX, e.clientY));
+        let done = false;
+        const once = (e) => {
+          if (e.target !== folio) return;
+          if (e.propertyName !== "bottom" && e.propertyName !== "transform") return;
+          if (done) return;
+          done = true;
+          folio.removeEventListener("transitionend", once);
+          finish();
+        };
+        folio.addEventListener("transitionend", once);
+        setTimeout(() => {
+          if (done) return;
+          done = true;
+          folio.removeEventListener("transitionend", once);
+          finish();
+        }, 1400);
       }
-      addEventListener("load", mountBook);
+
+      folio.addEventListener("click", (e) => {
+        if (e.target.closest("#tabs")) return;
+        if (folio.classList.contains("open")) return;
+        openBook();
+      });
+      folio.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openBook();
+        }
+      });
+      document.querySelectorAll("#tabs button").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!folio.classList.contains("open")) return;
+          goTo(btn.dataset.tab);
+        });
+      });
 
       const cvs = document.getElementById("stars");
       const ctx = cvs.getContext("2d");
