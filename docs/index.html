@@ -234,11 +234,11 @@
       }
 
       .cards {
+        display: none;
         position: absolute;
         z-index: 5;
         left: 3.2%;
         bottom: 11%;
-        display: flex;
         flex-wrap: wrap;
         gap: 0.7rem;
         width: min(72%, 48rem);
@@ -268,13 +268,22 @@
       .back {
         position: absolute;
         inset: 0;
-        padding: 0.55rem 0.75rem 0.5rem;
-        background: url("vellum/vellum-plate.png") center / 100% 100% no-repeat;
+        padding: 0;
+        background: transparent;
         color: #2a1c10;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         font-family: "IM Fell English", "Cormorant Garamond", Georgia, serif;
         filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+      }
+      .face img,
+      .back img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
       }
 
       .back {
@@ -283,20 +292,21 @@
 
       .face span,
       .back span {
-        display: block;
-        font-style: italic;
-        font-size: 0.78rem;
-        letter-spacing: 0.08em;
-        color: #4a3220;
+        display: none;
       }
 
       .face strong,
       .back strong {
-        display: block;
-        margin-top: 0.35rem;
-        font-size: clamp(1rem, 1.8vw, 1.28rem);
+        position: absolute;
+        left: 6%;
+        right: 8%;
+        top: 52%;
+        font-size: clamp(0.85rem, 3.2vw, 1.1rem);
         font-weight: 600;
         line-height: 1.15;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .session {
@@ -348,9 +358,58 @@
         bottom: 22%;
         width: min(22rem, 36%);
         padding: 0.7rem 0.85rem;
-        background: var(--paper);
+        background: url("vellum/vellum-plate.png") center / 100% 100% no-repeat;
         color: var(--ink);
-        clip-path: polygon(0 2%, 99% 0, 100% 97%, 1% 100%);
+      }
+      .corner {
+        display: none;
+        position: absolute;
+        z-index: 6;
+        left: 1.4%;
+        bottom: 1.6%;
+        width: min(7vw, 4.2rem);
+        aspect-ratio: 1;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      @media (min-aspect-ratio: 4/3) {
+        .corner { display: block; }
+      }
+      .corner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left bottom;
+        clip-path: polygon(0 40%, 100% 100%, 0 100%);
+      }
+      .sheet {
+        display: none;
+        position: absolute;
+        z-index: 7;
+        left: 8%;
+        top: 8%;
+        width: min(78vw, 56rem);
+        aspect-ratio: 16 / 10;
+        cursor: pointer;
+        filter: drop-shadow(0.8rem 1rem 1.4rem rgba(0,0,0,0.55));
+      }
+      .sheet.show { display: block; animation: pageturn 0.9s cubic-bezier(.18,.78,.18,1) both; }
+      .sheet img { width: 100%; height: 100%; object-fit: cover; }
+      .sheet .folio-ink {
+        position: absolute;
+        left: 6%;
+        top: 42%;
+        width: 42%;
+        color: #2a1c10;
+      }
+      .sheet h1 { font-family: Cinzel, serif; font-size: clamp(1.1rem, 2.4vw, 1.7rem); margin-bottom: 0.4rem; }
+      .sheet dl div { display: flex; gap: 0.55rem; margin: 0.1rem 0; }
+      .sheet dt { font-style: italic; color: #4a3220; min-width: 4.2rem; }
+      @keyframes pageturn {
+        from { transform: rotateY(78deg) scale(0.42); opacity: 0; }
+        to { transform: none; opacity: 1; }
       }
 
       .note.open {
@@ -426,27 +485,23 @@
         }
 
         .cards {
+          display: grid;
           left: 4%;
           right: 4%;
           width: auto;
           bottom: 8.5%;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr;
           gap: 0.35rem;
         }
+        .leaf[data-plate="vehicle"] { display: none; }
         .leaf {
           flex: none;
           min-width: 0;
           height: 4.5rem;
         }
-        .face,
-        .back {
-          padding: 0.38rem 0.5rem 0.32rem;
-        }
         .face strong,
         .back strong {
-          margin-top: 0.2rem;
-          font-size: 0.92rem;
+          font-size: 0.85rem;
         }
         .hint {
           bottom: 2.2%;
@@ -482,7 +537,7 @@
   <body>
     <main class="stage">
       <picture>
-        <source media="(max-aspect-ratio: 3/4)" srcset="solari-f9-4e-9x16.png" />
+        <source media="(max-aspect-ratio: 3/4)" srcset="solari-look-canon-9x16.png" />
         <img class="plate" src="solari-f9-4e-16x9.png" alt="Falcon 9 on SLC-4E at night" />
       </picture>
       <canvas class="stars" id="stars"></canvas>
@@ -505,30 +560,36 @@
       <section class="cards" id="cards" aria-label="Next launch">
         <article class="leaf" data-plate="status">
           <div class="face">
+            <img src="solari-vellum-status.png" alt="" />
             <span>Status</span>
             <strong data-field="status">GO</strong>
           </div>
           <div class="back">
+            <img src="solari-vellum-folio-blank.png" alt="" />
             <span>Source</span>
             <strong data-field="sources">Launch Library 2</strong>
           </div>
         </article>
         <article class="leaf" data-plate="net">
           <div class="face">
+            <img src="solari-vellum-net.png" alt="" />
             <span>NET</span>
             <strong data-field="net">2026-09-02 07:46 UTC</strong>
           </div>
           <div class="back">
+            <img src="solari-vellum-folio-blank.png" alt="" />
             <span>Window</span>
             <strong>As published — no invented clock</strong>
           </div>
         </article>
         <article class="leaf" data-plate="mission">
           <div class="face">
+            <img src="solari-vellum-mission.png" alt="" />
             <span>Mission</span>
             <strong data-field="mission">Starlink Group 15-23</strong>
           </div>
           <div class="back">
+            <img src="solari-vellum-folio-blank.png" alt="" />
             <span>Pad</span>
             <strong data-field="pad">SLC-4E Vandenberg 4E</strong>
           </div>
@@ -552,6 +613,22 @@
         </a>
         <video id="session-vid" muted playsinline loop hidden></video>
       </figure>
+      <button class="corner" id="corner" type="button" aria-label="Turn the Da Vinci page">
+        <img src="solari-vellum-folio-blank.png" alt="" />
+      </button>
+      <div class="sheet" id="sheet">
+        <img src="solari-vellum-folio-blank.png" alt="" />
+        <div class="folio-ink">
+          <h1 data-field="mission">Starlink Group 15-23</h1>
+          <dl>
+            <div><dt>status</dt><dd data-field="status">GO</dd></div>
+            <div><dt>NET</dt><dd data-field="net">2026-09-02 07:46 UTC</dd></div>
+            <div><dt>vehicle</dt><dd data-field="vehicle">Falcon 9 Block 5</dd></div>
+            <div><dt>pad</dt><dd data-field="pad">SLC-4E Vandenberg 4E</dd></div>
+            <div><dt>source</dt><dd>Launch Library 2</dd></div>
+          </dl>
+        </div>
+      </div>
       <p class="hint">Touch the arms · the trench · the moon · the path</p>
       <aside class="note" id="note">
         <h2 id="note-k"></h2>
@@ -571,8 +648,8 @@
 
       const NOTES = {
         arms: {
-          k: "The arms",
-          p: "Transporter-erector at SLC-4E. Hydraulic strongback — not Mechazilla. Chopsticks live at Starbase.",
+          k: "The strongback",
+          p: "Transporter-erector at SLC-4E. Hydraulic strongback. Chopsticks are Starbase only.",
         },
         trench: {
           k: "The trench",
@@ -776,6 +853,16 @@
           leaf.classList.toggle("turned");
           spark(e.clientX, e.clientY);
         });
+      });
+      const sheet = document.getElementById("sheet");
+      document.getElementById("corner").addEventListener("click", (e) => {
+        e.stopPropagation();
+        sheet.classList.add("show");
+        spark(e.clientX, e.clientY);
+      });
+      sheet.addEventListener("click", (e) => {
+        e.stopPropagation();
+        sheet.classList.remove("show");
       });
 
       const cvs = document.getElementById("stars");
