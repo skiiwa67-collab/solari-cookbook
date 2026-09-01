@@ -221,78 +221,58 @@
         text-shadow: 0 1px 8px #000;
       }
 
-      /* French-binder spine on the LEFT of the rocket. Never on the engines or trench. */
+      /* REST: French spine LEFT of the rocket. Pull off shelf → curling folio → open spread. */
       .folio {
         position: absolute;
         z-index: 6;
-        left: max(1.05%, var(--safe-l));
-        top: 16%;
-        width: 1.55rem;
-        height: min(44vh, 23rem);
-        transform: none;
+        left: max(0.4%, var(--safe-l));
+        top: 14%;
+        width: 2.35rem;
+        height: min(48vh, 26rem);
         transform-origin: left center;
         transition:
           width 1.45s var(--rise),
           height 1.45s var(--rise),
-          top 1.45s var(--rise);
+          top 1.45s var(--rise),
+          left 1.45s var(--rise);
         filter: drop-shadow(0.25rem 0.45rem 0.7rem rgba(0, 0, 0, 0.5));
         cursor: pointer;
       }
-      .folio.up {
-        top: 11%;
-        width: min(28vw, 21rem);
-        height: min(62vh, 36rem);
+      .folio.pulled, .folio.open {
+        left: max(0.8%, var(--safe-l));
+        top: 10%;
+        width: min(30vw, 23rem);
+        height: min(64vh, 38rem);
         cursor: default;
       }
-      .spine {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        background: #c4a36a;
-      }
-      .spine img {
+      .still {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.7s ease;
+      }
+      .still-spine {
         object-fit: cover;
         object-position: left center;
       }
-      .spine b {
-        position: absolute;
-        inset: 8% 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        font-family: Cinzel, serif;
-        letter-spacing: 0.28em;
-        font-size: 0.62rem;
-        color: #3a2410;
-        pointer-events: none;
-      }
-      .spine i {
-        position: absolute;
-        left: 12%;
-        right: 12%;
-        height: 3px;
-        background: rgba(90, 60, 20, 0.35);
-        pointer-events: none;
-      }
-      .spine i:nth-of-type(1) { top: 14%; }
-      .spine i:nth-of-type(2) { top: 28%; }
-      .spine i:nth-of-type(3) { top: 70%; }
-      .spine i:nth-of-type(4) { top: 84%; }
-      .folio.up .spine { opacity: 0; pointer-events: none; }
+      .folio:not(.pulled):not(.open) .still-spine { opacity: 1; }
+      .folio.pulled:not(.open) .still-cover { opacity: 1; }
+      .folio.open .still-open { opacity: 1; }
       .book-wrap {
         position: absolute;
-        inset: 0;
+        left: 6%;
+        top: 10%;
+        right: 14%;
+        bottom: 10%;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.55s ease 0.15s;
+        transition: opacity 0.55s ease 0.2s;
       }
-      .folio.up .book-wrap {
+      .folio.open .book-wrap {
         opacity: 1;
         pointer-events: auto;
       }
@@ -392,7 +372,7 @@
         z-index: 8;
         transition: opacity 0.65s ease 0.25s;
       }
-      .folio.up .tabs {
+      .folio.open .tabs {
         opacity: 1;
         pointer-events: auto;
       }
@@ -477,10 +457,21 @@
         position: relative;
         height: 4.6rem;
         cursor: pointer;
-        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
-          translate(var(--tx, 0px), var(--ty, 0px));
-        transition: transform 0.16s ease-out;
+        transform-style: preserve-3d;
+        transform: perspective(720px)
+          rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
+          translate3d(var(--tx, 0px), var(--ty, 0px), var(--lift, 0px));
+        transition: transform 0.12s ease-out;
         filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+      }
+      .chip.turn {
+        transform-origin: left center;
+        animation: plate-turn 0.92s var(--rise);
+      }
+      @keyframes plate-turn {
+        0% { transform: perspective(720px) rotateY(0deg); }
+        42% { transform: perspective(720px) rotateY(-168deg); }
+        100% { transform: perspective(720px) rotateY(0deg); }
       }
       .chip img {
         position: absolute;
@@ -604,15 +595,13 @@
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
       <div class="folio" id="folio" role="button" tabindex="0" aria-label="Pull the notebook off the shelf" aria-expanded="false">
-        <div class="spine" aria-hidden="true">
-          <img src="solari-vellum-folio-blank.png" alt="" />
-          <i></i><i></i><i></i><i></i>
-          <b>SKIIWA</b>
-        </div>
+        <img class="still still-spine" src="solari-french-spine.png" alt="" />
+        <img class="still still-cover" src="solari-notebook-cover.png" alt="" />
+        <img class="still still-open" src="solari-notebook-open.png" alt="" />
         <div class="book-wrap" id="book-wrap">
           <div class="book" id="book">
             <div class="page">
-              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <img class="vellum" src="solari-notebook-cover.png" alt="" />
               <div class="traces"></div>
               <div class="ink-block">
                 <p class="brand">SKIIWA</p>
@@ -904,22 +893,32 @@
       const chips = [...document.querySelectorAll(".chip")];
       const breezeOk = !matchMedia("(prefers-reduced-motion: reduce)").matches;
       addEventListener("pointermove", (e) => {
-        if (!breezeOk || !matchMedia("(max-aspect-ratio: 3/4)").matches) return;
-        for (const chip of chips) {
-          const r = chip.getBoundingClientRect();
-          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
-          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
-          const dist = Math.hypot(dx, dy);
-          const f = dist < 2.1 ? Math.max(0, 1 - dist / 2.1) : 0;
-          chip.style.setProperty("--rx", (-dy * 8 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--ry", (dx * 11 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--tz", (-dx * 2.4 * f).toFixed(2) + "deg");
-          chip.style.setProperty("--tx", (dx * 7 * f).toFixed(1) + "px");
-          chip.style.setProperty("--ty", (dy * 4 * f).toFixed(1) + "px");
+        if (!breezeOk) return;
+        if (matchMedia("(max-aspect-ratio: 3/4)").matches) {
+          for (const chip of chips) {
+            const r = chip.getBoundingClientRect();
+            const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
+            const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
+            const dist = Math.hypot(dx, dy);
+            const f = dist < 2.4 ? Math.max(0, 1 - dist / 2.4) : 0;
+            const toward = f * f;
+            chip.style.setProperty("--rx", (-dy * 16 * toward).toFixed(2) + "deg");
+            chip.style.setProperty("--ry", (dx * 20 * toward).toFixed(2) + "deg");
+            chip.style.setProperty("--tz", (-dx * 3.2 * toward).toFixed(2) + "deg");
+            chip.style.setProperty("--tx", (dx * 10 * toward).toFixed(1) + "px");
+            chip.style.setProperty("--ty", (dy * 6 * toward).toFixed(1) + "px");
+            chip.style.setProperty("--lift", (18 * toward).toFixed(1) + "px");
+          }
         }
       });
       chips.forEach((chip) => {
-        chip.addEventListener("click", (e) => spark(e.clientX, e.clientY));
+        chip.addEventListener("click", (e) => {
+          spark(e.clientX, e.clientY);
+          chip.classList.remove("turn");
+          void chip.offsetWidth;
+          chip.classList.add("turn");
+          setTimeout(() => chip.classList.remove("turn"), 960);
+        });
       });
 
       function phone() {
@@ -1030,23 +1029,25 @@
         });
       }
       function pullOffShelf() {
-        if (phone() || folio.classList.contains("up") || pulling) return;
+        if (phone() || folio.classList.contains("pulled") || folio.classList.contains("open") || pulling) return;
         pulling = true;
-        folio.classList.add("up");
+        folio.classList.add("pulled");
         folio.setAttribute("aria-expanded", "true");
-        const done = () => {
+        const openSpread = () => {
+          folio.classList.add("open");
+          folio.classList.remove("pulled");
           pulling = false;
           requestAnimationFrame(() => requestAnimationFrame(mountBook));
         };
         if (reduceMotion) {
-          done();
+          openSpread();
           return;
         }
-        setTimeout(done, 1500);
+        setTimeout(openSpread, 1480);
       }
       folio.addEventListener("click", (e) => {
         if (e.target.closest("#tabs, #book-wrap")) return;
-        if (folio.classList.contains("up")) return;
+        if (folio.classList.contains("pulled") || folio.classList.contains("open")) return;
         pullOffShelf();
       });
       folio.addEventListener("keydown", (e) => {
@@ -1058,7 +1059,7 @@
       document.querySelectorAll("#tabs button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          if (!folio.classList.contains("up")) return;
+          if (!folio.classList.contains("open")) return;
           markTab(btn.dataset.go);
           spark(e.clientX, e.clientY);
           flipThrough(PAGE[btn.dataset.go]);
