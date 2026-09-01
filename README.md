@@ -18,7 +18,8 @@ past. Copy one into your project and change the parts you care about.
 | [browser-stealth-proxy-ts](examples/browser-stealth-proxy-ts) | TypeScript | Stealth mode + residential proxy egress |
 | [browser-profiles-ts](examples/browser-profiles-ts) | TypeScript | Log in once, reuse the session forever |
 | [browser-session-recording-py](examples/browser-session-recording-py) | Python | Record a session, download the replay |
-| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth browser: next orbital launch as JSON. Public glance: [skiiwa67-collab.github.io/solari-cookbook](https://skiiwa67-collab.github.io/solari-cookbook/) (SAMPLE JSON until `SOLARI_API_KEY=slr_live_...` and `npm start`) |
+| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth Solari browser later (`slr_live_...`). Not used for the public board. |
+| [launch-session-local-chrome](examples/launch-session-local-chrome) | JavaScript | Same job on our computer: Playwright + local Chrome. Refused their card. |
 
 ### Sandbox
 
@@ -41,6 +42,7 @@ The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
 - Look lock — night F9 on SLC-4E (`docs/solari-f9-4e-16x9.png` / `9x16`). Animations and clicks live on that frame: arms, trench, moon, path.
 - Parchment ink — live next orbital from public Launch Library 2. If that fetch fails, SAMPLE last-known Starlink Group 15-23. Not Solari. No Mechazilla on 4E.
+- Simulation — we refused their card. The same agent-browser job (open the real next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM product. The board labels it SIMULATION.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 

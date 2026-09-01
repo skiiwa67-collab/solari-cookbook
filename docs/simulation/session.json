@@ -1,0 +1,12 @@
+{
+  "simulation": true,
+  "notSolari": true,
+  "engine": "Playwright + local Google Chrome",
+  "refusedCard": true,
+  "capturedAt": "2026-09-01T19:16:32.010Z",
+  "url": "https://www.spacex.com/launches/sl-15-23",
+  "kind": "official page",
+  "mission": "Starlink Group 15-23",
+  "screenshot": "session.png",
+  "recording": "session.webm"
+}

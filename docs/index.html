@@ -283,6 +283,36 @@
         font-size: clamp(0.92rem, 1.5vw, 1.1rem);
       }
 
+      .session {
+        position: absolute;
+        z-index: 5;
+        right: 3.2%;
+        top: 12%;
+        width: min(28vw, 22rem);
+        padding: 0.45rem 0.5rem 0.4rem;
+        background: var(--paper);
+        color: var(--ink);
+        clip-path: polygon(1% 2%, 99% 0, 100% 98%, 0 100%);
+        animation: breeze 9s ease-in-out infinite;
+      }
+
+      .session figcaption {
+        font-family: Caveat, cursive;
+        font-size: 1.05rem;
+        color: #6a2c1c;
+        margin-bottom: 0.25rem;
+      }
+
+      .session img,
+      .session video {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 28vh;
+        object-fit: cover;
+        background: #111;
+      }
+
       .hint {
         position: absolute;
         z-index: 5;
@@ -373,6 +403,13 @@
           width: 40%;
           height: 50%;
         }
+        .session {
+          right: 4%;
+          left: auto;
+          top: 10%;
+          width: min(44vw, 16rem);
+        }
+
         .cards {
           left: 4%;
           right: 4%;
@@ -454,6 +491,13 @@
         </article>
       </section>
 
+      <figure class="session" id="session">
+        <figcaption id="session-cap">SIMULATION · local Chrome · not Solari</figcaption>
+        <a id="session-link" href="simulation/session.png" target="_blank" rel="noreferrer">
+          <img id="session-img" src="simulation/session.png" alt="Agent-driven local Chrome session" />
+        </a>
+        <video id="session-vid" muted playsinline loop hidden></video>
+      </figure>
       <p class="hint">Touch the arms · the trench · the moon · the path</p>
       <aside class="note" id="note">
         <h2 id="note-k"></h2>
@@ -593,6 +637,27 @@
       }
 
       loadLive();
+
+      fetch("simulation/session.json", { cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((s) => {
+          if (!s) return
+          const cap = document.getElementById("session-cap")
+          cap.textContent =
+            "SIMULATION · " +
+            (s.engine || "local Chrome") +
+            " · not Solari · " +
+            (s.kind || "session")
+          const vid = document.getElementById("session-vid")
+          if (s.recording) {
+            vid.src = "simulation/" + s.recording
+            vid.hidden = false
+            vid.play().catch(() => {})
+            document.getElementById("session-img").hidden = true
+            document.getElementById("session-link").href = "simulation/" + s.recording
+          }
+        })
+        .catch(() => {})
 
       function spark(x, y) {
         for (let i = 0; i < 14; i++) {

@@ -1,0 +1,11 @@
+{
+  "name": "launch-session-local-chrome",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node capture.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}

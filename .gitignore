@@ -7,4 +7,5 @@ __pycache__/
 venv/
 screenshot.png
 docs/next-launch.json
+examples/**/node_modules/
 .playwright-mcp/
