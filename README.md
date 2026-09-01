@@ -39,9 +39,9 @@ past. Copy one into your project and change the parts you care about.
 The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
-- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) until a live run (labeled SAMPLE; fields empty)
+- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) (SAMPLE Starlink Group 15-23; facts paint in the folio before any fetch)
 - Later — `cd examples/launch-watch-ts && export SOLARI_API_KEY=slr_live_... && npm start` writes `docs/next-launch.json`
-- Look lock — [`docs/solari-glance-16x9.png`](docs/solari-glance-16x9.png) and [`docs/solari-glance-9x16.png`](docs/solari-glance-9x16.png)
+- Art — night pad + Da Vinci folio in [`docs/art/`](docs/art/)
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 
