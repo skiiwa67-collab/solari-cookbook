@@ -6926,27 +6926,30 @@ fn noise(p: vec2f) -> f32 {
 
   let cell = floor(uv * vec2f(88.0, 52.0));
   let n = hash21(cell);
-  if (uv.y < 0.62 && n > 0.993) {
+  if (uv.y < 0.55 && n > 0.993) {
     let tw = 0.22 + 0.78 * abs(sin(t * (0.28 + n * 0.7) + n * 18.0));
-    col += vec3f(1.0, 0.93, 0.72) * tw * 0.2;
+    col += vec3f(1.0, 0.93, 0.72) * tw * 0.18;
   }
 
-  col += vec3f(1.0, 0.82, 0.42) * (0.55 + 0.45 * sin(t * 0.7)) * exp(-distance(uv, vec2f(0.46, 0.58)) * 55.0) * 0.5;
-  col += vec3f(1.0, 0.84, 0.48) * (0.55 + 0.45 * sin(t * 0.83 + 1.1)) * exp(-distance(uv, vec2f(0.50, 0.52)) * 60.0) * 0.42;
-  col += vec3f(1.0, 0.78, 0.4) * (0.55 + 0.45 * sin(t * 0.61 + 2.0)) * exp(-distance(uv, vec2f(0.48, 0.68)) * 48.0) * 0.48;
-  col += vec3f(1.0, 0.8, 0.45) * (0.55 + 0.45 * sin(t * 0.74 + 0.4)) * exp(-distance(uv, vec2f(0.18, 0.74)) * 52.0) * 0.38;
-  col += vec3f(1.0, 0.8, 0.45) * (0.55 + 0.45 * sin(t * 0.66 + 1.7)) * exp(-distance(uv, vec2f(0.62, 0.72)) * 52.0) * 0.38;
-  col += vec3f(1.0, 0.86, 0.5) * (0.55 + 0.45 * sin(t * 0.9 + 0.8)) * exp(-distance(uv, vec2f(0.51, 0.38)) * 70.0) * 0.28;
+  let ground = smoothstep(0.72, 0.80, uv.y);
+  col += vec3f(1.0, 0.82, 0.48) * (0.5 + 0.5 * sin(t * 0.62)) * exp(-distance(uv, vec2f(0.16, 0.76)) * 58.0) * 0.32;
+  col += vec3f(1.0, 0.84, 0.5) * (0.5 + 0.5 * sin(t * 0.71 + 1.2)) * exp(-distance(uv, vec2f(0.10, 0.73)) * 64.0) * 0.26;
+  col += vec3f(1.0, 0.8, 0.46) * (0.5 + 0.5 * sin(t * 0.54 + 2.1)) * exp(-distance(uv, vec2f(0.64, 0.78)) * 56.0) * 0.3;
+  col += vec3f(1.0, 0.82, 0.48) * (0.5 + 0.5 * sin(t * 0.67 + 0.4)) * exp(-distance(uv, vec2f(0.72, 0.76)) * 60.0) * 0.24;
+  col += vec3f(1.0, 0.78, 0.42) * (0.5 + 0.5 * sin(t * 0.8 + 1.6)) * exp(-distance(uv, vec2f(0.36, 0.83)) * 50.0) * 0.28 * ground;
+  col += vec3f(1.0, 0.78, 0.42) * (0.5 + 0.5 * sin(t * 0.58 + 0.9)) * exp(-distance(uv, vec2f(0.58, 0.84)) * 50.0) * 0.28 * ground;
 
-  let fogUv = uv * vec2f(2.4, 1.6) + vec2f(t * 0.012, -t * 0.008);
+  let fogUv = uv * vec2f(2.6, 1.3) + vec2f(t * 0.01, -t * 0.006);
   let fog = noise(fogUv) * noise(fogUv * 2.1 + vec2f(8.0, 3.0));
-  let band = smoothstep(0.92, 0.55, uv.y) * smoothstep(0.34, 0.62, uv.y);
-  col += vec3f(0.86, 0.8, 0.7) * fog * band * 0.16;
+  let vaporBand = smoothstep(0.74, 0.82, uv.y) * smoothstep(0.96, 0.88, uv.y);
+  col += vec3f(0.86, 0.8, 0.7) * fog * vaporBand * 0.2;
 
-  let td = length((uv - vec2f(0.47, 0.72)) * vec2f(1.6, 1.1));
-  let breathe = 0.45 + 0.55 * sin(t * 0.55);
-  col += vec3f(1.0, 0.45, 0.12) * breathe * exp(-td * 14.0) * 0.62;
-  col += vec3f(1.0, 0.75, 0.28) * (0.4 + 0.3 * sin(t * 0.9)) * exp(-td * 28.0) * 0.4;
+  let trench = vec2f(0.48, 0.84);
+  let td = length((uv - trench) * vec2f(1.2, 3.4));
+  let trenchGate = smoothstep(0.76, 0.82, uv.y);
+  let breathe = 0.42 + 0.58 * sin(t * 0.55);
+  col += vec3f(1.0, 0.48, 0.14) * breathe * exp(-td * 18.0) * 0.5 * trenchGate;
+  col += vec3f(1.0, 0.72, 0.28) * (0.35 + 0.25 * sin(t * 0.9)) * exp(-td * 32.0) * 0.32 * trenchGate;
 
   return vec4f(col, 1.0);
 }

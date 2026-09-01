@@ -41,7 +41,7 @@ The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
 - Look lock — signed night F9 on SLC-4E. Layered T-minus motion on that still (vgpu WebGPU when the browser has it; CSS/canvas 2D on RAZR / no-WebGPU). Not a video file. Arms / trench / moon / path stay clickable. 4E is the transporter-erector. No Mechazilla on Vandenberg.
-- Book — closed book (`solari-closed-book.png`) pulls up from the bottom, then opens through `solari-book-opening.png` into `solari-open-book-tabs.png`. Right tabs DATA / SPECS / DESIGN curl real pages (`solari-vellum-folio-blank.png`). Live public Launch Library 2 on the ink. SAMPLE only if that fetch fails. Triangle HUD is dead. The rocket stays uncovered.
+- Book — French-binder spine home on the LEFT of the rocket (never on the engines or trench). Pull it off the shelf, then the curling folio opens. Eight LRT tabs: CMD CDT TEL STS PAD VID MSK AUTO. Skip-tab flips through pages. VID plays in the leaf; maximize parks to the right of the rocket. No persistent SIMULATION sidebar. Live public Launch Library 2. SAMPLE only if that fetch fails.
 - Simulation — we refused the Solari card. The same agent-browser job (open the official next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM stack copy. The board labels it SIMULATION. Intern package is this public repo, not a Solari clone.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).

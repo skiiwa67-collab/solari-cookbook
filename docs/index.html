@@ -138,9 +138,9 @@
       @keyframes moon-pulse { 50% { stroke: #ffe7a8; stroke-width: 2.2; } }
       .trench-glow {
         position: absolute;
-        left: 42%; top: 62%; width: 22%; height: 22%;
+        left: 40%; top: 80%; width: 20%; height: 9%;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 200, 90, 0.55), rgba(255, 120, 30, 0.15) 46%, transparent 70%);
+        background: radial-gradient(ellipse, rgba(255, 180, 70, 0.42), rgba(255, 110, 30, 0.12) 50%, transparent 72%);
         mix-blend-mode: screen;
         pointer-events: none;
         animation: flame-breathe 3.6s ease-in-out infinite;
@@ -148,9 +148,9 @@
       .trench-glow.hot { animation-duration: 0.9s; }
       .flame-lick {
         position: absolute;
-        left: 44%; top: 64%; width: 16%; height: 18%;
+        left: 42%; top: 82%; width: 16%; height: 7%;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 160, 60, 0.35), transparent 68%);
+        background: radial-gradient(ellipse, rgba(255, 160, 60, 0.28), transparent 68%);
         mix-blend-mode: screen;
         pointer-events: none;
         animation: flame-lick 2.8s ease-in-out infinite;
@@ -170,10 +170,21 @@
         border-radius: 40%;
         pointer-events: none;
         z-index: 3;
+        box-shadow: none;
+        background: transparent;
       }
-      .arms-glow.live { animation: arms 1.6s ease-in-out 2; }
-      @keyframes arms {
-        40% { box-shadow: inset 0 0 40px 8px rgba(232, 177, 90, 0.35); transform: rotate(-0.6deg); }
+      .arms-glow.live { animation: arms-brass 1.5s ease-out 1; }
+      @keyframes arms-brass {
+        35% {
+          box-shadow:
+            inset 0 0 0 1px rgba(196, 163, 106, 0.7),
+            0 0 10px 1px rgba(196, 163, 106, 0.22);
+          filter: drop-shadow(0 0 4px rgba(232, 216, 164, 0.35));
+        }
+        100% {
+          box-shadow: inset 0 0 0 1px rgba(196, 163, 106, 0);
+          filter: none;
+        }
       }
       .hit {
         position: absolute;
@@ -210,71 +221,78 @@
         text-shadow: 0 1px 8px #000;
       }
 
-      /* Closed book rest at the bottom. Rises, then opens through Darren frames. No triangle. */
+      /* French-binder spine on the LEFT of the rocket. Never on the engines or trench. */
       .folio {
         position: absolute;
         z-index: 6;
-        left: 50%;
-        bottom: max(1.4%, var(--safe-b));
-        width: 10.6rem;
-        height: 14rem;
-        transform: translate3d(-50%, 72%, 0);
-        transform-origin: center bottom;
+        left: max(1.05%, var(--safe-l));
+        top: 16%;
+        width: 1.55rem;
+        height: min(44vh, 23rem);
+        transform: none;
+        transform-origin: left center;
         transition:
-          transform 1.65s var(--rise),
-          width 1.05s var(--rise),
-          height 1.05s var(--rise),
-          left 1.05s var(--rise),
-          bottom 1.65s var(--rise);
-        filter: drop-shadow(0.45rem 0.8rem 1.2rem rgba(0, 0, 0, 0.55));
+          width 1.45s var(--rise),
+          height 1.45s var(--rise),
+          top 1.45s var(--rise);
+        filter: drop-shadow(0.25rem 0.45rem 0.7rem rgba(0, 0, 0, 0.5));
         cursor: pointer;
       }
-      .folio.rise {
-        transform: translate3d(-50%, 0, 0);
-        bottom: 5.5%;
-      }
-      .folio.open {
-        left: max(1.4%, var(--safe-l));
-        bottom: 8%;
-        width: min(34vw, 26rem);
-        height: min(70vh, 42rem);
-        transform: translate3d(0, 0, 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      .folio.up {
+        top: 11%;
+        width: min(28vw, 21rem);
+        height: min(62vh, 36rem);
         cursor: default;
-        transition:
-          transform 0.18s ease-out,
-          width 1.05s var(--rise),
-          height 1.05s var(--rise),
-          left 1.05s var(--rise),
-          bottom 1.05s var(--rise);
       }
-      .frames {
+      .spine {
         position: absolute;
         inset: 0;
+        overflow: hidden;
+        background: #c4a36a;
       }
-      .frame {
+      .spine img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
-        opacity: 0;
-        transition: opacity 0.82s ease-in-out;
+        object-fit: cover;
+        object-position: left center;
+      }
+      .spine b {
+        position: absolute;
+        inset: 8% 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: Cinzel, serif;
+        letter-spacing: 0.28em;
+        font-size: 0.62rem;
+        color: #3a2410;
         pointer-events: none;
       }
-      .folio:not(.opening):not(.open) .frame-closed { opacity: 1; }
-      .folio.opening .frame-opening { opacity: 1; }
-      .folio.open .frame-open { opacity: 1; }
+      .spine i {
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        height: 3px;
+        background: rgba(90, 60, 20, 0.35);
+        pointer-events: none;
+      }
+      .spine i:nth-of-type(1) { top: 14%; }
+      .spine i:nth-of-type(2) { top: 28%; }
+      .spine i:nth-of-type(3) { top: 70%; }
+      .spine i:nth-of-type(4) { top: 84%; }
+      .folio.up .spine { opacity: 0; pointer-events: none; }
       .book-wrap {
         position: absolute;
-        left: 7%;
-        top: 11%;
-        right: 14%;
-        bottom: 12%;
+        inset: 0;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.7s ease 0.25s;
+        transition: opacity 0.55s ease 0.15s;
       }
-      .folio.open .book-wrap {
+      .folio.up .book-wrap {
         opacity: 1;
         pointer-events: auto;
       }
@@ -363,19 +381,18 @@
       }
       .tabs {
         position: absolute;
-        right: 0.4%;
-        top: 16%;
-        width: 13%;
-        height: 68%;
+        right: -2.15rem;
+        top: 8%;
+        height: 84%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         opacity: 0;
         pointer-events: none;
         z-index: 8;
-        transition: opacity 0.65s ease 0.35s;
+        transition: opacity 0.65s ease 0.25s;
       }
-      .folio.open .tabs {
+      .folio.up .tabs {
         opacity: 1;
         pointer-events: auto;
       }
@@ -383,41 +400,77 @@
         flex: 1 1 auto;
         min-height: 0;
         border: 0;
-        background: transparent;
-        color: transparent;
+        padding: 0.15rem 0.28rem;
+        background: #d8c49a;
+        color: #4a3220;
+        font-family: "IM Fell English", Georgia, serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
         cursor: pointer;
-        font-size: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+        clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 92%);
+      }
+      .tabs button[aria-current="true"] {
+        background: #efe2c4;
+        color: #6a2c1c;
+        transform: translateX(0.15rem);
       }
       .tabs button:focus-visible { outline: 1px dashed var(--brass); }
-      .fields {
+      .vid-fly {
+        position: fixed;
+        z-index: 9;
+        display: none;
+        background: #120e08;
+        box-shadow: 0.4rem 0.6rem 1.2rem rgba(0, 0, 0, 0.55);
+        overflow: hidden;
+        transition:
+          left 0.85s var(--rise),
+          top 0.85s var(--rise),
+          width 0.85s var(--rise),
+          height 0.85s var(--rise);
+      }
+      .vid-fly.show { display: block; }
+      .vid-fly.out {
+        left: auto !important;
+        right: 3.2%;
+        top: 16%;
+        width: min(26vw, 20rem) !important;
+        height: min(28vh, 14.5rem) !important;
+      }
+      .vid-fly video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background: #111;
+      }
+      .vid-fly .vid-tools {
         position: absolute;
-        right: -2.6rem;
-        top: 18%;
+        left: 0.4rem;
+        right: 0.4rem;
+        bottom: 0.35rem;
         display: flex;
-        flex-direction: column;
-        gap: 0.28rem;
-        opacity: 0;
-        pointer-events: none;
-        z-index: 8;
-        transition: opacity 0.65s ease 0.4s;
+        gap: 0.4rem;
+        justify-content: flex-end;
       }
-      .folio.open .fields {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .fields button {
+      .vid-fly button {
         border: 0;
-        background: transparent;
-        color: #c4a36a;
+        background: rgba(20, 14, 8, 0.7);
+        color: #e8d7a4;
         font-family: Cinzel, serif;
-        font-size: 0.58rem;
+        font-size: 0.62rem;
         letter-spacing: 0.12em;
-        writing-mode: vertical-rl;
-        min-height: 3.4rem;
+        padding: 0.2rem 0.45rem;
         cursor: pointer;
-        text-shadow: 0 1px 6px #000;
       }
-      .fields button[aria-current="true"] { color: #efe2c4; }
+      .vid-slot {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        top: 42%;
+        height: 36%;
+      }
 
       .chips { display: none; }
       .chip {
@@ -442,26 +495,6 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      .session {
-        position: absolute;
-        z-index: 5;
-        right: 3.2%;
-        top: 12%;
-        width: min(22vw, 16rem);
-        color: #e8d7a4;
-        text-align: right;
-        text-shadow: 0 1px 8px #000;
-        font-family: "IM Fell English", Georgia, serif;
-      }
-      .session figcaption { font-family: Caveat, cursive; font-size: 1.05rem; margin-bottom: 0.25rem; }
-      .session a { color: inherit; }
-      .session img, .session video {
-        display: block;
-        width: 100%;
-        max-height: 22vh;
-        object-fit: cover;
-        background: #111;
       }
       .note {
         display: none;
@@ -511,13 +544,13 @@
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
         .hit-trench { left: 22%; top: 72%; width: 56%; height: 14%; }
-        .trench-glow { left: 28%; top: 70%; width: 44%; height: 16%; }
-        .flame-lick { left: 32%; top: 72%; width: 34%; height: 14%; }
+        .trench-glow { left: 28%; top: 84%; width: 44%; height: 8%; }
+        .flame-lick { left: 32%; top: 86%; width: 34%; height: 6%; }
         .vapor-a { left: 16%; top: 64%; width: 70%; height: 24%; }
         .vapor-b { left: 22%; top: 58%; width: 56%; height: 22%; }
         .arms-glow { left: 30%; top: 20%; width: 40%; height: 50%; }
-        .session { top: 10%; width: min(44vw, 14rem); }
         .sample { top: 7.2%; right: auto; left: 4%; }
+        .vid-fly { display: none !important; }
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -526,7 +559,7 @@
           animation: none;
         }
         .orbit { stroke-dashoffset: 0; opacity: 0.7; }
-        .folio, .frame, .book-wrap, .tabs, .fields { transition: none; }
+        .folio, .book-wrap, .tabs, .vid-fly { transition: none; }
       }
     </style>
   </head>
@@ -543,14 +576,14 @@
         <div class="vapor vapor-a"></div>
         <div class="vapor vapor-b"></div>
         <div class="vapor vapor-c"></div>
-        <i class="glim" style="left:46%;top:26%;--d:2.7s"></i>
-        <i class="glim" style="left:48%;top:38%;--d:3.4s"></i>
-        <i class="glim" style="left:45%;top:48%;--d:2.2s"></i>
-        <i class="glim" style="left:51%;top:32%;--d:4.1s"></i>
-        <i class="glim" style="left:42%;top:34%;--d:3.1s"></i>
-        <i class="glim" style="left:50%;top:58%;--d:2.5s"></i>
-        <i class="glim" style="left:18%;top:72%;--d:3.8s"></i>
-        <i class="glim" style="left:62%;top:70%;--d:4.6s"></i>
+        <i class="glim" style="left:12%;top:74%;--d:2.7s"></i>
+        <i class="glim" style="left:18%;top:72%;--d:3.4s"></i>
+        <i class="glim" style="left:8%;top:68%;--d:3.8s"></i>
+        <i class="glim" style="left:36%;top:82%;--d:2.5s"></i>
+        <i class="glim" style="left:58%;top:83%;--d:3.1s"></i>
+        <i class="glim" style="left:64%;top:76%;--d:4.1s"></i>
+        <i class="glim" style="left:72%;top:78%;--d:4.6s"></i>
+        <i class="glim" style="left:22%;top:80%;--d:2.2s"></i>
         <canvas class="stars" id="stars"></canvas>
         <div class="trench-glow" id="trenchGlow"></div>
         <div class="flame-lick"></div>
@@ -570,11 +603,11 @@
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
-      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Open the DATA SPECS DESIGN book" aria-expanded="false">
-        <div class="frames" aria-hidden="true">
-          <img class="frame frame-closed" src="solari-closed-book.png" alt="" />
-          <img class="frame frame-opening" src="solari-book-opening.png" alt="" />
-          <img class="frame frame-open" src="solari-open-book-tabs.png" alt="" />
+      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Pull the notebook off the shelf" aria-expanded="false">
+        <div class="spine" aria-hidden="true">
+          <img src="solari-vellum-folio-blank.png" alt="" />
+          <i></i><i></i><i></i><i></i>
+          <b>SKIIWA</b>
         </div>
         <div class="book-wrap" id="book-wrap">
           <div class="book" id="book">
@@ -582,50 +615,101 @@
               <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
               <div class="traces"></div>
               <div class="ink-block">
-                <p class="brand">DATA</p>
+                <p class="brand">SKIIWA</p>
+                <p class="tag">A night study of the next fire.</p>
+                <p class="tag">A curling leaf. Flip either way.</p>
+              </div>
+              <p class="quiet">Launch Library 2 · not Solari</p>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">CMD</p>
+                <h2 data-field="command">—</h2>
+                <p class="quiet">command of the next orbital</p>
+              </div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">CDT</p>
+                <dl><div><dt>NET</dt><dd data-field="net">—</dd></div></dl>
+                <p class="quiet">countdown window · Launch Library 2</p>
+              </div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">TEL</p>
+                <p class="tag" data-field="echo">—</p>
+                <p class="tag">Decorative traces only. No invented volts.</p>
+              </div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">STS</p>
+                <h2 data-field="status">—</h2>
+              </div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">PAD</p>
+                <h2 data-field="pad">—</h2>
+                <p class="tag">SLC-4E transporter-erector / strongback. Chopsticks stay at Starbase.</p>
+              </div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">VID</p>
+                <p class="tag">Webcast / sim. Play in the leaf. Maximize parks right of the rocket.</p>
+                <p class="tag"><a id="vid-official" href="https://www.spacex.com/launches/sl-15-23" target="_blank" rel="noreferrer">official page</a> · <a id="vid-cast" href="https://www.spacex.com/launches/sl-15-23" target="_blank" rel="noreferrer">webcast</a></p>
+              </div>
+              <div class="vid-slot" id="vid-slot"></div>
+            </div>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">MSK</p>
                 <h2 data-field="mission">—</h2>
-                <dl>
-                  <div><dt>status</dt><dd data-field="status">—</dd></div>
-                  <div><dt>NET</dt><dd data-field="net">—</dd></div>
-                </dl>
-                <p class="quiet">Launch Library 2 · not Solari</p>
               </div>
             </div>
             <div class="page">
               <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
               <div class="traces"></div>
               <div class="ink-block">
-                <p class="brand">SPECS</p>
-                <dl>
-                  <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
-                  <div><dt>pad</dt><dd data-field="pad">—</dd></div>
-                  <div><dt>source</dt><dd>Launch Library 2</dd></div>
-                </dl>
-                <p class="quiet">SLC-4E transporter-erector / strongback</p>
-              </div>
-            </div>
-            <div class="page">
-              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-              <div class="traces"></div>
-              <div class="ink-block">
-                <p class="brand">DESIGN</p>
-                <p class="tag">Touch the arms · the trench · the moon · the path</p>
-                <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
+                <p class="brand">AUTO</p>
+                <h2 data-field="vehicle">—</h2>
               </div>
             </div>
           </div>
         </div>
-        <nav class="tabs" id="tabs" aria-label="Book pages">
-          <button type="button" data-go="data">DATA</button>
-          <button type="button" data-go="specs">SPECS</button>
-          <button type="button" data-go="design">DESIGN</button>
-        </nav>
-        <nav class="fields" id="fields" aria-label="Data fields">
-          <button type="button" data-go="net">NET</button>
+        <nav class="tabs" id="tabs" aria-label="LRT plates">
+          <button type="button" data-go="cmd">CMD</button>
+          <button type="button" data-go="cdt">CDT</button>
+          <button type="button" data-go="tel">TEL</button>
+          <button type="button" data-go="sts">STS</button>
           <button type="button" data-go="pad">PAD</button>
-          <button type="button" data-go="status">STATUS</button>
-          <button type="button" data-go="mission">MISSION</button>
+          <button type="button" data-go="vid">VID</button>
+          <button type="button" data-go="msk">MSK</button>
+          <button type="button" data-go="auto">AUTO</button>
         </nav>
+      </div>
+      <div class="vid-fly" id="vid-fly" aria-hidden="true">
+        <video id="vid" playsinline></video>
+        <div class="vid-tools">
+          <button type="button" id="vid-play">Play</button>
+          <button type="button" id="vid-max">Maximize</button>
+        </div>
       </div>
 
       <section class="chips" id="chips" aria-label="Next launch">
@@ -643,12 +727,6 @@
         </article>
       </section>
 
-      <figure class="session" id="session">
-        <figcaption id="session-cap">SIMULATION · not Solari</figcaption>
-        <a id="session-link" href="https://www.spacex.com/launches/sl-15-23" target="_blank" rel="noreferrer">
-          <img id="session-img" src="simulation/session.png" alt="Official Starlink Mission page in local Chrome" />
-        </a>
-      </figure>
       <aside class="note" id="note">
         <img src="solari-vellum-folio-blank.png" alt="" />
         <div class="note-ink">
@@ -664,8 +742,12 @@
         status: "GO",
         net: "2026-09-02 07:46 UTC",
         mission: "Starlink Group 15-23",
+        command: "Falcon 9 | Starlink Group 15-23",
         vehicle: "Falcon 9 Block 5",
         pad: "SLC-4E Vandenberg 4E",
+        echo: "GO · 2026-09-02 07:46 UTC · Launch Library 2",
+        official: "https://www.spacex.com/launches/sl-15-23",
+        webcast: "https://www.spacex.com/launches/sl-15-23",
         sources: "Launch Library 2",
       };
       const NOTES = {
@@ -688,7 +770,7 @@
       };
       const LL2 =
         "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=12&mode=detailed&hide_recent_previous=true";
-      const PAGE = { data: 0, specs: 1, design: 2, net: 0, status: 0, mission: 0, pad: 1 };
+      const PAGE = { cmd: 1, cdt: 2, tel: 3, sts: 4, pad: 5, vid: 6, msk: 7, auto: 8 };
 
       function formatNet(iso) {
         if (!iso) return "";
@@ -709,12 +791,18 @@
           String(miss.name || "").trim() ||
           String(row.name || "").split("|").slice(1).join("|").trim();
         const abbrev = String(st.abbrev || st.name || "").trim();
+        const vids = row.vidURLs || [];
+        const webcast = String((vids[0] && (vids[0].url || vids[0])) || "").trim();
         return {
           status: abbrev ? abbrev.toUpperCase() : "",
           net: formatNet(row.net),
           mission: mission,
+          command: String(row.name || mission).trim(),
           vehicle: String(cfg.full_name || cfg.name || "").trim(),
           pad: [padName, site].filter(Boolean).join(" · "),
+          echo: [abbrev ? abbrev.toUpperCase() : "", formatNet(row.net), "Launch Library 2"].filter(Boolean).join(" · "),
+          official: String(row.url || "").trim() || FACTS.official,
+          webcast: webcast || String(row.url || "").trim() || FACTS.official,
           sources: "Launch Library 2",
         };
       }
@@ -750,6 +838,10 @@
         NOTES.path.p = (src.net || "NET unknown") + ". Status " + (src.status || "—") + ". A line drawn, then flown.";
         if (src.mission) NOTES.moon.p = "A clock in the west. " + src.mission + " — next orbital from Launch Library 2.";
         if (src.vehicle) NOTES.trench.p = "Flame is led into the concrete so " + src.vehicle + " may leave the pad.";
+        const off = document.getElementById("vid-official");
+        const cast = document.getElementById("vid-cast");
+        if (off) off.href = src.official || FACTS.official;
+        if (cast) cast.href = src.webcast || src.official || FACTS.official;
       }
       paint(FACTS, "sample");
       async function loadLive() {
@@ -771,17 +863,6 @@
         }
       }
       loadLive();
-
-      fetch("simulation/session.json", { cache: "no-store" })
-        .then((r) => (r.ok ? r.json() : null))
-        .then((s) => {
-          if (!s) return;
-          document.getElementById("session-cap").textContent =
-            "SIMULATION · " + (s.engine || "local Chrome") + " · not Solari";
-          document.getElementById("session-link").href =
-            s.url || "https://www.spacex.com/launches/sl-15-23";
-        })
-        .catch(() => {});
 
       function spark(x, y) {
         for (let i = 0; i < 14; i++) {
@@ -846,25 +927,70 @@
       }
       const folio = document.getElementById("folio");
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const vidFly = document.getElementById("vid-fly");
+      const vidEl = document.getElementById("vid");
       let flipBook = null;
-      let opening = false;
+      let pulling = false;
+      let flipping = false;
+      let flipWait = null;
 
       function markTab(name) {
         const page = PAGE[name];
-        document.querySelectorAll("#fields button, #tabs button").forEach((btn) => {
+        document.querySelectorAll("#tabs button").forEach((btn) => {
           btn.setAttribute("aria-current", PAGE[btn.dataset.go] === page ? "true" : "false");
         });
       }
-      function turnTo(name, x, y) {
-        if (!folio.classList.contains("open")) return;
-        const page = PAGE[name];
-        if (page == null) return;
-        markTab(name);
-        if (x != null) spark(x, y);
-        if (!flipBook) return;
-        const cur = flipBook.getCurrentPageIndex();
-        if (cur === page) return;
-        flipBook.flip(page, "top");
+      function placeVid() {
+        if (phone() || !vidFly) return;
+        const onVid = flipBook && flipBook.getCurrentPageIndex() === PAGE.vid;
+        if (vidFly.classList.contains("out")) {
+          vidFly.classList.add("show");
+          vidFly.setAttribute("aria-hidden", "false");
+          return;
+        }
+        if (!onVid) {
+          vidFly.classList.remove("show");
+          vidFly.setAttribute("aria-hidden", "true");
+          if (vidEl) vidEl.pause();
+          return;
+        }
+        const slot = document.getElementById("vid-slot");
+        if (!slot) return;
+        const r = slot.getBoundingClientRect();
+        vidFly.style.left = r.left + "px";
+        vidFly.style.top = r.top + "px";
+        vidFly.style.width = r.width + "px";
+        vidFly.style.height = r.height + "px";
+        vidFly.classList.add("show");
+        vidFly.setAttribute("aria-hidden", "false");
+      }
+      function oneCurl(forward) {
+        return new Promise((resolve) => {
+          if (!flipBook) {
+            resolve();
+            return;
+          }
+          flipWait = resolve;
+          if (forward) flipBook.flipNext("bottom");
+          else flipBook.flipPrev("bottom");
+          setTimeout(() => {
+            if (flipWait === resolve) {
+              flipWait = null;
+              resolve();
+            }
+          }, 1100);
+        });
+      }
+      async function flipThrough(target) {
+        if (!flipBook || flipping || target == null) return;
+        flipping = true;
+        while (flipBook.getCurrentPageIndex() !== target) {
+          const cur = flipBook.getCurrentPageIndex();
+          if (cur === target) break;
+          await oneCurl(target > cur);
+        }
+        flipping = false;
+        placeVid();
       }
       function mountBook() {
         const wrap = document.getElementById("book-wrap");
@@ -877,11 +1003,11 @@
           height: h,
           size: "stretch",
           minWidth: 200,
-          maxWidth: 560,
+          maxWidth: 520,
           minHeight: 280,
-          maxHeight: 760,
+          maxHeight: 720,
           usePortrait: true,
-          showCover: false,
+          showCover: true,
           drawShadow: true,
           flippingTime: 980,
           maxShadowOpacity: 0.55,
@@ -892,69 +1018,74 @@
         });
         flipBook.loadFromHTML(root.querySelectorAll(".page"));
         flipBook.on("flip", () => {
-          const r = wrap.getBoundingClientRect();
-          spark(r.right - 18, r.bottom - 18);
+          if (flipWait) {
+            const done = flipWait;
+            flipWait = null;
+            done();
+          }
+          const idx = flipBook.getCurrentPageIndex();
+          const name = Object.keys(PAGE).find((k) => PAGE[k] === idx);
+          if (name) markTab(name);
+          placeVid();
         });
       }
-      function openBook() {
-        if (phone() || folio.classList.contains("open") || opening) return;
-        opening = true;
-        folio.classList.add("rise");
+      function pullOffShelf() {
+        if (phone() || folio.classList.contains("up") || pulling) return;
+        pulling = true;
+        folio.classList.add("up");
         folio.setAttribute("aria-expanded", "true");
-        const mid = () => {
-          folio.classList.add("opening");
-          const finish = () => {
-            folio.classList.remove("opening");
-            folio.classList.add("open");
-            opening = false;
-            requestAnimationFrame(() => requestAnimationFrame(mountBook));
-          };
-          if (reduceMotion) {
-            finish();
-            return;
-          }
-          setTimeout(finish, 820);
+        const done = () => {
+          pulling = false;
+          requestAnimationFrame(() => requestAnimationFrame(mountBook));
         };
         if (reduceMotion) {
-          mid();
+          done();
           return;
         }
-        setTimeout(mid, 1680);
+        setTimeout(done, 1500);
       }
       folio.addEventListener("click", (e) => {
-        if (e.target.closest("#tabs, #fields, #book-wrap")) return;
-        if (folio.classList.contains("open")) return;
-        openBook();
+        if (e.target.closest("#tabs, #book-wrap")) return;
+        if (folio.classList.contains("up")) return;
+        pullOffShelf();
       });
       folio.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          openBook();
+          pullOffShelf();
         }
       });
-      document.querySelectorAll("#tabs button, #fields button").forEach((btn) => {
+      document.querySelectorAll("#tabs button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          turnTo(btn.dataset.go, e.clientX, e.clientY);
+          if (!folio.classList.contains("up")) return;
+          markTab(btn.dataset.go);
+          spark(e.clientX, e.clientY);
+          flipThrough(PAGE[btn.dataset.go]);
         });
       });
-      addEventListener("pointermove", (e) => {
-        if (!breezeOk || !folio.classList.contains("open") || phone()) return;
-        const r = folio.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
-        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
-        const dist = Math.hypot(dx, dy);
-        const f = dist < 1.8 ? Math.max(0, 1 - dist / 1.8) : 0;
-        folio.style.setProperty("--rx", (-dy * 4 * f).toFixed(2) + "deg");
-        folio.style.setProperty("--ry", (dx * 5 * f).toFixed(2) + "deg");
-      });
+      if (vidEl) {
+        vidEl.src = "simulation/session.webm";
+        document.getElementById("vid-play").addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (vidEl.paused) vidEl.play().catch(() => {});
+          else vidEl.pause();
+        });
+        document.getElementById("vid-max").addEventListener("click", (e) => {
+          e.stopPropagation();
+          vidFly.classList.add("out", "show");
+          vidFly.style.left = "";
+          vidFly.style.top = "";
+          vidFly.style.width = "";
+          vidFly.style.height = "";
+          vidEl.play().catch(() => {});
+        });
+      }
       addEventListener("resize", () => {
         if (flipBook) {
           try { flipBook.update(); } catch (_) {}
         }
-      });
-      addEventListener("load", () => {
-        if (!phone()) setTimeout(openBook, 420);
+        placeVid();
       });
 
       function startFallbackStars() {
