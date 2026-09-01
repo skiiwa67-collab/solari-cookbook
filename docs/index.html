@@ -8,8 +8,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; background: #05060a; overflow: hidden; }
     .layer { position: fixed; inset: 0; }
-    .layer img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: none; }
-    .layer img.show { display: block; }
+    .layer img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
     .sample { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 4;
       text-align: center; padding: 0.4rem 1rem; font: 600 0.68rem/1.3 ui-sans-serif, system-ui, sans-serif;
       letter-spacing: 0.14em; text-transform: uppercase; color: #c4a36a; background: #121214cc;
@@ -18,26 +17,18 @@
   </style>
 </head>
 <body>
-  <div class="sample" id="sample-banner">SAMPLE / example data — not live</div>
-  <div class="layer" id="hero">
-    <img id="hero-wide" src="./solari-davinci-pad-16x9.png" alt="SKIIWA next launch" />
-    <img id="hero-phone" src="./solari-davinci-pad-9x16.png" alt="SKIIWA next launch" />
+  <div class="sample">SAMPLE / example data — not live</div>
+  <div class="layer">
+    <img src="./solari-pad-parchment-cards-16x9.png" alt="SKIIWA next launch" />
   </div>
   <script>
-    const SAMPLE = "./next-launch.sample.json?v=ll2";
-    const wide = window.matchMedia("(min-aspect-ratio: 3/4)");
-    function paint() {
-      const w = wide.matches;
-      document.getElementById("hero-wide").classList.toggle("show", w);
-      document.getElementById("hero-phone").classList.toggle("show", !w);
-    }
-    paint();
-    wide.addEventListener("change", paint);
-    fetch(SAMPLE, { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(data => {
-      if (data && (data.sample === true || data.dataKind === "SAMPLE")) {
-        document.body.classList.add("is-sample");
-      }
-    }).catch(() => {});
+    fetch("./next-launch.sample.json?v=ll2", { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data && (data.sample === true || data.dataKind === "SAMPLE")) {
+          document.body.classList.add("is-sample");
+        }
+      }).catch(() => {});
   </script>
 </body>
 </html>
