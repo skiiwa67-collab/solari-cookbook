@@ -106,6 +106,7 @@
         pointer-events: none;
         mix-blend-mode: screen;
         opacity: 0.55;
+        z-index: 1;
       }
       svg.ink {
         position: absolute;
@@ -248,8 +249,11 @@
         transform: translate3d(-50%, 0, 0);
       }
       .folio.open {
-        width: min(38rem, 54vw);
-        height: min(34rem, 64vh);
+        left: max(2.6%, var(--safe-l));
+        bottom: 9%;
+        width: min(32rem, 42vw);
+        height: min(32rem, 58vh);
+        transform: translate3d(0, 0, 0);
         cursor: default;
       }
       .book {
