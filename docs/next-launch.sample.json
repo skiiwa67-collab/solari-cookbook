@@ -1,0 +1,12 @@
+{
+  "dataKind": "SAMPLE",
+  "sample": true,
+  "filename": "next-launch.sample.json",
+  "notice": "SAMPLE / example data — not live. Fields are empty. Missing fields stay empty. No invented times.",
+  "status": null,
+  "net": null,
+  "mission": null,
+  "vehicle": null,
+  "pad": null,
+  "sources": []
+}

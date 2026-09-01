@@ -18,7 +18,7 @@ past. Copy one into your project and change the parts you care about.
 | [browser-stealth-proxy-ts](examples/browser-stealth-proxy-ts) | TypeScript | Stealth mode + residential proxy egress |
 | [browser-profiles-ts](examples/browser-profiles-ts) | TypeScript | Log in once, reuse the session forever |
 | [browser-session-recording-py](examples/browser-session-recording-py) | Python | Record a session, download the replay |
-| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth browser: next orbital launch as JSON |
+| [launch-watch-ts](examples/launch-watch-ts) | TypeScript | Stealth browser: next orbital launch as JSON. Public glance: [skiiwa67-collab.github.io/solari-cookbook](https://skiiwa67-collab.github.io/solari-cookbook/) (SAMPLE JSON until `SOLARI_API_KEY=slr_live_...` and `npm start`) |
 
 ### Sandbox
 
@@ -33,6 +33,17 @@ past. Copy one into your project and change the parts you care about.
 | Example | Language | What it shows |
 | --- | --- | --- |
 | [desktop-computer-use-py](examples/desktop-computer-use-py) | Python | Screenshot, click, and type on a Linux GUI |
+
+## Public glance
+
+The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
+
+- URL — https://skiiwa67-collab.github.io/solari-cookbook/
+- Data — [`docs/next-launch.sample.json`](docs/next-launch.sample.json) until a live run (labeled SAMPLE; fields empty)
+- Later — `cd examples/launch-watch-ts && export SOLARI_API_KEY=slr_live_... && npm start` writes `docs/next-launch.json`
+- Look lock — [`docs/solari-glance-16x9.png`](docs/solari-glance-16x9.png) and [`docs/solari-glance-9x16.png`](docs/solari-glance-9x16.png)
+
+First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).
 
 ## Running an example
 

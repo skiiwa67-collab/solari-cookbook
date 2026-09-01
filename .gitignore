@@ -6,3 +6,5 @@ __pycache__/
 .venv/
 venv/
 screenshot.png
+docs/next-launch.json
+.playwright-mcp/
