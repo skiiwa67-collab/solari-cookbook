@@ -2,11 +2,14 @@
   "dataKind": "SAMPLE",
   "sample": true,
   "filename": "next-launch.sample.json",
-  "notice": "SAMPLE / example data — not live. Fields are empty. Missing fields stay empty. No invented times.",
-  "status": null,
-  "net": null,
-  "mission": null,
-  "vehicle": null,
-  "pad": null,
-  "sources": []
+  "notice": "SAMPLE / example data \u2014 not live Solari. Public next-orbital fill so the board is readable.",
+  "status": "GO",
+  "net": "2 Sep 2026 \u00b7 07:46 UTC",
+  "mission": "Starlink Group 15-23",
+  "vehicle": "Falcon 9 Block 5",
+  "pad": "Vandenberg SFB \u00b7 SLC-4E",
+  "sources": [
+    "nextspaceflight.com",
+    "spacelaunchlive.com"
+  ]
 }
