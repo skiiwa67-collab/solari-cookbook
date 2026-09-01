@@ -2,12 +2,12 @@
   "dataKind": "SAMPLE",
   "sample": true,
   "filename": "next-launch.sample.json",
-  "notice": "SAMPLE / example data \u2014 not live Solari. Same world as LRT next-launch facts.",
+  "notice": "SAMPLE / example data — not live. Public Launch Library 2 facts. Not a Solari fetch.",
   "status": "GO",
   "net": "2026-09-02 07:46 UTC",
   "mission": "Starlink Group 15-23",
   "vehicle": "Falcon 9 Block 5",
-  "pad": "SLC-4E Vandenberg (4E)",
+  "pad": "SLC-4E Vandenberg 4E",
   "sources": [
     "Launch Library 2"
   ]
