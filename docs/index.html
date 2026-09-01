@@ -250,8 +250,8 @@
         z-index: 6;
         left: max(0.55%, var(--safe-l));
         top: 12%;
-        height: min(58vh, 32rem);
-        width: 3.35rem;
+        height: min(62vh, 34rem);
+        width: 4.25rem;
         transform-origin: left center;
         transition:
           width 1.45s var(--rise),
@@ -325,11 +325,11 @@
         background: linear-gradient(#f0d7a0, #a67c32 45%, #e8d2a0);
         box-shadow: 0 2px 0 #2a160c, 0 -1px 0 rgba(232, 210, 160, 0.55);
       }
-      .binder-spine .rib.r1 { top: 7%; }
-      .binder-spine .rib.r2 { top: 24%; }
-      .binder-spine .rib.r3 { top: 41%; }
-      .binder-spine .rib.r4 { top: 58%; }
-      .binder-spine .rib.r5 { top: 75%; }
+      .binder-spine .rib.r1 { top: 6%; }
+      .binder-spine .rib.r2 { top: 15%; }
+      .binder-spine .rib.r3 { top: 72%; }
+      .binder-spine .rib.r4 { top: 81%; }
+      .binder-spine .rib.r5 { top: 90%; }
       .binder-spine .headband {
         position: absolute;
         left: 0;
@@ -341,8 +341,8 @@
       .binder-spine .headband.bot { bottom: 0; }
       .binder-title {
         position: absolute;
-        top: 16%;
-        bottom: 20%;
+        top: 20%;
+        bottom: 30%;
         left: 0;
         right: 0;
         writing-mode: vertical-rl;
@@ -373,10 +373,11 @@
       .shelf-mark {
         display: none;
         position: absolute;
-        left: -1.1rem;
-        top: 20%;
-        height: 60%;
-        width: 1rem;
+        left: 0.28rem;
+        top: 18%;
+        height: 62%;
+        width: 0.95rem;
+        z-index: 9;
         border: 0;
         padding: 0.2rem 0;
         background: linear-gradient(90deg, #4a3214, #c4a36a 42%, #8a6a32);
@@ -795,7 +796,7 @@
         <button type="button" class="shelf-mark" id="shelf-back" aria-label="Put the book back on the shelf">shelf</button>
       </div>
       <div class="vid-fly" id="vid-fly" aria-hidden="true">
-        <video id="vid" playsinline></video>
+        <video id="vid" playsinline loop></video>
         <div class="vid-tools">
           <button type="button" id="vid-play">Play</button>
           <button type="button" id="vid-max">Maximize</button>
@@ -982,11 +983,12 @@
       function packFrame() {
         const stage = document.querySelector(".stage");
         const pack = document.getElementById("pack");
+        const img = document.querySelector(".hero img");
         if (!stage || !pack) return;
         const vw = stage.clientWidth;
         const vh = stage.clientHeight;
-        const aw = phone() ? 9 : 16;
-        const ah = phone() ? 16 : 9;
+        const aw = (img && img.naturalWidth) || (phone() ? 9 : 3);
+        const ah = (img && img.naturalHeight) || (phone() ? 16 : 2);
         const s = Math.min(vw / aw, vh / ah);
         const w = aw * s;
         const h = ah * s;
@@ -1216,6 +1218,8 @@
         placeVid();
       });
       packFrame();
+      const heroImg = document.querySelector(".hero img");
+      if (heroImg) heroImg.addEventListener("load", packFrame);
 
       function startFallbackStars() {
         const cvs = document.getElementById("stars");
