@@ -33,7 +33,61 @@
         overflow: hidden;
         background: #05060a;
       }
-      /* Contain the signed still. Leftover is night — never cover-crop the pad. */
+      /* Living night fills the stage. The still sits on it — no solid letterbox bars. */
+      .sky {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .sky-mist {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 42% 90% at 6% 42%, rgba(170, 184, 220, 0.1), transparent 58%),
+          radial-gradient(ellipse 42% 90% at 94% 48%, rgba(150, 164, 210, 0.08), transparent 58%),
+          radial-gradient(ellipse 80% 36% at 50% -4%, rgba(90, 100, 150, 0.07), transparent 52%);
+      }
+      canvas.sky-stars {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        mix-blend-mode: screen;
+        opacity: 0.85;
+      }
+      svg.sky-ink {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .orbit-far {
+        fill: none;
+        stroke: rgba(232, 177, 90, 0.38);
+        stroke-width: 1.4;
+        stroke-linecap: round;
+        filter: drop-shadow(0 0 8px rgba(232, 177, 90, 0.35));
+        stroke-dasharray: 2200;
+        stroke-dashoffset: 2200;
+        animation: draw-sky 14s ease-in-out infinite;
+      }
+      .orbit-wide {
+        fill: none;
+        stroke: rgba(232, 216, 164, 0.22);
+        stroke-width: 1;
+        stroke-linecap: round;
+        stroke-dasharray: 1800;
+        stroke-dashoffset: 1800;
+        animation: draw-sky 18s ease-in-out 2s infinite;
+      }
+      @keyframes draw-sky {
+        0% { stroke-dashoffset: 2200; opacity: 0.15; }
+        28% { opacity: 0.7; }
+        70% { stroke-dashoffset: 0; }
+        100% { opacity: 0.2; }
+      }
       .pack {
         position: absolute;
         left: 0;
@@ -41,16 +95,16 @@
         width: 100%;
         height: 100%;
         z-index: 1;
-        background: #05060a;
+        background: transparent;
       }
-      .hero, .hero img {
+      .hero, .hero img, .hero picture {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
         object-position: center;
-        background: #05060a;
+        background: transparent;
       }
       canvas.pad {
         position: absolute;
@@ -207,17 +261,31 @@
         z-index: 4;
         appearance: none;
         -webkit-appearance: none;
-        background: transparent;
+        background: none;
+        background-color: transparent;
         border: 0;
         box-shadow: none;
-        outline: none;
+        outline: none !important;
         opacity: 0;
+        color: transparent;
+        font-size: 0;
+        line-height: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+        min-height: 0;
         cursor: pointer;
-        border-radius: 50%;
+        border-radius: 0;
         -webkit-tap-highlight-color: transparent;
       }
-      .hit:focus { outline: none; }
-      .hit:focus-visible { outline: 1px dashed var(--brass); opacity: 1; }
+      .hit:hover, .hit:active, .hit:focus, .hit:focus-visible {
+        appearance: none;
+        background: none;
+        border: 0;
+        box-shadow: none;
+        outline: none !important;
+        opacity: 0;
+      }
       .hit-moon { left: 11%; top: 6%; width: 14%; height: 20%; }
       .hit-path { left: 52%; top: 8%; width: 40%; height: 28%; border-radius: 40%; }
       .hit-arms { left: 44%; top: 24%; width: 16%; height: 42%; border-radius: 40%; }
@@ -308,37 +376,14 @@
         position: relative;
         width: 72%;
         border-radius: 3px 1px 1px 3px;
-        background:
-          linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent 16%, transparent 78%, rgba(0, 0, 0, 0.28)),
-          linear-gradient(#3a2212, #6a4124 18%, #8a5a30 46%, #5a3418 78%, #2e1a0e);
-        box-shadow:
-          inset 0 8px 10px rgba(0, 0, 0, 0.25),
-          inset 0 -8px 10px rgba(0, 0, 0, 0.25);
         overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.2)),
+          url("solari-french-spine.png") left center / auto 100% no-repeat;
+        box-shadow:
+          inset 0 10px 12px rgba(0, 0, 0, 0.28),
+          inset 0 -10px 12px rgba(0, 0, 0, 0.28);
       }
-      .binder-spine .rib {
-        position: absolute;
-        left: 6%;
-        right: 6%;
-        height: 0.38rem;
-        border-radius: 1px;
-        background: linear-gradient(#f0d7a0, #a67c32 45%, #e8d2a0);
-        box-shadow: 0 2px 0 #2a160c, 0 -1px 0 rgba(232, 210, 160, 0.55);
-      }
-      .binder-spine .rib.r1 { top: 6%; }
-      .binder-spine .rib.r2 { top: 15%; }
-      .binder-spine .rib.r3 { top: 72%; }
-      .binder-spine .rib.r4 { top: 81%; }
-      .binder-spine .rib.r5 { top: 90%; }
-      .binder-spine .headband {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 0.32rem;
-        background: repeating-linear-gradient(90deg, #c4a36a 0 3px, #6a2c1c 3px 6px);
-      }
-      .binder-spine .headband.top { top: 0; }
-      .binder-spine .headband.bot { bottom: 0; }
       .binder-title {
         position: absolute;
         top: 20%;
@@ -634,7 +679,41 @@
         to { transform: translate(var(--dx), var(--dy)); opacity: 0; }
       }
 
+      .chips { display: none; }
+      .chip {
+        position: relative;
+        height: 4.6rem;
+        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+      }
+      .chip img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .chip strong {
+        position: absolute;
+        left: 6%;
+        right: 8%;
+        top: 52%;
+        font-size: 0.88rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       @media (max-aspect-ratio: 3/4) {
+        .chips {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 0.4rem;
+          position: absolute;
+          z-index: 6;
+          left: 4%;
+          right: 4%;
+          bottom: max(8%, var(--safe-b));
+        }
         .hit-moon { left: 62%; top: 10%; width: 24%; height: 14%; }
         .hit-path { left: 48%; top: 16%; width: 46%; height: 22%; }
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
@@ -648,17 +727,25 @@
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .orbit, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
+        .orbit, .orbit-far, .orbit-wide, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
         .flame-lick, .page .vellum, .page .traces, .page dd, .page h2 {
           animation: none;
         }
-        .orbit { stroke-dashoffset: 0; opacity: 0.7; }
+        .orbit, .orbit-far, .orbit-wide { stroke-dashoffset: 0; opacity: 0.55; }
         .folio, .book-wrap, .tabs, .vid-fly { transition: none; }
       }
     </style>
   </head>
   <body>
     <main class="stage">
+      <div class="sky" id="sky" aria-hidden="true">
+        <div class="sky-mist"></div>
+        <canvas class="sky-stars" id="stars"></canvas>
+        <svg class="sky-ink" viewBox="0 0 3200 900" preserveAspectRatio="none">
+          <path class="orbit-far" d="M -120 720 C 700 40, 1700 80, 3360 540" />
+          <path class="orbit-wide" d="M -80 260 C 900 140, 2100 640, 3380 180" />
+        </svg>
+      </div>
       <div class="pack" id="pack">
       <div class="hero" aria-hidden="true">
         <picture>
@@ -679,7 +766,6 @@
         <i class="glim" style="left:64%;top:76%;--d:4.1s"></i>
         <i class="glim" style="left:72%;top:78%;--d:4.6s"></i>
         <i class="glim" style="left:22%;top:80%;--d:2.2s"></i>
-        <canvas class="stars" id="stars"></canvas>
         <div class="trench-glow" id="trenchGlow"></div>
         <div class="flame-lick"></div>
       </div>
@@ -703,15 +789,8 @@
         <img class="still still-spine" src="solari-french-spine.png" alt="" />
         <div class="binder" aria-hidden="true">
           <div class="binder-spine">
-            <i class="headband top"></i>
-            <i class="rib r1"></i>
-            <i class="rib r2"></i>
-            <i class="rib r3"></i>
-            <i class="rib r4"></i>
-            <i class="rib r5"></i>
             <span class="binder-title" data-field="mission">Starlink Group 15-23</span>
             <span class="binder-mark">SKIIWA</span>
-            <i class="headband bot"></i>
           </div>
           <div class="binder-pages"></div>
         </div>
@@ -820,6 +899,21 @@
           <button type="button" id="vid-max">Maximize</button>
         </div>
       </div>
+
+      <section class="chips" id="chips" aria-label="Next launch">
+        <article class="chip" data-chip="status">
+          <img class="face" src="solari-vellum-status.png" alt="" />
+          <strong data-field="status">—</strong>
+        </article>
+        <article class="chip" data-chip="net">
+          <img class="face" src="solari-vellum-net.png" alt="" />
+          <strong data-field="net">—</strong>
+        </article>
+        <article class="chip" data-chip="mission">
+          <img class="face" src="solari-vellum-mission.png" alt="" />
+          <strong data-field="mission">—</strong>
+        </article>
+      </section>
 
       <aside class="note" id="note">
         <img src="solari-vellum-folio-blank.png" alt="" />
@@ -1240,29 +1334,29 @@
       const heroImg = document.querySelector(".hero img");
       if (heroImg) heroImg.addEventListener("load", packFrame);
 
-      function startFallbackStars() {
+      function startSkyStars() {
         const cvs = document.getElementById("stars");
         if (!cvs) return;
         const ctx = cvs.getContext("2d");
         let field = [];
         function size() {
-          const pack = document.getElementById("pack");
-          cvs.width = pack ? pack.clientWidth : innerWidth;
-          cvs.height = pack ? pack.clientHeight : innerHeight;
-          field = Array.from({ length: 120 }, () => ({
+          const stage = document.querySelector(".stage");
+          cvs.width = stage ? stage.clientWidth : innerWidth;
+          cvs.height = stage ? stage.clientHeight : innerHeight;
+          field = Array.from({ length: 220 }, () => ({
             x: Math.random() * cvs.width,
-            y: Math.random() * cvs.height * 0.62,
-            s: Math.random() * 1.4 + 0.2,
+            y: Math.random() * cvs.height,
+            s: Math.random() * 1.5 + 0.25,
             p: Math.random() * 6,
           }));
         }
         function twinkle(t) {
-          if (document.body.classList.contains("has-vgpu")) return;
           ctx.clearRect(0, 0, cvs.width, cvs.height);
           for (const st of field) {
-            ctx.fillStyle = "rgba(255,236,180," + (0.15 + 0.85 * Math.abs(Math.sin(t / 700 + st.p))) + ")";
+            const a = 0.2 + 0.8 * Math.abs(Math.sin(t / 900 + st.p));
+            ctx.fillStyle = "rgba(255,236,180," + a + ")";
             ctx.beginPath();
-            ctx.arc(st.x, st.y, Math.max(0.35, st.s * 0.55), 0, Math.PI * 2);
+            ctx.arc(st.x, st.y, Math.max(0.4, st.s * 0.5), 0, Math.PI * 2);
             ctx.fill();
           }
           requestAnimationFrame(twinkle);
@@ -1273,16 +1367,15 @@
       }
 
       async function startPad() {
+        startSkyStars();
         const canvas = document.getElementById("pad");
         const start = window.PadLife && (PadLife.startPadLife || (PadLife.default && PadLife.default.startPadLife));
         if (start && navigator.gpu) {
           try {
             await start(canvas);
             document.body.classList.add("has-vgpu");
-            return;
           } catch (_) {}
         }
-        startFallbackStars();
       }
       startPad();
     </script>
