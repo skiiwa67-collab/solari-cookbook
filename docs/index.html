@@ -17,6 +17,7 @@
         --safe-l: env(safe-area-inset-left, 0px);
         --safe-b: env(safe-area-inset-bottom, 0px);
         --safe-t: env(safe-area-inset-top, 0px);
+        --rise: cubic-bezier(0.16, 1, 0.3, 1);
       }
       * { box-sizing: border-box; margin: 0; padding: 0; }
       html, body {
@@ -35,11 +36,75 @@
         object-fit: cover;
         object-position: center;
       }
-      canvas.stars {
+      canvas.pad {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
+        pointer-events: none;
+        z-index: 2;
+        mix-blend-mode: screen;
+        opacity: 0;
+      }
+      body.has-vgpu canvas.pad { opacity: 1; }
+      body.has-vgpu .fallback { display: none; }
+      .fallback {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+      }
+      .vapor {
+        position: absolute;
+        border-radius: 50%;
+        mix-blend-mode: screen;
+        filter: blur(22px);
+      }
+      .vapor-a {
+        left: 26%; top: 56%; width: 52%; height: 34%;
+        background: radial-gradient(ellipse, rgba(255, 228, 186, 0.22), transparent 72%);
+        animation: vapor-a 26s ease-in-out infinite;
+      }
+      .vapor-b {
+        left: 38%; top: 48%; width: 36%; height: 28%;
+        background: radial-gradient(ellipse, rgba(255, 210, 150, 0.16), transparent 70%);
+        animation: vapor-b 32s ease-in-out infinite;
+      }
+      .vapor-c {
+        left: 18%; top: 62%; width: 44%; height: 26%;
+        background: radial-gradient(ellipse, rgba(240, 236, 220, 0.14), transparent 68%);
+        animation: vapor-c 38s ease-in-out infinite;
+      }
+      @keyframes vapor-a {
+        0%, 100% { transform: translate3d(0, 6%, 0) scale(1); opacity: 0.35; }
+        50% { transform: translate3d(7%, -8%, 0) scale(1.14); opacity: 0.72; }
+      }
+      @keyframes vapor-b {
+        0%, 100% { transform: translate3d(4%, 0, 0) scale(1.05); opacity: 0.28; }
+        50% { transform: translate3d(-6%, -10%, 0) scale(1.2); opacity: 0.6; }
+      }
+      @keyframes vapor-c {
+        0%, 100% { transform: translate3d(-3%, 4%, 0) scale(0.96); opacity: 0.22; }
+        50% { transform: translate3d(8%, -5%, 0) scale(1.12); opacity: 0.5; }
+      }
+      .glim {
+        position: absolute;
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: #ffe7a8;
+        box-shadow: 0 0 10px 3px rgba(255, 214, 120, 0.55);
+        animation: glim var(--d, 2.8s) ease-in-out infinite;
+        opacity: 0.35;
+      }
+      @keyframes glim {
+        0%, 100% { opacity: 0.2; transform: scale(0.8); }
+        45% { opacity: 0.95; transform: scale(1.25); }
+        70% { opacity: 0.4; transform: scale(0.95); }
+      }
+      canvas.stars {
+        position: absolute;
+        inset: 0;
+        width: 100%; height: 100%;
         pointer-events: none;
         mix-blend-mode: screen;
         opacity: 0.55;
@@ -47,9 +112,9 @@
       svg.ink {
         position: absolute;
         inset: 0;
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         pointer-events: none;
+        z-index: 3;
       }
       .orbit {
         fill: none;
@@ -68,47 +133,47 @@
         72% { stroke-dashoffset: 0; }
         100% { opacity: 0.25; }
       }
-      .moon-ring {
-        fill: none;
-        stroke: rgba(232, 216, 164, 0.35);
-        stroke-width: 1.1;
-      }
+      .moon-ring { fill: none; stroke: rgba(232, 216, 164, 0.35); stroke-width: 1.1; }
       .moon-ring.lit { animation: moon-pulse 1.2s ease-out 2; }
-      @keyframes moon-pulse {
-        50% { stroke: #ffe7a8; stroke-width: 2.2; }
-      }
+      @keyframes moon-pulse { 50% { stroke: #ffe7a8; stroke-width: 2.2; } }
       .trench-glow {
         position: absolute;
-        left: 42%;
-        top: 62%;
-        width: 22%;
-        height: 22%;
+        left: 42%; top: 62%; width: 22%; height: 22%;
         border-radius: 50%;
         background: radial-gradient(circle, rgba(255, 200, 90, 0.55), rgba(255, 120, 30, 0.15) 46%, transparent 70%);
         mix-blend-mode: screen;
         pointer-events: none;
-        animation: trench 0.55s ease-in-out infinite alternate;
+        animation: flame-breathe 3.6s ease-in-out infinite;
       }
-      .trench-glow.hot { animation-duration: 0.16s; transform: scale(1.25); }
-      @keyframes trench {
-        from { opacity: 0.45; transform: scale(0.92); }
-        to { opacity: 0.95; transform: scale(1.08); }
+      .trench-glow.hot { animation-duration: 0.9s; }
+      .flame-lick {
+        position: absolute;
+        left: 44%; top: 64%; width: 16%; height: 18%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 160, 60, 0.35), transparent 68%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        animation: flame-lick 2.8s ease-in-out infinite;
+      }
+      @keyframes flame-breathe {
+        0%, 100% { opacity: 0.48; transform: scale(0.92) translateY(3%); }
+        40% { opacity: 0.95; transform: scale(1.1) translateY(-2%); }
+        72% { opacity: 0.62; transform: scale(1.02); }
+      }
+      @keyframes flame-lick {
+        0%, 100% { opacity: 0.25; transform: translate3d(-2%, 4%, 0) scale(0.9); }
+        50% { opacity: 0.7; transform: translate3d(3%, -6%, 0) scale(1.18); }
       }
       .arms-glow {
         position: absolute;
-        left: 46%;
-        top: 22%;
-        width: 14%;
-        height: 48%;
+        left: 46%; top: 22%; width: 14%; height: 48%;
         border-radius: 40%;
         pointer-events: none;
+        z-index: 3;
       }
-      .arms-glow.live { animation: arms 1.4s ease-in-out 2; }
+      .arms-glow.live { animation: arms 1.6s ease-in-out 2; }
       @keyframes arms {
-        40% {
-          box-shadow: inset 0 0 40px 8px rgba(232, 177, 90, 0.35);
-          transform: rotate(-0.6deg);
-        }
+        40% { box-shadow: inset 0 0 40px 8px rgba(232, 177, 90, 0.35); transform: rotate(-0.6deg); }
       }
       .hit {
         position: absolute;
@@ -145,27 +210,103 @@
         text-shadow: 0 1px 8px #000;
       }
 
-      /* 16:9 book — left stack, never a chip row */
-      .book-wrap {
+      /* Closed book rest at the bottom. Rises, then opens through Darren frames. No triangle. */
+      .folio {
         position: absolute;
         z-index: 6;
-        left: max(1.6%, var(--safe-l));
+        left: 50%;
+        bottom: max(1.4%, var(--safe-b));
+        width: 10.6rem;
+        height: 14rem;
+        transform: translate3d(-50%, 72%, 0);
+        transform-origin: center bottom;
+        transition:
+          transform 1.65s var(--rise),
+          width 1.05s var(--rise),
+          height 1.05s var(--rise),
+          left 1.05s var(--rise),
+          bottom 1.65s var(--rise);
+        filter: drop-shadow(0.45rem 0.8rem 1.2rem rgba(0, 0, 0, 0.55));
+        cursor: pointer;
+      }
+      .folio.rise {
+        transform: translate3d(-50%, 0, 0);
+        bottom: 5.5%;
+      }
+      .folio.open {
+        left: max(1.4%, var(--safe-l));
+        bottom: 8%;
+        width: min(34vw, 26rem);
+        height: min(70vh, 42rem);
+        transform: translate3d(0, 0, 0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+        cursor: default;
+        transition:
+          transform 0.18s ease-out,
+          width 1.05s var(--rise),
+          height 1.05s var(--rise),
+          left 1.05s var(--rise),
+          bottom 1.05s var(--rise);
+      }
+      .frames {
+        position: absolute;
+        inset: 0;
+      }
+      .frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0;
+        transition: opacity 0.82s ease-in-out;
+        pointer-events: none;
+      }
+      .folio:not(.opening):not(.open) .frame-closed { opacity: 1; }
+      .folio.opening .frame-opening { opacity: 1; }
+      .folio.open .frame-open { opacity: 1; }
+      .book-wrap {
+        position: absolute;
+        left: 7%;
         top: 11%;
-        width: min(34vw, 27rem);
-        height: min(76vh, 44rem);
-        filter: drop-shadow(0.6rem 0.9rem 1.3rem rgba(0, 0, 0, 0.55));
+        right: 14%;
+        bottom: 12%;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.7s ease 0.25s;
+      }
+      .folio.open .book-wrap {
+        opacity: 1;
+        pointer-events: auto;
       }
       .book { width: 100%; height: 100%; }
-      .page {
-        background: transparent;
-        overflow: hidden;
-      }
+      .page { background: transparent; overflow: hidden; }
       .page .vellum {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
+        animation: vellum-breathe 18s ease-in-out infinite;
+      }
+      @keyframes vellum-breathe {
+        0%, 100% { transform: scale(1.01); filter: brightness(1); }
+        50% { transform: scale(1.035) translate3d(-0.6%, 0.4%, 0); filter: brightness(1.04); }
+      }
+      .page .traces {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.2;
+        mix-blend-mode: multiply;
+        background:
+          repeating-linear-gradient(90deg, transparent 0 17px, rgba(90, 60, 20, 0.09) 17px 18px),
+          repeating-linear-gradient(18deg, transparent 0 21px, rgba(90, 60, 20, 0.05) 21px 22px);
+        background-size: 240% 240%;
+        animation: traces 32s linear infinite;
+      }
+      @keyframes traces {
+        0% { background-position: 0 0, 0 0; }
+        100% { background-position: 240% 30%, -70% 240%; }
       }
       .page .ink-block {
         position: absolute;
@@ -176,46 +317,107 @@
       .page .brand {
         font-family: Cinzel, serif;
         letter-spacing: 0.18em;
-        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        font-size: clamp(1.15rem, 2vw, 1.7rem);
         color: #7a5724;
       }
       .page .tag {
         font-style: italic;
-        margin: 0.45rem 0 1.1rem;
-        font-size: clamp(1rem, 1.6vw, 1.25rem);
+        margin: 0.4rem 0 0.9rem;
+        font-size: clamp(0.95rem, 1.5vw, 1.2rem);
       }
       .page h2 {
         font-family: Cinzel, serif;
-        font-size: clamp(1.15rem, 2vw, 1.65rem);
+        font-size: clamp(1.05rem, 1.8vw, 1.5rem);
         line-height: 1.2;
-        margin-bottom: 0.7rem;
+        margin-bottom: 0.6rem;
+        animation: wet-ink 10s ease-in-out infinite;
       }
       .page dl div {
         display: grid;
         grid-template-columns: 6.2rem 1fr;
-        gap: 0.4rem;
-        margin: 0.45rem 0;
+        gap: 0.35rem;
+        margin: 0.38rem 0;
         align-items: baseline;
       }
       .page dt {
         font-style: italic;
         color: #7a5724;
-        font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+        font-size: clamp(0.9rem, 1.3vw, 1.05rem);
       }
       .page dd {
-        font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+        font-size: clamp(1rem, 1.6vw, 1.28rem);
         font-weight: 600;
         overflow-wrap: anywhere;
+        animation: wet-ink 9s ease-in-out infinite;
+      }
+      @keyframes wet-ink {
+        0%, 100% { opacity: 0.88; filter: blur(0); }
+        50% { opacity: 1; filter: blur(0.12px); }
       }
       .page .quiet {
         position: absolute;
-        left: 10%;
-        right: 9%;
-        bottom: 9%;
+        left: 10%; right: 9%; bottom: 8%;
         font-style: italic;
-        font-size: clamp(0.85rem, 1.2vw, 1rem);
+        font-size: clamp(0.8rem, 1.15vw, 0.95rem);
         color: #5a3d1c;
       }
+      .tabs {
+        position: absolute;
+        right: 0.4%;
+        top: 16%;
+        width: 13%;
+        height: 68%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 8;
+        transition: opacity 0.65s ease 0.35s;
+      }
+      .folio.open .tabs {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .tabs button {
+        flex: 1 1 auto;
+        min-height: 0;
+        border: 0;
+        background: transparent;
+        color: transparent;
+        cursor: pointer;
+        font-size: 0;
+      }
+      .tabs button:focus-visible { outline: 1px dashed var(--brass); }
+      .fields {
+        position: absolute;
+        right: -2.6rem;
+        top: 18%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.28rem;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 8;
+        transition: opacity 0.65s ease 0.4s;
+      }
+      .folio.open .fields {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .fields button {
+        border: 0;
+        background: transparent;
+        color: #c4a36a;
+        font-family: Cinzel, serif;
+        font-size: 0.58rem;
+        letter-spacing: 0.12em;
+        writing-mode: vertical-rl;
+        min-height: 3.4rem;
+        cursor: pointer;
+        text-shadow: 0 1px 6px #000;
+      }
+      .fields button[aria-current="true"] { color: #efe2c4; }
 
       .chips { display: none; }
       .chip {
@@ -230,21 +432,17 @@
       .chip img {
         position: absolute;
         inset: 0;
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         object-fit: cover;
       }
       .chip strong {
         position: absolute;
-        left: 6%;
-        right: 8%;
-        top: 52%;
+        left: 6%; right: 8%; top: 52%;
         font-size: 0.88rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
       .session {
         position: absolute;
         z-index: 5;
@@ -265,18 +463,6 @@
         object-fit: cover;
         background: #111;
       }
-      .hint {
-        position: absolute;
-        z-index: 5;
-        left: 3.2%;
-        right: 3.2%;
-        bottom: max(3.2%, var(--safe-b));
-        font-family: Caveat, cursive;
-        color: #efe2c4;
-        font-size: clamp(1rem, 2vw, 1.35rem);
-        text-shadow: 0 1px 10px #000;
-        pointer-events: none;
-      }
       .note {
         display: none;
         position: absolute;
@@ -291,16 +477,14 @@
       .note img {
         position: absolute;
         inset: 0;
-        width: 100%;
-        height: 100%;
+        width: 100%; height: 100%;
         object-fit: cover;
       }
       .note-ink { position: relative; padding: 0.85rem 1rem; }
       .note h2 { font-family: Caveat, cursive; font-size: 1.3rem; color: #6a2c1c; }
       .spark {
         position: fixed;
-        width: 3px;
-        height: 3px;
+        width: 3px; height: 3px;
         border-radius: 50%;
         background: #ffe7a8;
         pointer-events: none;
@@ -312,7 +496,7 @@
       }
 
       @media (max-aspect-ratio: 3/4) {
-        .book-wrap { display: none; }
+        .folio { display: none; }
         .chips {
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
@@ -328,14 +512,21 @@
         .hit-arms { left: 28%; top: 22%; width: 44%; height: 46%; }
         .hit-trench { left: 22%; top: 72%; width: 56%; height: 14%; }
         .trench-glow { left: 28%; top: 70%; width: 44%; height: 16%; }
+        .flame-lick { left: 32%; top: 72%; width: 34%; height: 14%; }
+        .vapor-a { left: 16%; top: 64%; width: 70%; height: 24%; }
+        .vapor-b { left: 22%; top: 58%; width: 56%; height: 22%; }
         .arms-glow { left: 30%; top: 20%; width: 40%; height: 50%; }
         .session { top: 10%; width: min(44vw, 14rem); }
         .sample { top: 7.2%; right: auto; left: 4%; }
         .wordmark { left: 4%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .orbit, .trench-glow, .arms-glow, .moon-ring { animation: none; }
+        .orbit, .trench-glow, .arms-glow, .moon-ring, .vapor, .glim,
+        .flame-lick, .page .vellum, .page .traces, .page dd, .page h2 {
+          animation: none;
+        }
         .orbit { stroke-dashoffset: 0; opacity: 0.7; }
+        .folio, .frame, .book-wrap, .tabs, .fields { transition: none; }
       }
     </style>
   </head>
@@ -347,8 +538,23 @@
           <img src="solari-look-canon-16x9.png" alt="Falcon 9 on SLC-4E at night" />
         </picture>
       </div>
-      <canvas class="stars" id="stars"></canvas>
-      <div class="trench-glow" id="trenchGlow"></div>
+      <canvas class="pad" id="pad" aria-hidden="true"></canvas>
+      <div class="fallback" id="fallback" aria-hidden="true">
+        <div class="vapor vapor-a"></div>
+        <div class="vapor vapor-b"></div>
+        <div class="vapor vapor-c"></div>
+        <i class="glim" style="left:46%;top:26%;--d:2.7s"></i>
+        <i class="glim" style="left:48%;top:38%;--d:3.4s"></i>
+        <i class="glim" style="left:45%;top:48%;--d:2.2s"></i>
+        <i class="glim" style="left:51%;top:32%;--d:4.1s"></i>
+        <i class="glim" style="left:42%;top:34%;--d:3.1s"></i>
+        <i class="glim" style="left:50%;top:58%;--d:2.5s"></i>
+        <i class="glim" style="left:18%;top:72%;--d:3.8s"></i>
+        <i class="glim" style="left:62%;top:70%;--d:4.6s"></i>
+        <canvas class="stars" id="stars"></canvas>
+        <div class="trench-glow" id="trenchGlow"></div>
+        <div class="flame-lick"></div>
+      </div>
       <div class="arms-glow" id="armsGlow"></div>
       <svg class="ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
         <circle class="moon-ring" id="ring1" cx="288" cy="144" r="70" />
@@ -364,46 +570,62 @@
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live · waiting on Launch Library 2</div>
 
-      <div class="book-wrap" id="book-wrap">
-        <div class="book" id="book">
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <p class="brand">SKIIWA</p>
-              <p class="tag">A night study of the next fire.</p>
-              <p class="tag">Grab the right corner. The sheet peels.</p>
+      <div class="folio" id="folio" role="button" tabindex="0" aria-label="Open the DATA SPECS DESIGN book" aria-expanded="false">
+        <div class="frames" aria-hidden="true">
+          <img class="frame frame-closed" src="solari-closed-book.png" alt="" />
+          <img class="frame frame-opening" src="solari-book-opening.png" alt="" />
+          <img class="frame frame-open" src="solari-open-book-tabs.png" alt="" />
+        </div>
+        <div class="book-wrap" id="book-wrap">
+          <div class="book" id="book">
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">DATA</p>
+                <h2 data-field="mission">—</h2>
+                <dl>
+                  <div><dt>status</dt><dd data-field="status">—</dd></div>
+                  <div><dt>NET</dt><dd data-field="net">—</dd></div>
+                </dl>
+                <p class="quiet">Launch Library 2 · not Solari</p>
+              </div>
             </div>
-            <p class="quiet">Launch Library 2 · not Solari</p>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <h2 data-field="mission">—</h2>
-              <dl>
-                <div><dt>status</dt><dd data-field="status">—</dd></div>
-                <div><dt>NET</dt><dd data-field="net">—</dd></div>
-              </dl>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">SPECS</p>
+                <dl>
+                  <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
+                  <div><dt>pad</dt><dd data-field="pad">—</dd></div>
+                  <div><dt>source</dt><dd>Launch Library 2</dd></div>
+                </dl>
+                <p class="quiet">SLC-4E transporter-erector / strongback</p>
+              </div>
             </div>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <dl>
-                <div><dt>vehicle</dt><dd data-field="vehicle">—</dd></div>
-                <div><dt>pad</dt><dd data-field="pad">—</dd></div>
-                <div><dt>source</dt><dd>Launch Library 2</dd></div>
-              </dl>
-            </div>
-            <p class="quiet">SLC-4E transporter-erector / strongback</p>
-          </div>
-          <div class="page">
-            <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
-            <div class="ink-block">
-              <p class="tag">Touch the arms · the trench · the moon · the path</p>
-              <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
+            <div class="page">
+              <img class="vellum" src="solari-vellum-folio-blank.png" alt="" />
+              <div class="traces"></div>
+              <div class="ink-block">
+                <p class="brand">DESIGN</p>
+                <p class="tag">Touch the arms · the trench · the moon · the path</p>
+                <p class="tag">4E is the Vandenberg Falcon 9 hold. Chopsticks stay at Starbase.</p>
+              </div>
             </div>
           </div>
         </div>
+        <nav class="tabs" id="tabs" aria-label="Book pages">
+          <button type="button" data-go="data">DATA</button>
+          <button type="button" data-go="specs">SPECS</button>
+          <button type="button" data-go="design">DESIGN</button>
+        </nav>
+        <nav class="fields" id="fields" aria-label="Data fields">
+          <button type="button" data-go="net">NET</button>
+          <button type="button" data-go="pad">PAD</button>
+          <button type="button" data-go="status">STATUS</button>
+          <button type="button" data-go="mission">MISSION</button>
+        </nav>
       </div>
 
       <section class="chips" id="chips" aria-label="Next launch">
@@ -423,12 +645,10 @@
 
       <figure class="session" id="session">
         <figcaption id="session-cap">SIMULATION · not Solari</figcaption>
-        <a id="session-link" href="simulation/session.png" target="_blank" rel="noreferrer">
-          <img id="session-img" src="simulation/session.png" alt="Local Chrome simulation" />
+        <a id="session-link" href="https://www.spacex.com/launches/sl-15-23" target="_blank" rel="noreferrer">
+          <img id="session-img" src="simulation/session.png" alt="Official Starlink Mission page in local Chrome" />
         </a>
-        <video id="session-vid" muted playsinline loop hidden></video>
       </figure>
-      <p class="hint">Touch the arms · the trench · the moon · the path</p>
       <aside class="note" id="note">
         <img src="solari-vellum-folio-blank.png" alt="" />
         <div class="note-ink">
@@ -438,6 +658,7 @@
       </aside>
     </main>
     <script src="vendor/page-flip.browser.js"></script>
+    <script src="vendor/vgpu-pad.js"></script>
     <script>
       const FACTS = {
         status: "GO",
@@ -458,15 +679,16 @@
         },
         moon: {
           k: "The moon",
-          p: "A clock in the west. Starlink Group 15-23 rises toward a plane already drawn.",
+          p: "A clock in the west. The next orbital from Launch Library 2.",
         },
         path: {
           k: "The path",
-          p: "NET 2026-09-02 07:46 UTC. Status GO. A line drawn, then flown.",
+          p: "A line drawn, then flown.",
         },
       };
       const LL2 =
         "https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=12&mode=detailed&hide_recent_previous=true";
+      const PAGE = { data: 0, specs: 1, design: 2, net: 0, status: 0, mission: 0, pad: 1 };
 
       function formatNet(iso) {
         if (!iso) return "";
@@ -556,14 +778,8 @@
           if (!s) return;
           document.getElementById("session-cap").textContent =
             "SIMULATION · " + (s.engine || "local Chrome") + " · not Solari";
-          const vid = document.getElementById("session-vid");
-          if (s.recording) {
-            vid.src = "simulation/" + s.recording;
-            vid.hidden = false;
-            vid.play().catch(() => {});
-            document.getElementById("session-img").hidden = true;
-            document.getElementById("session-link").href = "simulation/" + s.recording;
-          }
+          document.getElementById("session-link").href =
+            s.url || "https://www.spacex.com/launches/sl-15-23";
         })
         .catch(() => {});
 
@@ -594,7 +810,8 @@
         document.getElementById("note-p").textContent = n.p;
         document.getElementById("note").classList.add("open");
         document.getElementById("armsGlow").classList.toggle("live", key === "arms");
-        document.getElementById("trenchGlow").classList.toggle("hot", key === "trench");
+        const trench = document.getElementById("trenchGlow");
+        if (trench) trench.classList.toggle("hot", key === "trench");
         document.getElementById("ring1").classList.toggle("lit", key === "moon");
         document.getElementById("ring2").classList.toggle("lit", key === "moon");
         if (key === "path") replayOrbit();
@@ -627,67 +844,161 @@
       function phone() {
         return matchMedia("(max-aspect-ratio: 3/4)").matches;
       }
+      const folio = document.getElementById("folio");
+      const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
       let flipBook = null;
+      let opening = false;
+
+      function markTab(name) {
+        const page = PAGE[name];
+        document.querySelectorAll("#fields button, #tabs button").forEach((btn) => {
+          btn.setAttribute("aria-current", PAGE[btn.dataset.go] === page ? "true" : "false");
+        });
+      }
+      function turnTo(name, x, y) {
+        if (!folio.classList.contains("open")) return;
+        const page = PAGE[name];
+        if (page == null) return;
+        markTab(name);
+        if (x != null) spark(x, y);
+        if (!flipBook) return;
+        const cur = flipBook.getCurrentPageIndex();
+        if (cur === page) return;
+        flipBook.flip(page, "top");
+      }
       function mountBook() {
         const wrap = document.getElementById("book-wrap");
         const root = document.getElementById("book");
-        if (phone() || !window.St || !St.PageFlip) return;
-        if (flipBook) {
-          try { flipBook.destroy(); } catch (_) {}
-          flipBook = null;
-        }
-        const w = Math.max(280, wrap.clientWidth);
-        const h = Math.max(400, wrap.clientHeight);
+        if (phone() || !window.St || !St.PageFlip || flipBook) return;
+        const w = Math.max(220, wrap.clientWidth);
+        const h = Math.max(300, wrap.clientHeight);
         flipBook = new St.PageFlip(root, {
           width: w,
           height: h,
           size: "stretch",
-          minWidth: 240,
+          minWidth: 200,
           maxWidth: 560,
-          minHeight: 360,
+          minHeight: 280,
           maxHeight: 760,
           usePortrait: true,
-          showCover: true,
+          showCover: false,
           drawShadow: true,
           flippingTime: 980,
           maxShadowOpacity: 0.55,
           mobileScrollSupport: false,
           startZIndex: 6,
           useMouseEvents: true,
+          startPage: 0,
         });
         flipBook.loadFromHTML(root.querySelectorAll(".page"));
         flipBook.on("flip", () => {
           const r = wrap.getBoundingClientRect();
-          spark(r.right - 24, r.bottom - 24);
+          spark(r.right - 18, r.bottom - 18);
         });
-        wrap.addEventListener("click", (e) => spark(e.clientX, e.clientY));
       }
-      addEventListener("load", mountBook);
-
-      const cvs = document.getElementById("stars");
-      const ctx = cvs.getContext("2d");
-      let field = [];
-      function size() {
-        cvs.width = innerWidth;
-        cvs.height = innerHeight;
-        field = Array.from({ length: 120 }, () => ({
-          x: Math.random() * cvs.width,
-          y: Math.random() * cvs.height * 0.62,
-          s: Math.random() * 1.4 + 0.2,
-          p: Math.random() * 6,
-        }));
-      }
-      function twinkle(t) {
-        ctx.clearRect(0, 0, cvs.width, cvs.height);
-        for (const st of field) {
-          ctx.fillStyle = "rgba(255,236,180," + (0.15 + 0.85 * Math.abs(Math.sin(t / 700 + st.p))) + ")";
-          ctx.fillRect(st.x, st.y, st.s, st.s);
+      function openBook() {
+        if (phone() || folio.classList.contains("open") || opening) return;
+        opening = true;
+        folio.classList.add("rise");
+        folio.setAttribute("aria-expanded", "true");
+        const mid = () => {
+          folio.classList.add("opening");
+          const finish = () => {
+            folio.classList.remove("opening");
+            folio.classList.add("open");
+            opening = false;
+            requestAnimationFrame(() => requestAnimationFrame(mountBook));
+          };
+          if (reduceMotion) {
+            finish();
+            return;
+          }
+          setTimeout(finish, 820);
+        };
+        if (reduceMotion) {
+          mid();
+          return;
         }
+        setTimeout(mid, 1680);
+      }
+      folio.addEventListener("click", (e) => {
+        if (e.target.closest("#tabs, #fields, #book-wrap")) return;
+        if (folio.classList.contains("open")) return;
+        openBook();
+      });
+      folio.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openBook();
+        }
+      });
+      document.querySelectorAll("#tabs button, #fields button").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          turnTo(btn.dataset.go, e.clientX, e.clientY);
+        });
+      });
+      addEventListener("pointermove", (e) => {
+        if (!breezeOk || !folio.classList.contains("open") || phone()) return;
+        const r = folio.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
+        const dist = Math.hypot(dx, dy);
+        const f = dist < 1.8 ? Math.max(0, 1 - dist / 1.8) : 0;
+        folio.style.setProperty("--rx", (-dy * 4 * f).toFixed(2) + "deg");
+        folio.style.setProperty("--ry", (dx * 5 * f).toFixed(2) + "deg");
+      });
+      addEventListener("resize", () => {
+        if (flipBook) {
+          try { flipBook.update(); } catch (_) {}
+        }
+      });
+      addEventListener("load", () => {
+        if (!phone()) setTimeout(openBook, 420);
+      });
+
+      function startFallbackStars() {
+        const cvs = document.getElementById("stars");
+        if (!cvs) return;
+        const ctx = cvs.getContext("2d");
+        let field = [];
+        function size() {
+          cvs.width = innerWidth;
+          cvs.height = innerHeight;
+          field = Array.from({ length: 120 }, () => ({
+            x: Math.random() * cvs.width,
+            y: Math.random() * cvs.height * 0.62,
+            s: Math.random() * 1.4 + 0.2,
+            p: Math.random() * 6,
+          }));
+        }
+        function twinkle(t) {
+          if (document.body.classList.contains("has-vgpu")) return;
+          ctx.clearRect(0, 0, cvs.width, cvs.height);
+          for (const st of field) {
+            ctx.fillStyle = "rgba(255,236,180," + (0.15 + 0.85 * Math.abs(Math.sin(t / 700 + st.p))) + ")";
+            ctx.fillRect(st.x, st.y, st.s, st.s);
+          }
+          requestAnimationFrame(twinkle);
+        }
+        size();
+        addEventListener("resize", size);
         requestAnimationFrame(twinkle);
       }
-      size();
-      addEventListener("resize", size);
-      requestAnimationFrame(twinkle);
+
+      async function startPad() {
+        const canvas = document.getElementById("pad");
+        const start = window.PadLife && (PadLife.startPadLife || (PadLife.default && PadLife.default.startPadLife));
+        if (start && navigator.gpu) {
+          try {
+            await start(canvas);
+            document.body.classList.add("has-vgpu");
+            return;
+          } catch (_) {}
+        }
+        startFallbackStars();
+      }
+      startPad();
     </script>
   </body>
 </html>
