@@ -41,6 +41,20 @@
         pointer-events: none;
         z-index: 2;
       }
+      .pad-gpu {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+        mix-blend-mode: screen;
+      }
+      body.gpu-live .live,
+      body.gpu-live .trench-glow,
+      body.gpu-live .flame-lick {
+        opacity: 0.14;
+      }
       .vapor {
         position: absolute;
         border-radius: 50%;
@@ -576,6 +590,7 @@
         .flame-lick, .book, .cover-face img, .page-face img, .cover-face::after, .page-ink dd {
           animation: none;
         }
+        .pad-gpu { display: none; }
         .orbit { stroke-dashoffset: 0; opacity: 0.7; }
         .folio, .cover, .leaf, .tabs {
           transition: none;
@@ -591,6 +606,7 @@
           <img src="solari-look-canon-16x9.png" alt="Falcon 9 on SLC-4E at night" />
         </picture>
       </div>
+      <canvas class="pad-gpu" id="padgpu" aria-hidden="true"></canvas>
       <div class="live" aria-hidden="true">
         <div class="vapor vapor-a"></div>
         <div class="vapor vapor-b"></div>
@@ -718,6 +734,7 @@
         </div>
       </aside>
     </main>
+    <script type="module" src="vendor/vgpu-pad.js"></script>
     <script>
       const FACTS = {
         status: "GO",

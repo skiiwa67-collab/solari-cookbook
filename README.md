@@ -41,7 +41,7 @@ The SKIIWA next-launch board is a static GitHub Pages site from `docs/`.
 
 - URL — https://skiiwa67-collab.github.io/solari-cookbook/
 - Look lock — night F9 on SLC-4E (`docs/solari-f9-4e-16x9.png` / `9x16`). Animations and clicks live on that frame: arms, trench, moon, path.
-- Closed vellum book at the bottom (DATA / SPECS / DESIGN) rises, then opens. Right tabs turn pages. Slight always-on paper motion. Live next orbital from public Launch Library 2. If LL2 fails, SAMPLE last-known Starlink Group 15-23. Not Solari. No Mechazilla on 4E. The locked F9-on-4E still is layered with vapor, pad lights, and breathing flame — not a video.
+- Closed vellum book at the bottom (DATA / SPECS / DESIGN) rises, then opens. Right tabs turn pages. Slight always-on paper motion. Live next orbital from public Launch Library 2. If LL2 fails, SAMPLE last-known Starlink Group 15-23. Not Solari. No Mechazilla on 4E. The locked F9-on-4E still is sparked by [vgpu](https://vgpu.sh/docs) shaders (lights, vapor, flame). If WebGPU is missing (Android / some Pages clients), the CSS layers stay. Not a video.
 - Simulation — we refused their card. The same agent-browser job (open the real next-launch page in real Chrome, capture the session) runs on our own computer via [`examples/launch-session-local-chrome`](examples/launch-session-local-chrome). Playwright + local Chrome. **Not Solari.** No stealth, proxy, captcha, or microVM product. The board labels it SIMULATION.
 
 First-time Pages: repo Settings → Pages → Source: GitHub Actions (workflow in `.github/workflows/pages.yml`).

@@ -1,0 +1,9 @@
+{
+  "name": "vgpu-pad",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild pad-live.mjs --bundle --format=esm --outfile=../../docs/vendor/vgpu-pad.js --legal-comments=none",
+    "check": "npx --yes vgpu check pad-live.wgsl"
+  }
+}
