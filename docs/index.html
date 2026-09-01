@@ -252,16 +252,17 @@
         position: relative;
         transform-style: preserve-3d;
         transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
-          translate(var(--tx, 0px), var(--ty, 0px));
-        transition: transform 0.16s ease-out;
+          translate3d(var(--tx, 0px), var(--ty, 0px), var(--tz3, 0px)) scale(var(--lift, 1));
+        transition: transform 0.18s ease-out;
         cursor: pointer;
         user-select: none;
         touch-action: manipulation;
+        transform-origin: left center;
       }
 
       .leaf.turned {
-        transform: rotateY(-168deg);
-        transition: transform 0.85s cubic-bezier(0.2, 0.7, 0.15, 1);
+        transform: rotateY(-176deg) rotateZ(-3deg) translate3d(-10px, 2px, 28px);
+        transition: transform 1.05s cubic-bezier(0.22, 0.7, 0.12, 1);
       }
 
       .face,
@@ -275,6 +276,21 @@
         -webkit-backface-visibility: hidden;
         font-family: "IM Fell English", "Cormorant Garamond", Georgia, serif;
         filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+      }
+
+      .face::after,
+      .back::after {
+        content: "";
+        position: absolute;
+        inset: 10% 8%;
+        pointer-events: none;
+        background: radial-gradient(
+          circle at var(--hx, 50%) var(--hy, 50%),
+          rgba(255, 246, 214, 0.55),
+          transparent 48%
+        );
+        opacity: var(--sheen, 0);
+        mix-blend-mode: soft-light;
       }
 
       .back {
@@ -762,12 +778,17 @@
           const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
           const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
           const dist = Math.hypot(dx, dy);
-          const f = dist < 2.1 ? Math.max(0, 1 - dist / 2.1) : 0;
-          leaf.style.setProperty("--rx", (-dy * 8 * f).toFixed(2) + "deg");
-          leaf.style.setProperty("--ry", (dx * 11 * f).toFixed(2) + "deg");
-          leaf.style.setProperty("--tz", (-dx * 2.4 * f).toFixed(2) + "deg");
-          leaf.style.setProperty("--tx", (dx * 7 * f).toFixed(1) + "px");
-          leaf.style.setProperty("--ty", (dy * 4 * f).toFixed(1) + "px");
+          const f = dist < 2.6 ? Math.max(0, 1 - dist / 2.6) : 0;
+          leaf.style.setProperty("--rx", (-dy * 18 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--ry", (dx * 26 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--tz", (-dx * 6 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--tx", (dx * 16 * f).toFixed(1) + "px");
+          leaf.style.setProperty("--ty", (dy * 9 * f).toFixed(1) + "px");
+          leaf.style.setProperty("--tz3", (22 * f).toFixed(1) + "px");
+          leaf.style.setProperty("--lift", (1 + 0.08 * f).toFixed(3));
+          leaf.style.setProperty("--hx", (50 + dx * 28 * f).toFixed(1) + "%");
+          leaf.style.setProperty("--hy", (50 + dy * 28 * f).toFixed(1) + "%");
+          leaf.style.setProperty("--sheen", (0.95 * f).toFixed(2));
         }
       });
       leaves.forEach((leaf) => {
