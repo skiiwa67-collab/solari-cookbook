@@ -4,8 +4,37 @@
  *
  * Best-effort parse of published text only. Never invent times, pads,
  * or a status the page did not write. Missing fields are null.
+ *
+ * BOARD HOOK: when SOLARI_API_KEY is set, `npm start` also writes
+ * docs/next-launch.json for the GitHub Pages glance. This file does not
+ * call the API unless you run it with a key. The static page never calls
+ * Solari — it reads JSON only.
  */
+import { mkdirSync, writeFileSync } from "node:fs"
+import { dirname, resolve } from "node:path"
+import { fileURLToPath } from "node:url"
 import { Solari } from "@solarisdk/browser"
+
+/** JSON the public glance reads after a live run. */
+const BOARD_JSON = resolve(fileURLToPath(new URL("../../docs/next-launch.json", import.meta.url)))
+
+function writeBoardJson(row: LaunchStatus) {
+  const payload = {
+    dataKind: "LIVE",
+    sample: false,
+    filename: "next-launch.json",
+    notice: "Written by launch-watch-ts from public listings.",
+    status: row.status,
+    net: row.net,
+    mission: row.mission,
+    vehicle: row.vehicle,
+    pad: row.pad,
+    sources: row.sources,
+  }
+  mkdirSync(dirname(BOARD_JSON), { recursive: true })
+  writeFileSync(BOARD_JSON, JSON.stringify(payload, null, 2) + "\n")
+  console.error(`Wrote board JSON: ${BOARD_JSON}`)
+}
 
 const NSF = "https://nextspaceflight.com/launches/"
 const SFN = "https://spaceflightnow.com/launch-schedule/"
@@ -241,6 +270,7 @@ try {
     sources,
   }
   console.log(JSON.stringify(out, null, 2))
+  writeBoardJson(out)
 } finally {
   await browser.close()
   // REQUIRED in Node, and easy to miss: the client keeps a loopback proxy
