@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=IM+Fell+English:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -240,47 +240,63 @@
         bottom: 11%;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.55rem;
-        width: min(70%, 46rem);
-        animation: breeze 8s ease-in-out infinite;
+        gap: 0.7rem;
+        width: min(72%, 48rem);
+        perspective: 1100px;
       }
 
-      @keyframes breeze {
-        50% {
-          transform: rotate(-0.4deg) translateY(-3px);
-        }
+      .leaf {
+        flex: 1 1 9.2rem;
+        min-width: 8.4rem;
+        height: 5.6rem;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--tz, 0deg))
+          translate(var(--tx, 0px), var(--ty, 0px));
+        transition: transform 0.16s ease-out;
+        cursor: pointer;
+        user-select: none;
+        touch-action: manipulation;
       }
 
-      .card {
-        flex: 1 1 8.5rem;
-        min-width: 7.5rem;
-        padding: 0.45rem 0.65rem 0.5rem;
-        background:
-          radial-gradient(circle at 20% 0, rgba(255, 255, 255, 0.28), transparent 40%),
-          var(--paper);
-        color: var(--ink);
-        clip-path: polygon(1% 2%, 99% 0, 100% 98%, 0 100%);
+      .leaf.turned {
+        transform: rotateY(-168deg);
+        transition: transform 0.85s cubic-bezier(0.2, 0.7, 0.15, 1);
       }
 
-      .card span {
+      .face,
+      .back {
+        position: absolute;
+        inset: 0;
+        padding: 0.55rem 0.75rem 0.5rem;
+        background: url("vellum/vellum-plate.png") center / 100% 100% no-repeat;
+        color: #2a1c10;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        font-family: "IM Fell English", "Cormorant Garamond", Georgia, serif;
+        filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.42));
+      }
+
+      .back {
+        transform: rotateY(180deg);
+      }
+
+      .face span,
+      .back span {
         display: block;
-        font-size: 0.68rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--label);
+        font-style: italic;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        color: #4a3220;
       }
 
-      .card strong {
+      .face strong,
+      .back strong {
         display: block;
-        margin-top: 0.15rem;
-        font-size: clamp(0.95rem, 1.7vw, 1.2rem);
-        font-weight: 700;
+        margin-top: 0.35rem;
+        font-size: clamp(1rem, 1.8vw, 1.28rem);
+        font-weight: 600;
         line-height: 1.15;
-      }
-
-      .more {
-        flex: 1 1 100%;
-        font-size: clamp(0.92rem, 1.5vw, 1.1rem);
       }
 
       .session {
@@ -288,12 +304,11 @@
         z-index: 5;
         right: 3.2%;
         top: 12%;
-        width: min(28vw, 22rem);
-        padding: 0.45rem 0.5rem 0.4rem;
-        background: var(--paper);
-        color: var(--ink);
-        clip-path: polygon(1% 2%, 99% 0, 100% 98%, 0 100%);
-        animation: breeze 9s ease-in-out infinite;
+        width: min(24vw, 18rem);
+        padding: 0.45rem 0.55rem 0.4rem;
+        background: url("vellum/vellum-plate.png") center / 100% 100% no-repeat;
+        color: #2a1c10;
+        font-family: "IM Fell English", Georgia, serif;
       }
 
       .session figcaption {
@@ -414,7 +429,28 @@
           left: 4%;
           right: 4%;
           width: auto;
-          bottom: 10%;
+          bottom: 8.5%;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.35rem;
+        }
+        .leaf {
+          flex: none;
+          min-width: 0;
+          height: 4.5rem;
+        }
+        .face,
+        .back {
+          padding: 0.38rem 0.5rem 0.32rem;
+        }
+        .face strong,
+        .back strong {
+          margin-top: 0.2rem;
+          font-size: 0.92rem;
+        }
+        .hint {
+          bottom: 2.2%;
+          font-size: 0.95rem;
         }
         .note {
           left: 4%;
@@ -466,28 +502,46 @@
       <div class="wordmark">SKIIWA</div>
       <div class="sample" id="banner">SAMPLE · not live Solari · waiting on Launch Library 2</div>
 
-      <section class="cards" aria-label="Next launch">
-        <article class="card">
-          <span>Status</span>
-          <strong data-field="status">GO</strong>
+      <section class="cards" id="cards" aria-label="Next launch">
+        <article class="leaf" data-plate="status">
+          <div class="face">
+            <span>Status</span>
+            <strong data-field="status">GO</strong>
+          </div>
+          <div class="back">
+            <span>Source</span>
+            <strong data-field="sources">Launch Library 2</strong>
+          </div>
         </article>
-        <article class="card">
-          <span>NET</span>
-          <strong data-field="net">2026-09-02 07:46 UTC</strong>
+        <article class="leaf" data-plate="net">
+          <div class="face">
+            <span>NET</span>
+            <strong data-field="net">2026-09-02 07:46 UTC</strong>
+          </div>
+          <div class="back">
+            <span>Window</span>
+            <strong>As published — no invented clock</strong>
+          </div>
         </article>
-        <article class="card">
-          <span>Mission</span>
-          <strong data-field="mission">Starlink Group 15-23</strong>
+        <article class="leaf" data-plate="mission">
+          <div class="face">
+            <span>Mission</span>
+            <strong data-field="mission">Starlink Group 15-23</strong>
+          </div>
+          <div class="back">
+            <span>Pad</span>
+            <strong data-field="pad">SLC-4E Vandenberg 4E</strong>
+          </div>
         </article>
-        <article class="card more">
-          <span>Vehicle · pad · source</span>
-          <strong>
-            <span data-field="vehicle">Falcon 9 Block 5</span>
-            ·
-            <span data-field="pad">SLC-4E Vandenberg 4E</span>
-            ·
-            <span data-field="sources">Launch Library 2</span>
-          </strong>
+        <article class="leaf" data-plate="vehicle">
+          <div class="face">
+            <span>Vehicle</span>
+            <strong data-field="vehicle">Falcon 9 Block 5</strong>
+          </div>
+          <div class="back">
+            <span>4E hold</span>
+            <strong>Transporter-erector / strongback — not chopsticks</strong>
+          </div>
         </article>
       </section>
 
@@ -696,6 +750,32 @@
 
       document.querySelectorAll("[data-hit]").forEach((btn) => {
         btn.addEventListener("click", (e) => show(btn.dataset.hit, e.clientX, e.clientY));
+      });
+
+      const leaves = [...document.querySelectorAll(".leaf")];
+      const breezeOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.addEventListener("pointermove", (e) => {
+        if (!breezeOk) return;
+        for (const leaf of leaves) {
+          if (leaf.classList.contains("turned")) continue;
+          const r = leaf.getBoundingClientRect();
+          const dx = (e.clientX - (r.left + r.width / 2)) / (r.width * 0.5);
+          const dy = (e.clientY - (r.top + r.height / 2)) / (r.height * 0.5);
+          const dist = Math.hypot(dx, dy);
+          const f = dist < 2.1 ? Math.max(0, 1 - dist / 2.1) : 0;
+          leaf.style.setProperty("--rx", (-dy * 8 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--ry", (dx * 11 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--tz", (-dx * 2.4 * f).toFixed(2) + "deg");
+          leaf.style.setProperty("--tx", (dx * 7 * f).toFixed(1) + "px");
+          leaf.style.setProperty("--ty", (dy * 4 * f).toFixed(1) + "px");
+        }
+      });
+      leaves.forEach((leaf) => {
+        leaf.addEventListener("click", (e) => {
+          e.stopPropagation();
+          leaf.classList.toggle("turned");
+          spark(e.clientX, e.clientY);
+        });
       });
 
       const cvs = document.getElementById("stars");
