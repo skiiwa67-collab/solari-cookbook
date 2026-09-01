@@ -328,7 +328,7 @@
       .folio {
         position: absolute;
         z-index: 6;
-        left: calc(var(--safe-l) + var(--pack-l) + (var(--pack-w) * 0.016));
+        left: calc(var(--safe-l) + var(--pack-l) + (var(--pack-w) * 0.034));
         top: calc(var(--pack-t) + (var(--pack-h) * 0.12));
         height: calc(var(--pack-h) * 0.62);
         width: auto;
@@ -390,43 +390,39 @@
       }
       .binder-title {
         position: absolute;
-        top: 26%;
-        bottom: 22%;
+        top: 18%;
+        bottom: 18%;
         left: 0;
         right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         writing-mode: vertical-rl;
         text-orientation: upright;
         font-family: Cinzel, serif;
-        font-size: clamp(0.48rem, 20cqw, 0.78rem);
-        letter-spacing: 0.08em;
+        font-size: clamp(0.4rem, 15cqw, 0.62rem);
+        letter-spacing: 0.04em;
         line-height: 1;
         color: #e8d2a0;
         text-transform: uppercase;
         text-shadow: 0 1px 0 #2a160c, 0 0 6px rgba(196, 163, 106, 0.45);
         text-align: center;
+        white-space: nowrap;
         overflow: hidden;
       }
       .binder-mark {
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 3%;
-        height: 14%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        bottom: 2.5%;
+        height: 13%;
         writing-mode: vertical-rl;
         text-orientation: upright;
         font-family: Cinzel, serif;
-        font-size: clamp(0.4rem, 16cqw, 0.58rem);
-        letter-spacing: 0.14em;
+        font-size: clamp(0.36rem, 14cqw, 0.52rem);
+        letter-spacing: 0.1em;
         line-height: 1;
         color: #c4a36a;
         text-align: center;
         text-shadow: 0 1px 0 #2a160c;
+        white-space: nowrap;
       }
       .shelf-mark {
         display: none;
@@ -1120,10 +1116,16 @@
         pack.style.top = (vh - h) / 2 + "px";
         pack.style.width = w + "px";
         pack.style.height = h + "px";
-        stage.style.setProperty("--pack-l", (vw - w) / 2 + "px");
-        stage.style.setProperty("--pack-t", (vh - h) / 2 + "px");
-        stage.style.setProperty("--pack-w", w + "px");
-        stage.style.setProperty("--pack-h", h + "px");
+        const packL = (vw - w) / 2 + "px";
+        const packT = (vh - h) / 2 + "px";
+        const packW = w + "px";
+        const packH = h + "px";
+        for (const node of [stage, document.documentElement]) {
+          node.style.setProperty("--pack-l", packL);
+          node.style.setProperty("--pack-t", packT);
+          node.style.setProperty("--pack-w", packW);
+          node.style.setProperty("--pack-h", packH);
+        }
       }
       const folio = document.getElementById("folio");
       const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1367,12 +1369,12 @@
           cvs.style.width = cssW + "px";
           cvs.style.height = cssH + "px";
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          field = Array.from({ length: 220 }, () => {
-            const warm = Math.random() > 0.35;
+          field = Array.from({ length: 140 }, () => {
+            const warm = Math.random() > 0.32;
             return {
               x: Math.random() * cssW,
               y: Math.random() * cssH,
-              r: 0.35 + Math.random() * 1.7,
+              r: 1.25 + Math.random() * 1.85,
               p: Math.random() * Math.PI * 2,
               tw: 0.4 + Math.random() * 1.35,
               halo: "rgba(" + (warm ? "255, 228, 168" : "210, 226, 255") + ",",
@@ -1385,8 +1387,8 @@
           for (const st of field) {
             const a = 0.22 + 0.78 * Math.abs(Math.sin(t / 1200 * st.tw + st.p));
             ctx.beginPath();
-            ctx.fillStyle = st.halo + (a * 0.26) + ")";
-            ctx.arc(st.x, st.y, st.r * 2.4, 0, Math.PI * 2);
+            ctx.fillStyle = st.halo + (a * 0.32) + ")";
+            ctx.arc(st.x, st.y, st.r * 2.8, 0, Math.PI * 2);
             ctx.fill();
             ctx.beginPath();
             ctx.fillStyle = st.core + a + ")";
